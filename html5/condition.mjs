@@ -1,4 +1,4 @@
-import { BasePainter, getHPainter, httpRequest, clone } from 'jsroot';
+import { BasePainter, getHPainter, httpRequest, clone, d3_select } from 'jsroot';
 
 import { source_dir, executeMethod } from './core.mjs';
 
@@ -218,20 +218,20 @@ class ConditionEditor extends BasePainter {
       if (btns.length != tabs.length)
          return console.error('mismatch in tabs sizes', btns.length, tabs.length);
 
-      d3.select(btns[indx]).attr('disabled', (action=="enable") ? null : "true");
+      d3_select(btns[indx]).attr('disabled', (action=="enable") ? null : "true");
 
       // if that tab selected, find any other suitable
-      if ((action == "disable") && d3.select(btns[indx]).classed("active_btn")) {
+      if ((action == "disable") && d3_select(btns[indx]).classed("active_btn")) {
          let best = -1;
          btns.forEach((btn,k) => {
-            if (!d3.select(btn).attr('disabled') && (k != indx) && (best < 0)) best = k;
+            if (!d3_select(btn).attr('disabled') && (k != indx) && (best < 0)) best = k;
          });
 
          if (best >= 0) {
-            d3.select(tabs[indx]).style("display", "none");
-            d3.select(tabs[best]).style("display", null);
-            d3.select(btns[indx]).classed("active_btn", false);
-            d3.select(btns[best]).classed("active_btn", true);
+            d3_select(tabs[indx]).style("display", "none");
+            d3_select(tabs[best]).style("display", null);
+            d3_select(btns[indx]).classed("active_btn", false);
+            d3_select(btns[best]).classed("active_btn", true);
          }
       }
    }
@@ -370,16 +370,16 @@ class ConditionEditor extends BasePainter {
 
       // assign tabs buttons handlers
       dom.select('.cond_tabs_header').selectAll("button").on("click", function() {
-         let btn = d3.select(this);
+         let btn = d3_select(this);
 
          dom.select('.cond_tabs_header').selectAll("button").each(function() {
-            d3.select(this).classed("active_btn", false);
+            d3_select(this).classed("active_btn", false);
          });
 
          btn.classed("active_btn", true);
 
          dom.selectAll('.tabs_body>div').each(function() {
-            let tab = d3.select(this);
+            let tab = d3_select(this);
             tab.style('display', tab.attr('id') == btn.attr("for") ? null : "none");
          });
       });

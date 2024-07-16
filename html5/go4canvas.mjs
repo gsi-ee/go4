@@ -1,10 +1,12 @@
 import { ObjectPainter, getHPainter, addDrawFunc, create, gStyle, draw } from 'jsroot';
-import { ConditionEditor } from 'go4sys/html5/condition.mjs';
+
 import { addMoveHandler } from 'jsrootsys/modules/gui/utils.mjs';
 
+import { GO4 } from './core.mjs';
 
-if (!globalThis.GO4)
-   globalThis.GO4 = { version: '6.4.0', web_canvas: true };
+import { ConditionEditor } from './condition.mjs';
+
+GO4.web_canvas = true;
 
 function findPainter(painter, obj, name, typ) {
    let pp = painter.getPadPainter();
@@ -527,7 +529,7 @@ class ConditionPainter extends ObjectPainter {
          const rect = elem.node().getBoundingClientRect();
          if ((rect.height < 10) && (rect.width > 10))
             elem.style("height", Math.round(rect.width*0.4) + "px");
-         const editor = new GO4.ConditionEditor(dom, cond);
+         const editor = new ConditionEditor(dom, cond);
          return editor.drawEditor();
       }
 
@@ -549,7 +551,7 @@ class ConditionPainter extends ObjectPainter {
          hitem._kind = "ROOT.TH1I";
       }
 
-      return hpainter.display(histofullpath, '', condpainter.selectDom()).then(hist_painter => {
+      return hpainter.display(histofullpath, '', condpainter.getDrawDom()).then(hist_painter => {
          if (!hist_painter)
             return console.log('fail to draw histogram ' + histofullpath);
          condpainter.drawCondition();
@@ -580,10 +582,10 @@ function drawCondArray(dom, obj, option) {
 
 // =======================================================================
 
-addDrawFunc({ name: 'TGo4Marker', class: MarkerPainter });
-addDrawFunc({ name: 'TGo4WinCond', class: ConditionPainter });
-addDrawFunc({ name: 'TGo4PolyCond', class: ConditionPainter });
-addDrawFunc({ name: 'TGo4ShapedCond', class: ConditionPainter });
+addDrawFunc({ name: 'TGo4Marker', func: MarkerPainter.draw });
+addDrawFunc({ name: 'TGo4WinCond', func: ConditionPainter.draw });
+addDrawFunc({ name: 'TGo4PolyCond', func: ConditionPainter.draw });
+addDrawFunc({ name: 'TGo4ShapedCond', func: ConditionPainter.draw });
 addDrawFunc({ name: 'TGo4CondArray', func: drawCondArray });
 
 export { MarkerPainter, ConditionPainter, drawCondArray };
