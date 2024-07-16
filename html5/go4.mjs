@@ -1,15 +1,14 @@
 import { BasePainter, ObjectPainter, httpRequest, addDrawFunc, ensureTCanvas, draw, getHPainter, BIT, d3_select } from 'jsroot';
 
-import { source_dir } from './core.mjs';
+import { source_dir, GO4 } from './core.mjs';
 
 import { ConditionPainter } from './go4canvas.mjs'
 
 
-const GO4 = { version: '6.4.0' };
+// if this script loaded - webcanvas features are disabled
+GO4.web_canvas = false;
 
-
-// ==================================================================================
-
+/** @summary Global function */
 GO4.DrawAnalysisRatemeter = function(divid, itemname) {
 
    function CreateHTML() {
@@ -77,13 +76,14 @@ GO4.DrawAnalysisRatemeter = function(divid, itemname) {
    setInterval(UpdateRatemeter, 2000);
 }
 
-
+/** @summary Global function */
 GO4.MakeMsgListRequest = function(hitem, item) {
    let arg = "&max=2000";
    if ('last-id' in item) arg+= "&id="+item['last-id'];
    return 'exe.json.gz?method=Select' + arg;
 }
 
+/** @summary Global function */
 GO4.AfterMsgListRequest = function(hitem, item, obj) {
    if (!item) return;
 
@@ -263,10 +263,11 @@ class AnalysisTerminalPainter extends BasePainter {
    }
 }
 
+/** @summary Global function */
 GO4.drawAnalysisTerminal = function(hpainter, itemname) {
    let url = hpainter.getOnlineItemUrl(itemname),
-         mdi = hpainter.getDisplay(),
-         frame = mdi ? mdi.findFrame(itemname, true) : null;
+       mdi = hpainter.getDisplay(),
+       frame = mdi ? mdi.findFrame(itemname, true) : null;
 
    if (!url || !frame) return null;
 
@@ -466,7 +467,7 @@ function drawGo4Picture(dom, pic) {
 
 // ==============================================================================
 
-addDrawFunc({ name: 'TGo4AnalysisWebStatus', script: `${source_dir}html5/analysiseditor.mjs`, func: 'GO4.drawGo4AnalysisStatus', opt: "editor" });
+addDrawFunc({ name: 'TGo4AnalysisWebStatus', script: `${source_dir}html5/analysiseditor.mjs`, func: 'GO4.drawGo4AnalysisStatus', opt: 'editor' });
 
 addDrawFunc({ name: 'TGo4MsgList', func: drawMsgList });
 addDrawFunc({ name: 'TGo4Picture', func: drawGo4Picture, icon: `${source_dir}icons/picture.png` });

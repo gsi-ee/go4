@@ -12,6 +12,8 @@ if (isStr(_src)) {
       source_dir = _src.slice(0, pos);
 }
 
+const GO4 = { version, source_dir };
+
 console.log(`GO4 source_dir ${source_dir} version ${version}`);
 
 /** @summary Execute method for selected painter object
@@ -26,6 +28,9 @@ function executeMethod(painter, method, options) {
    return httpRequest(fullcom, 'text');
 }
 
+if (!globalThis.GO4)
+   globalThis.GO4 = GO4;
+else
+   console.warn('Global GO4 already configured!');
 
-
-export { source_dir, version, executeMethod };
+export { source_dir, version, executeMethod, GO4 };
