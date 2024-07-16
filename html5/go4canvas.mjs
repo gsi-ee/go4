@@ -590,8 +590,6 @@ function drawCondArray(dom, obj, option) {
    return drawNext(0);
 }
 
-// =======================================================================
-
 addDrawFunc({ name: 'TGo4Marker', func: MarkerPainter.draw });
 addDrawFunc({ name: 'TGo4WinCond', func: ConditionPainter.draw });
 addDrawFunc({ name: 'TGo4PolyCond', func: ConditionPainter.draw });
