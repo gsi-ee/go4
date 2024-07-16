@@ -1,4 +1,4 @@
-import { ObjectPainter, getHPainter, addDrawFunc, create, gStyle, draw, floatToString } from 'jsroot';
+import { ObjectPainter, getHPainter, addDrawFunc, create, gStyle, draw, floatToString, getElementMainPainter } from 'jsroot';
 
 import { addMoveHandler } from 'jsrootsys/modules/gui/utils.mjs';
 
@@ -564,13 +564,23 @@ class ConditionPainter extends ObjectPainter {
 
 function drawCondArray(dom, obj, option) {
    const arr = obj.condarr.arr,
-         num = obj.fiNumCond;
+         num = obj.fiNumCond,
+         main = getElementMainPainter(dom);
    let first = null;
 
    function drawNext(i) {
       if (i >= num)
          return first;
-      return ConditionPainter.draw(dom, arr[i], '').then(p => {
+
+      const cond = arr[i];
+
+      if ((i === 0) && !cond.fxHistoName && !main) {
+         cond.fxHistoName = obj.fxHistoName;
+         if (!cond.fxHistoName)
+            return null;
+      }
+
+      return ConditionPainter.draw(dom, cond, ((i > 0) || main) ? 'same' : '').then(p => {
          if (!first)
             first = p;
          return drawNext(i + 1);

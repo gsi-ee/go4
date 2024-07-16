@@ -506,7 +506,7 @@ class AnalysisStatusEditor extends BasePainter {
       return true;
    }
 
-   static async draw(dom, stat) {
+   static async draw(domarg, stat) {
       let editor = new AnalysisStatusEditor(domarg, stat),
             dom = editor.selectDom(),
             h = dom.node().clientHeight,
