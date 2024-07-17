@@ -78,9 +78,9 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    TWebCanvas *web = new TWebCanvas(fCanvas, "title", 0, 0, 800, 600, kFALSE);
 
 
-   #if ROOT_VERSION_CODE >= ROOT_VERSION(6,33,0)
+   #if ROOT_VERSION_CODE >= ROOT_VERSION(6,33,0) && QT_VERSION >= QT_VERSION_CHECK(6,0,0)
 
-   // this is usage of new JS modules functionality
+   // this is usage of new JS modules functionality, works only with qt6
    ROOT::RWebWindowsManager::AddServerLocation("go4sys", TGo4Log::GO4SYS());
    static std::string go4script = "modules:go4sys/html5/go4canvas.mjs";
    #else
@@ -88,6 +88,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    static std::string go4script = THttpServer::ReadFileContent(TGo4Log::subGO4SYS("html/go4canvas.js"));
    #endif
 
+   // these methods are static in newer ROOT starting from 6.33
    web->SetCustomScripts(go4script);
 
    web->AddCustomClass("TGo4Marker");
@@ -124,11 +125,6 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    ROOT::RWebDisplayArgs args(kind);
 #else
    ROOT::Experimental::RWebDisplayArgs args(kind);
-#endif
-
-#if ROOT_VERSION_CODE >= ROOT_VERSION(6,33,0)
-   // configure web display kind for ROOT to let provide workaround for qt5 which does not support modulesmap
-   gROOT->SetWebDisplay(kind);
 #endif
 
    args.SetDriverData(this); // it is parent widget for created QWebEngineView element
