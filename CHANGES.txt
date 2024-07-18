@@ -23,9 +23,10 @@ in Go4License.txt file which is part of the distribution.
 
 Changes in Go4 v6.4
 1. Support ES6 modules, requires non yet released ROOT
+2. GUI: Add histogram import functionality for ASCII (go4 exported) and Ortec MCA formats 
+3. Bugfix: display and update result functions of ROOT fitter together with original histogram in GU
 
-
-Changes in Go4 v6.3
+Changes in Go4 v6.3 (January 2024)
 1. Adoption to win64
 2. Skip support of old ROOT version older than 6.24
 3. Remove TGo4Buffer.h - one can use TBufferFile class directly
