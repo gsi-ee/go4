@@ -41,7 +41,7 @@ QGo4Widget::~QGo4Widget()
 
 void QGo4Widget::ObjectCreatedByWidget(const char *itemname, TClass *cl)
 {
-   // this method calls by maingui when object created by one of editor
+   // this method calls by main gui when object created by one of editor
 
    if (fWaitsForObjectCreation) {
       fWaitsForObjectCreation = false;
@@ -254,11 +254,11 @@ void QGo4Widget::ProcessSignal(const char *linkname, bool assigned, TObject *obj
    }
 }
 
-void QGo4Widget::linkedObjectUpdated(const char */* linkname */, TObject */* obj */)
+void QGo4Widget::linkedObjectUpdated(const char * /* linkname */, TObject * /* obj */)
 {
 }
 
-void QGo4Widget::linkedObjectRemoved(const char */* linkname */)
+void QGo4Widget::linkedObjectRemoved(const char * /* linkname */)
 {
    // reset editor if any watched object is removed
    ShootResetWidget();

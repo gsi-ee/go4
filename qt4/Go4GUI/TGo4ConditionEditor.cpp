@@ -414,14 +414,14 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    CondTabs->setCurrentIndex(2); // JAM: need this trick to retrieve actual tab limits with hidden icons?
    CondTabs->setCurrentIndex(oldindex);
 
-  if (!pcond && ((CondTabs->currentIndex()==1) || (CondTabs->currentIndex()==2)))
-     CondTabs->setCurrentIndex(0); // switch to wincond defaults when changing from polycond type
+   if (!pcond && ((CondTabs->currentIndex() == 1) || (CondTabs->currentIndex() == 2)))
+      CondTabs->setCurrentIndex(0); // switch to wincond defaults when changing from polycond type
 
-  if (!econd && pcond && (CondTabs->currentIndex()==2))
+   if (!econd && pcond && (CondTabs->currentIndex() == 2))
       CondTabs->setCurrentIndex(1); // switch to polycond defaults when changing from shape type
 
-  if(lcond)
-    CondTabs->setCurrentIndex(1);
+   if(lcond)
+      CondTabs->setCurrentIndex(1);
 
    CondTabs->setTabEnabled(1, pcond || lcond);
    CondTabs->setTabEnabled(2, econd != nullptr);

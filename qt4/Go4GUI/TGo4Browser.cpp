@@ -332,8 +332,6 @@ void TGo4Browser::updateListViewItems()
 
    checkVisisbilityFlags(true);
 
-//   slot->Print("");
-
    QTreeWidgetItem* curfold = nullptr;
    QTreeWidgetItem* curitem = ListView->topLevelItem(0);
    QTreeWidgetItem* previtem = nullptr;

@@ -95,9 +95,8 @@ void TGo4CommandLine::enterPressedSlot()
   }
   else
   {
-    // process cint line, check if python or not:
-    if (str.contains(pyprompt))
-    {
+    // process CLING line, check if python or not:
+    if (str.contains(pyprompt)) {
       // Python support as initiated by Sven Augustin, MPI Heidelberg
       str.remove(0, str.indexOf(pyprompt) + 1);
       StatusMessage(QString("Executing Python script: ") + str);
