@@ -2791,25 +2791,28 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel *panel)
 
    QStringList flt;
 
+   flt << PNG;
+   flt << PDF;
+   flt << JPG;
+   flt << SVG;
+   flt << CXXM;
+   flt << ROOTM;
+   flt << GIF;
+
    flt << PS;
    flt << PS_Portrait;
    flt << PS_Landscape;
    flt << EPS;
    flt << EPS_Preview;
-   flt << PDF;
-   flt << SVG;
-   flt << GIF;
 
    flt << XPM;
-   flt << PNG;
-   flt << JPG;
    flt << TIFF;
 
-   flt << CXXM;
    flt << JSONM;
-   flt << ROOTM;
 
    fd.setNameFilters(flt);
+
+   fd.selectFile(panel->objectName() + ".png");
 
    if (fd.exec() != QDialog::Accepted) return;
 
