@@ -160,14 +160,6 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    h1->SetDirectory(nullptr);
    br->SaveToMemory("", h1, kTRUE);
 
-/*   TH2I* h2 = new TH2I("histo2","histo 2 title", 100, -10., 10., 100, -10., 10.);
-   h2->FillRandom("gaus",100000);
-   h2->SetDrawOption("hist");
-   h2->SetDirectory(nullptr);
-   br->SaveToMemory("", h2, kTRUE);
-*/
-   // br->OpenFile("asf.root");
-
    new TGo4Script(this);
 
    gStyle->SetPalette(1);
@@ -1162,7 +1154,7 @@ TGo4ServerProxy *TGo4MainWindow::ConnectHttpServer(const char *addr, const char 
       }
       QString host = nameportlist.at(nameindex);
       QStringList hostnamelist = nameportlist.at(nameindex).split("//");
-      if(hostnamelist.size()>1) host = hostnamelist.at(1); // get rid of optional leading // of full http adress
+      if(hostnamelist.size()>1) host = hostnamelist.at(1); // get rid of optional leading // of full http address
       go4sett->setClientNode(host);
       go4sett->setClientPort(nameportlist.at(portindex).toInt());
       go4sett->setClientConnectMode(1);
@@ -1423,7 +1415,6 @@ void TGo4MainWindow::UpdateCaptionButtons()
    if (ht) {
       // check for server names may not be unique if connected twice by chance, better use proxy pointers!
       if(ht != oldhttp) {
-        //printf("UpdateCaptionButtons sees new http server (0x%x), old (0x%x) \n", ht, oldhttp);
         oldhttp = ht;
         EstablishRatemeter(0);
         EstablishRatemeter(2);
@@ -1741,7 +1732,7 @@ void TGo4MainWindow::LaunchClient(bool interactive)
       // need to request analysis status anyway
       if (ConnectHttpServer(addr.toLatin1().constData(), nullptr, nullptr, false, true)) {
          StatusMessage("Connected to existing analysis webserver!"); // JAM tell user that this is no analysis restart!
-         std::cout<< "!!! Connected to existing analysis webserver "<<addr.toLatin1().constData()<< "!!! "<<std::endl; // status message is shadowed by ratemeters....
+         std::cout<< "!!! Connected to existing analysis webserver "<<addr.toLatin1().constData()<< "!!! "<<std::endl; // status message is shadowed by ratemeter ....
          return;
       }
 
@@ -2955,14 +2946,14 @@ void TGo4MainWindow::checkPanelRepaintSlot()
 
    fbPanelTimerActive = false;
 
-   // first check if active viewpnael need update its content
+   // first check if active viewpanel need update its content
    TGo4ViewPanel *actpanel = fxMdiArea->GetActivePanel();
    if (actpanel && actpanel->IsRepaintTimerActive())
       actpanel->checkRepaintSlot();
 
    if (fbPanelTimerActive) return;
 
-   // now check if any other panel shold be repainted
+   // now check if any other panel should be repainted
    TGo4Slot *topslot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
    for (int n = 0; n < topslot->NumChilds(); n++) {
       TGo4Slot *subslot = topslot->GetChild(n);
