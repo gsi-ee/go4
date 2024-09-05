@@ -121,7 +121,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char *name) :
    QObject::connect(EditConditionBtn, &QPushButton::clicked, this, &TGo4ViewPanel::EditConditionBtn_clicked);
    QObject::connect(SetConditionBtn, &QPushButton::clicked, this, &TGo4ViewPanel::SetConditionBtn_clicked);
 
-   // TODO: viewpanel does not closed when press close button
+   // TODO: view panel does not closed when press close button
    setAttribute(Qt::WA_DeleteOnClose);
 
    fPanelName = objectName();
@@ -298,7 +298,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char *name) :
    // status widget
 
    if (fxWCanvas) {
-      // TODO: one can get status from webcanvas here
+      // TODO: one can get status from web canvas here
 #ifdef __GO4WEB__
       fxWCanvas->setStatusBarVisible(status_flag);
 
@@ -853,7 +853,7 @@ void TGo4ViewPanel::SwitchMarkerButton(int kind, bool on)
             break;
       }
       int selectedkind = 0;
-      /*TGo4Slot *selslot = */ GetSelectedSlot(GetActivePad(), &selectedkind, nullptr);
+      GetSelectedSlot(GetActivePad(), &selectedkind, nullptr);
       if (selectedkind != kind)
          SetSelectedMarker(GetActivePad(), "", -1);
    }
@@ -1029,7 +1029,7 @@ void TGo4ViewPanel::RefreshButtons()
    }
 
    SelectedMarkerCmb->setCurrentIndex(findindx);
-   DelSelectedMarker->setEnabled((findindx > 0) /*&& !iscondition*/);
+   DelSelectedMarker->setEnabled(findindx > 0);
 
    if (fbMarkEditorVisible) {
       MarkerPanel->ensurePolished();
@@ -2270,7 +2270,7 @@ void TGo4ViewPanel::ProcessPadStatusUpdate(TPad *pad, TGo4Slot *parent, bool rem
 
    } while (isdupluicate);
 
-   // remove all subslots, which are correspond to non-existing subpads
+   // remove all sub-slots, which are correspond to non-existing subpads
    for (int n = slot->NumChilds() - 1; n >= 0; n--) {
       TGo4Slot *subslot = slot->GetChild(n);
       TPad *subpad = GetSlotPad(subslot);
@@ -2481,8 +2481,7 @@ void TGo4ViewPanel::ProcessPadModifiedSignal()
       CallPanelFunc(panel_Updated, GetActivePad());
 }
 
-bool TGo4ViewPanel::ScanDrawOptions(TPad *pad, TGo4Slot *padslot,
-      TGo4Picture *pic, bool onlyscan)
+bool TGo4ViewPanel::ScanDrawOptions(TPad *pad, TGo4Slot *padslot, TGo4Picture *pic, bool onlyscan)
 {
    TGo4LockGuard lock;
 
@@ -2495,12 +2494,6 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad *pad, TGo4Slot *padslot,
    while (link) {
       const char *clname = link->GetObject()->ClassName();
       if ((strcmp(clname, "TFrame") == 0) || (strcmp(clname, "TLegend") == 0)) {
-
-         // comment out, can never be working
-         //TPaveText* titl = dynamic_cast<TPaveText*>(link->GetObject());
-         //if (titl &&(strcmp(titl->GetName(),"title") == 0))
-         //   pic->SetTitleAttr(titl);
-
          link = link->Next();
       } else
          break;
@@ -2772,7 +2765,6 @@ TObject *TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot *padslot, TGo4Picture 
          TGo4Slot *objslot = (TGo4Slot *) objslots->At(n);
 
          Int_t kind = GetDrawKind(objslot);
-         // Int_t objindx = padslot->GetIndexOf(objslot); // slot index for object starts from 2
 
          if (resetcolors || (kind == kind_FitModels) || objslot->GetPar("::FirstDraw")) {
             histo->SetLineColor(GetAutoColor(n));
@@ -2911,8 +2903,8 @@ void TGo4ViewPanel::Divide(int numX, int numY)
       RedrawPanel(pad, true);
    }
 
-   // note: number of pads will be changed in list of previewpanelstatus by InitPad
-//   RefreshButtons();
+   // note: number of pads will be changed in list of preview panel status by InitPad
+   // RefreshButtons();
 }
 
 void TGo4ViewPanel::SetSlotPad(TGo4Slot *padslot, TPad *pad)
@@ -4228,7 +4220,7 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture *padopt, TMultiGraph
    TH1 *framehisto = (dosuperimpose && firstgr) ? firstgr->GetHistogram() : mg->GetHistogram();
 
    if (!framehisto) {
-      // this is workaround to prevent recreation of framehistogram in TMultiGraph::Paint
+      // this is workaround to prevent recreation of frame histogram in TMultiGraph::Paint
       mg->Draw(drawopt.Data());
       framehisto = (dosuperimpose && firstgr) ? firstgr->GetHistogram() : mg->GetHistogram();
    }
@@ -5055,7 +5047,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad *pad, TH1 *h1, THStack *hs,
          hs->SetMaximum(hmax);
       }
    } else {
-      // this is autoscale mode
+      // this is auto-scale mode
 
       if (hs) {
          if (ndim == 1) {
@@ -5654,7 +5646,7 @@ TObject *TGo4ViewPanel::GetActiveObj(TPad *pad, int kind)
 {
    int selkind;
    TObject *selobj;
-   /* TGo4Slot *selslot = */ GetSelectedSlot(pad, &selkind, &selobj);
+   GetSelectedSlot(pad, &selkind, &selobj);
    if ((kind == selkind) && selobj)
       return selobj;
 
