@@ -2812,7 +2812,21 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel *panel)
 
    fd.setNameFilters(flt);
 
-   fd.selectFile(panel->objectName() + ".png");
+   QString filename0 = panel->objectName();
+
+   fd.selectFile(filename0 + ".png");
+
+   QObject::connect(&fd, &QFileDialog::filterSelected, [filename0, &fd](const QString &fltr) {
+      QStringList flst = fd.selectedFiles();
+      if (flst.size() > 1)
+         return;
+      if ((flst.size() == 1) && (flst[0].indexOf(filename0 + ".") != 0))
+         return;
+
+      auto p = fltr.indexOf("(*."), p2 = fltr.lastIndexOf(")");
+      fd.selectFile(filename0 + fltr.sliced(p+2, p2 - p - 2));
+   });
+
 
    if (fd.exec() != QDialog::Accepted) return;
 
