@@ -2815,7 +2815,7 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel *panel)
          return;
 
       auto p = fltr.indexOf("(*."), p2 = fltr.lastIndexOf(")");
-      fd.selectFile(filename0 + fltr.sliced(p+2, p2 - p - 2));
+      fd.selectFile(filename0 + fltr.mid(p + 2, p2 - p - 2));
    });
 
 
