@@ -85,7 +85,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    static std::string go4script = "modules:go4sys/html5/go4canvas.mjs";
    #else
    // old method to load plain JS scripts as is
-   static std::string go4script = THttpServer::ReadFileContent(TGo4Log::subGO4SYS("html/go4canvas.js"));
+   static std::string go4script = THttpServer::ReadFileContent(TGo4Log::subGO4SYS("html/go4canvas.js").Data());
    #endif
 
    // these methods are static in newer ROOT starting from 6.33
