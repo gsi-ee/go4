@@ -640,9 +640,9 @@ TH1* TGo4ExportManager::ImportHistogramGo4Ascii(const char *nom)
    // TODO: scan number of bins and range
    // JAM7-2024: this works for fixed bin size histograms only. TODO: evaluate bin steps indivually?
 
-   Int_t totalbins=0;
+   // Int_t totalbins = 0;
    //Int_t xbins = 0, ybins = 0, zbins  = 0;
-   Double_t val=0;
+   Double_t val = 0;
    Double_t axval[3]={0.};
    Double_t axmin[3]={0.};
    Double_t axmax[3]={0.};
@@ -664,8 +664,8 @@ TH1* TGo4ExportManager::ImportHistogramGo4Ascii(const char *nom)
             bins[i]++;
          }
       } // for
-      totalbins++;
-      firstline=kFALSE;
+      // totalbins++;
+      firstline = kFALSE;
    } // while
 
    // adjust ROOT upper limit: add one binsize
