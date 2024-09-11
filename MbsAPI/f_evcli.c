@@ -563,7 +563,7 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
 
    short              i_fltdescnt = 0;
    // short              i_fltcnt = 0;
-   short              i_fltblkcnt = 0;
+   // short              i_fltblkcnt = 0;
    short              i, i_flt_len = 0,
                       i_fltblkbeg, i_fltblkend, j;
    short              if_newfltblk = 1;
@@ -614,7 +614,7 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
       if (if_newfltblk)
       {
     if_newfltblk = 0;
-    i_fltblkcnt++;
+    // i_fltblkcnt++;
     i_flt_len     = p_opc1->h_flt_len;
     i_next_fltblk = i + i_flt_len;
     i_fltblkbeg   = i;
