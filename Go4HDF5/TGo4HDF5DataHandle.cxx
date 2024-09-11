@@ -23,6 +23,8 @@
 #include "TGo4EventSourceException.h"
 #include "TGo4HDF5Source.h"
 
+#include <vector>
+
 TGo4HDF5DataHandleFactory TGo4HDF5DataHandle::fxFactory;
 
 TGo4HDF5DataHandle::TGo4HDF5DataHandle(const char *name, size_t datasize)
@@ -318,13 +320,11 @@ void TGo4HDF5BasicDataHandle::AllocReadBuffer(size_t size)
 
      fxFileSpace = fxDataSet.getSpace();
      int frank = fxFileSpace.getSimpleExtentNdims();
-     hsize_t dims_out[frank];
-     fxFileSpace.getSimpleExtentDims( dims_out, nullptr);
+     std::vector<hsize_t> dims_out(frank, 0);
+     fxFileSpace.getSimpleExtentDims(dims_out.data(), nullptr);
      go4hdfdbg("TGo4HDF5DataHandle::BuildReadDataSet file dataspace has rank %d, dimensions:%d, #1. dimension=%ld \n",
-         frank ,
-         fxFileSpace.getSimpleExtentDims(dims_out, nullptr),
-         (unsigned long)(dims_out[0]));
-     fiEntries=dims_out[0]; // events filled in this file, for leaving the read loop later.
+         frank, fxFileSpace.getSimpleExtentDims(dims_out.data(), nullptr), (long) (dims_out[0]));
+     fiEntries = dims_out[0]; // events filled in this file, for leaving the read loop later.
 
   #ifdef GO4HDF5_DEBUG
      // check consistency of file dataset with input event structure:
