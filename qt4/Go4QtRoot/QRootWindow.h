@@ -21,7 +21,7 @@
 class QMouseEvent;
 class QPaintEvent;
 class TGLayoutHints;
-class Event_t;
+struct Event_t;
 class TQRootFrame;
 class TGFrame;
 class TGCompositeFrame;
