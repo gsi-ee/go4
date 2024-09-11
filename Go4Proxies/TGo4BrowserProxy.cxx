@@ -1264,12 +1264,13 @@ void TGo4BrowserProxy::ImportObjectFromFile(const char *filename, const char *fi
 {
   TString result,folder;
   TString convert;
-  if(!format)
-     convert="ASCII";
-  else
-     convert=format;
+  Go4Import_t filter = GO4IM_ASCII;
 
-  Go4Import_t filter;
+  if(!format)
+     convert = "ASCII";
+  else
+     convert = format;
+
   if (convert.Contains("ASCII")) {
      TGo4Log::Message(0, "Import filter is ASCII");
      filter = GO4IM_ASCII;
@@ -1284,9 +1285,8 @@ void TGo4BrowserProxy::ImportObjectFromFile(const char *filename, const char *fi
   impman.SetStartDir();
   impman.SetCurrentDir(filedir);
 
-  TH1* histo=impman.ImportHistogram(filename,filter);
-  if(histo)
-  {
+  TH1* histo = impman.ImportHistogram(filename,filter);
+  if(histo) {
     //TGo4BrowserProxy::SaveToMemory(const char *pathname, TObject *obj, Bool_t ownership, Bool_t overwrite)
     result=SaveToMemory(folder.Data(),histo, kTRUE, kFALSE);
 
