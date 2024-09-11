@@ -695,7 +695,7 @@ void TGo4FitPanel::Fitter_PrintParameters()
       str += "\t";
       str += tab->horizontalHeaderItem(ncol)->text();
    }
-   TGo4Log::Info("%s",str.toLatin1().constData());
+   TGo4Log::Info("%s", str.toLatin1().constData());
 
    for (int nrow = 0; nrow < tab->rowCount(); nrow++) {
       str = tab->verticalHeaderItem(nrow)->text();
@@ -703,7 +703,7 @@ void TGo4FitPanel::Fitter_PrintParameters()
          str += "\t";
          str += tab->item(nrow, ncol)->text();
       }
-      TGo4Log::Info(str.toLatin1().constData());
+      TGo4Log::Info("%s", str.toLatin1().constData());
    }
 }
 
