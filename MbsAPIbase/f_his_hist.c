@@ -488,7 +488,7 @@ INTS4 l_status;
     /* check access */
     f_his_toupper(s_his_comm_serv.c_access,sizeof(s_his_comm_serv.c_access));
     f_his_toupper(s_his_comm_serv.c_base,sizeof(s_his_comm_serv.c_base));
-    if((strlen(c_gl_serv_access) != 0) &
+    if((strlen(c_gl_serv_access) != 0) &&
        (strcmp(s_his_comm_serv.c_access,c_gl_serv_access) != 0))
     {
         printf("Client connected with wrong password [%s]. \n",s_his_comm_serv.c_access);
