@@ -492,23 +492,23 @@ INTS4 l_status;
        (strcmp(s_his_comm_serv.c_access,c_gl_serv_access) != 0))
     {
         printf("Client connected with wrong password [%s]. \n",s_his_comm_serv.c_access);
-   s_his_comm_serv.lu_endian=1;
-   s_his_comm_serv.lu_size=0;
-   s_his_comm_serv.lu_histos=0;
-   s_his_comm_serv.l_status=COMM__NOACCESS;
-   l_status = f_stc_write (&s_his_comm_serv,sizeof(s_his_comm), l_gl_serv_chan);
+        s_his_comm_serv.lu_endian=1;
+        s_his_comm_serv.lu_size=0;
+        s_his_comm_serv.lu_histos=0;
+        s_his_comm_serv.l_status=COMM__NOACCESS;
+        l_status = f_stc_write (&s_his_comm_serv,sizeof(s_his_comm), l_gl_serv_chan);
         f_stc_discclient (l_gl_serv_chan);
-   return(COMM__NOACCESS);
+        return(COMM__NOACCESS);
     }
     /* check base name */
     if(strcmp(s_his_comm_serv.c_base,c_gl_serv_base) != 0)
     {
         printf("Client connected for wrong base [%s]. \n",s_his_comm_serv.c_base);
-   s_his_comm_serv.lu_endian=1;
-   s_his_comm_serv.lu_size=0;
-   s_his_comm_serv.lu_histos=0;
-   s_his_comm_serv.l_status=COMM__NOBASE;
-   l_status = f_stc_write (&s_his_comm_serv,sizeof(s_his_comm), l_gl_serv_chan);
+        s_his_comm_serv.lu_endian=1;
+        s_his_comm_serv.lu_size=0;
+        s_his_comm_serv.lu_histos=0;
+        s_his_comm_serv.l_status=COMM__NOBASE;
+        l_status = f_stc_write (&s_his_comm_serv,sizeof(s_his_comm), l_gl_serv_chan);
         f_stc_discclient (l_gl_serv_chan);
    return(COMM__NOBASE);
     }
