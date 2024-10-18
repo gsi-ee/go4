@@ -14,11 +14,11 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 
 if(GO4_QTVERSION STREQUAL Qt6)
-   find_package(Qt6 COMPONENTS Widgets WebEngine WebEngineWidgets)
+   find_package(Qt6 COMPONENTS Widgets WebEngineCore WebEngineWidgets)
    if(NOT Qt6_FOUND)
       message(FATAL_ERROR "Could NOT find Qt6 libs")
    endif()
-   set(qt_libs Qt6::Core Qt6::Widgets Qt6::WebEngine Qt6::WebEngineWidgets)
+   set(qt_libs Qt6::Core Qt6::Widgets Qt6::WebEngineCore Qt6::WebEngineWidgets)
 else()
    find_package(Qt5 COMPONENTS Widgets WebEngine WebEngineWidgets)
    if(NOT Qt5_FOUND)
