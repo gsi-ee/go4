@@ -65,9 +65,15 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget *parent, const char *name, Qt::WindowFla
 
    setupUi(this);
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 8, 0)
    QObject::connect(EnableStepBox, &QCheckBox::stateChanged, this, &TGo4ConfigStep::StepStateChanged);
    QObject::connect(EnableSourceBox, &QCheckBox::stateChanged, this, &TGo4ConfigStep::InputStateChanged);
    QObject::connect(EnableStoreBox, &QCheckBox::stateChanged, this, &TGo4ConfigStep::OutputStateChanged);
+#else
+   QObject::connect(EnableStepBox, &QCheckBox::checkStateChanged, this, &TGo4ConfigStep::StepStateChanged);
+   QObject::connect(EnableSourceBox, &QCheckBox::checkStateChanged, this, &TGo4ConfigStep::InputStateChanged);
+   QObject::connect(EnableStoreBox, &QCheckBox::checkStateChanged, this, &TGo4ConfigStep::OutputStateChanged);
+#endif
    QObject::connect(SourceNameEdit, &QLineEdit::textChanged, this, &TGo4ConfigStep::InputSourceText);
    QObject::connect(EventSourceCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &TGo4ConfigStep::SourceComboHighlighted);
    QObject::connect(OutputCombo, QOverload<int>::of(&QComboBox::activated), this, &TGo4ConfigStep::StoreComboHighlighted);
