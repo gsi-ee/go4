@@ -339,6 +339,10 @@ void TGo4AnalysisWindow::StartAnalysisShell(const char *text, const char *workdi
 
     TGo4AnalysisWindow::ExtractProgArgs(progname, args);
 
+    printf("Start program %s\n", progname.toLatin1().constData());
+    for (auto &arg : args)
+       printf("   Arguemnt %s\n", arg.toLatin1().constData());
+
     fAnalysisProcess->start(progname, args);
 
     if (fAnalysisProcess->state() == QProcess::NotRunning) {
