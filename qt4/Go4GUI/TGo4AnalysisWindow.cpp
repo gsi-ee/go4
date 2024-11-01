@@ -40,64 +40,63 @@
 TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget *parent, const char *name, bool needoutput, bool needkillbtn) :
     QGo4Widget( parent, name)
 {
-    setCanDestroyWidget(false);
-    setAcceptDrops(false);
-    fAnalysisProcess = nullptr;
-    fxOutput = nullptr;
-    outputBuffer = "";
-    fiMaxOuputSize = 0;
-    fbShowTimestamps = kFALSE;
-    fxTimeFormat = "yyyy-MM-dd hh:mm:ss";
-    fxCmdHist = nullptr;
-    fHasLink = false;
-    fTerminateOnClose = false;
+   setCanDestroyWidget(false);
+   setAcceptDrops(false);
+   fAnalysisProcess = nullptr;
+   fxOutput = nullptr;
+   outputBuffer = "";
+   fiMaxOuputSize = 0;
+   fbShowTimestamps = kFALSE;
+   fxTimeFormat = "yyyy-MM-dd hh:mm:ss";
+   fxCmdHist = nullptr;
+   fHasLink = false;
+   fTerminateOnClose = false;
 
-    fNewObjectForEditor = true;
+   fNewObjectForEditor = true;
 
-    setWindowTitle("Analysis Terminal");
+   setWindowTitle("Analysis Terminal");
 
-    setFont(go4sett->getTermFont());
+   setFont(go4sett->getTermFont());
 
-    if (needoutput) {
+   if (needoutput) {
 
-       resize(700, 400);
-       setWindowIcon(QIcon(":/icons/analysiswin.png"));
-       QGridLayout* layout = new QGridLayout( this );
-       layout->setContentsMargins(11,11,11,11);
-       layout->setSpacing(6);
+      resize(700, 400);
+      setWindowIcon(QIcon(":/icons/analysiswin.png"));
+      QGridLayout *layout = new QGridLayout(this);
+      layout->setContentsMargins(11, 11, 11, 11);
+      layout->setSpacing(6);
 
-       fxOutput = new QTextEdit();
-       fxOutput->setUndoRedoEnabled(false);
-       fxOutput->setAutoFormatting(QTextEdit::AutoNone);
-       fxOutput->setWordWrapMode(QTextOption::NoWrap);
-       fxOutput->setReadOnly(true);
-       layout->addWidget(fxOutput, 0, 0);
+      fxOutput = new QTextEdit();
+      fxOutput->setUndoRedoEnabled(false);
+      fxOutput->setAutoFormatting(QTextEdit::AutoNone);
+      fxOutput->setWordWrapMode(QTextOption::NoWrap);
+      fxOutput->setReadOnly(true);
+      layout->addWidget(fxOutput, 0, 0);
 
-       fiMaxOuputSize = go4sett->getTermHistorySize();
-       UpdateTimeStampFormat();
+      fiMaxOuputSize = go4sett->getTermHistorySize();
+      UpdateTimeStampFormat();
 
-       QHBoxLayout *box1 = new QHBoxLayout();
-       box1->addWidget(new QLabel("Press enter to execute.", this), 1);
-       CreateCmdLine(box1);
-       layout->addLayout(box1, 1, 0);
+      QHBoxLayout *box1 = new QHBoxLayout();
+      box1->addWidget(new QLabel("Press enter to execute.", this), 1);
+      CreateCmdLine(box1);
+      layout->addLayout(box1, 1, 0);
 
-       QHBoxLayout *box2 = new QHBoxLayout();
-       CreateButtons(box2, needkillbtn);
-       layout->addLayout(box2, 2, 0);
+      QHBoxLayout *box2 = new QHBoxLayout();
+      CreateButtons(box2, needkillbtn);
+      layout->addLayout(box2, 2, 0);
 
-       updateTerminalOutput();
-    } else {
+      updateTerminalOutput();
+   } else {
 
-       QHBoxLayout *box = new QHBoxLayout(this);
+      QHBoxLayout *box = new QHBoxLayout(this);
 
-       CreateButtons(box, needkillbtn);
+      CreateButtons(box, needkillbtn);
 
-       CreateCmdLine(box);
+      CreateCmdLine(box);
 
-       adjustSize();
-    }
+      adjustSize();
+   }
 }
-
 
 void TGo4AnalysisWindow::UpdateTimeStampFormat()
 {
@@ -211,43 +210,43 @@ void TGo4AnalysisWindow::SetHistorySize(int sz)
 
 void TGo4AnalysisWindow::updateTerminalOutput()
 {
-  if (!fxOutput)
-    return;
+   if (!fxOutput)
+      return;
 
-  unsigned int buflen = outputBuffer.length();
+   unsigned int buflen = outputBuffer.length();
 
-  if (fiMaxOuputSize > 0) {
+   if (fiMaxOuputSize > 0) {
 
-     // size remaining after cut of text
-     unsigned int cutlength = fiMaxOuputSize / 2;
+      // size remaining after cut of text
+      unsigned int cutlength = fiMaxOuputSize / 2;
 
-     if (buflen > 0) {
-        unsigned int outlen = fxOutput->toPlainText().length();
-        if (buflen + outlen < fiMaxOuputSize) {
-           fxOutput->append(outputBuffer);
-           // fxOutput->moveCursor(QTextCursor::End);
-           //  ^JAM just for test, we dont keep this since one may want inspect history during new printouts
-        } else if (buflen >= cutlength) {
-           outputBuffer.remove(0, buflen - cutlength);
-           fxOutput->setText(outputBuffer);
-           fxOutput->moveCursor(QTextCursor::End);
-        } else {
-           QString curr = fxOutput->toPlainText();
-           curr.remove(0, cutlength - buflen);
-           curr += outputBuffer;
-           fxOutput->setText(curr);
-           fxOutput->moveCursor(QTextCursor::End);
-        }
-     }
-  } else {
-     if (buflen > 0) {
-        fxOutput->append(outputBuffer);
-        // fxOutput->moveCursor(QTextCursor::End);
-        //  ^JAM just for test, we dont keep this since one may want inspect history during new printouts
-     }
-  }
-  outputBuffer = "";
-  QTimer::singleShot(100, this, &TGo4AnalysisWindow::updateTerminalOutput);
+      if (buflen > 0) {
+         unsigned int outlen = fxOutput->toPlainText().length();
+         if (buflen + outlen < fiMaxOuputSize) {
+            fxOutput->append(outputBuffer);
+            // fxOutput->moveCursor(QTextCursor::End);
+            //  ^JAM just for test, we dont keep this since one may want inspect history during new printouts
+         } else if (buflen >= cutlength) {
+            outputBuffer.remove(0, buflen - cutlength);
+            fxOutput->setText(outputBuffer);
+            fxOutput->moveCursor(QTextCursor::End);
+         } else {
+            QString curr = fxOutput->toPlainText();
+            curr.remove(0, cutlength - buflen);
+            curr += outputBuffer;
+            fxOutput->setText(curr);
+            fxOutput->moveCursor(QTextCursor::End);
+         }
+      }
+   } else {
+      if (buflen > 0) {
+         fxOutput->append(outputBuffer);
+         // fxOutput->moveCursor(QTextCursor::End);
+         //  ^JAM just for test, we dont keep this since one may want inspect history during new printouts
+      }
+   }
+   outputBuffer = "";
+   QTimer::singleShot(100, this, &TGo4AnalysisWindow::updateTerminalOutput);
 }
 
 void TGo4AnalysisWindow::readFromStdout()
@@ -262,34 +261,29 @@ void TGo4AnalysisWindow::readFromStdout()
 
 void TGo4AnalysisWindow::readFromStderr()
 {
-    if (fAnalysisProcess) {
-       QByteArray ba = fAnalysisProcess->readAllStandardError();
-       QString buf(ba);
-       AppendOutputBuffer(buf,1);
-    }
+   if (fAnalysisProcess) {
+      QByteArray ba = fAnalysisProcess->readAllStandardError();
+      QString buf(ba);
+      AppendOutputBuffer(buf, 1);
+   }
 }
-
 
 void TGo4AnalysisWindow::AddTimeStamp(QString& buf, int prio)
 {
-  QString pre = prio>0 ? "!":"*";
-  QString format= QString("GO4-%1> [%2]\n").arg(pre).arg(fxTimeFormat);
-  buf = QDateTime::currentDateTime().toString(format)+ buf;
+   QString pre = prio > 0 ? "!" : "*";
+   QString format = QString("GO4-%1> [%2]\n").arg(pre).arg(fxTimeFormat);
+   buf = QDateTime::currentDateTime().toString(format) + buf;
 }
-
 
 void TGo4AnalysisWindow::AppendOutputBuffer(const QString& value, int prio)
 {
-  if(fbShowTimestamps || prio>1)
-  {
-    QString buf=value;
-    AddTimeStamp(buf,prio);
-    outputBuffer.append(buf);
-  }
-  else
-  {
-    outputBuffer.append(value);
-  }
+   if (fbShowTimestamps || prio > 1) {
+      QString buf = value;
+      AddTimeStamp(buf, prio);
+      outputBuffer.append(buf);
+   } else {
+      outputBuffer.append(value);
+   }
 }
 
 void TGo4AnalysisWindow::ExtractProgArgs(QString &progname, QStringList &args)
@@ -319,43 +313,41 @@ void TGo4AnalysisWindow::ExtractProgArgs(QString &progname, QStringList &args)
 
 void TGo4AnalysisWindow::StartAnalysisShell(const char *text, const char *workdir, bool aschildprocess)
 {
-    if (fAnalysisProcess) delete fAnalysisProcess;
+   if (fAnalysisProcess)
+      delete fAnalysisProcess;
 
-    setWindowTitle("Analysis Terminal");
+   setWindowTitle("Analysis Terminal");
 
-    // IMPORTANT - process should be child of analysis window
-    // to be terminated when analysis window closed or Ctrl-C is pressed
+   // IMPORTANT - process should be child of analysis window
+   // to be terminated when analysis window closed or Ctrl-C is pressed
 
-    fAnalysisProcess = new QProcess(aschildprocess ? this : nullptr);
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    fAnalysisProcess->setProcessEnvironment(env);
+   fAnalysisProcess = new QProcess(aschildprocess ? this : nullptr);
+   QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+   fAnalysisProcess->setProcessEnvironment(env);
 
-    QObject::connect(fAnalysisProcess, &QProcess::readyReadStandardOutput, this, &TGo4AnalysisWindow::readFromStdout);
-    QObject::connect(fAnalysisProcess, &QProcess::readyReadStandardError, this, &TGo4AnalysisWindow::readFromStderr);
-    if (workdir) fAnalysisProcess->setWorkingDirectory(workdir);
+   QObject::connect(fAnalysisProcess, &QProcess::readyReadStandardOutput, this, &TGo4AnalysisWindow::readFromStdout);
+   QObject::connect(fAnalysisProcess, &QProcess::readyReadStandardError, this, &TGo4AnalysisWindow::readFromStderr);
+   if (workdir)
+      fAnalysisProcess->setWorkingDirectory(workdir);
 
-    QString progname = text;
-    QStringList args;
+   QString progname = text;
+   QStringList args;
 
-    TGo4AnalysisWindow::ExtractProgArgs(progname, args);
+   TGo4AnalysisWindow::ExtractProgArgs(progname, args);
 
-    printf("Start program %s\n", progname.toLatin1().constData());
-    for (auto &arg : args)
-       printf("   Arguemnt %s\n", arg.toLatin1().constData());
+   fAnalysisProcess->start(progname, args);
 
-    fAnalysisProcess->start(progname, args);
-
-    if (fAnalysisProcess->state() == QProcess::NotRunning) {
-       std::cerr << "Fatal error. Could not start the Analysis" << std::endl;
-       TerminateAnalysisProcess();
-    } else {
-       fTerminateOnClose = aschildprocess;
+   if (fAnalysisProcess->state() == QProcess::NotRunning) {
+      std::cerr << "Fatal error. Could not start the Analysis" << std::endl;
+      TerminateAnalysisProcess();
+   } else {
+      fTerminateOnClose = aschildprocess;
 #ifdef _MSC_VER
-       setWindowTitle("Analysis Terminal [with QProcess]");
+      setWindowTitle("Analysis Terminal [with QProcess]");
 #else
-       setWindowTitle(QString("Analysis Terminal [pid:%1]").arg(fAnalysisProcess->processId()));
+      setWindowTitle(QString("Analysis Terminal [pid:%1]").arg(fAnalysisProcess->processId()));
 #endif
-    }
+   }
 }
 
 void TGo4AnalysisWindow::RequestTerminate()
@@ -424,35 +416,31 @@ void TGo4AnalysisWindow::CommandSlot()
 
 void TGo4AnalysisWindow::FileDialog_Macro()
 {
-   QFileDialog fd( this,
-                  "Select ROOT macro for analysis task",
-                  "", "CINT Macro(*.C);;Python script(*.py)");
-   fd.setFileMode( QFileDialog::ExistingFile);
+   QFileDialog fd(this, "Select ROOT macro for analysis task", "", "CINT Macro(*.C);;Python script(*.py)");
+   fd.setFileMode(QFileDialog::ExistingFile);
 
-   if (fd.exec() != QDialog::Accepted) return;
+   if (fd.exec() != QDialog::Accepted)
+      return;
    QStringList flst = fd.selectedFiles();
-   if (flst.isEmpty()) return;
+   if (flst.isEmpty())
+      return;
    bool iscint = fd.selectedNameFilter().contains(".C");
    bool ispyth = fd.selectedNameFilter().contains(".py");
    QString cmd;
-   if(iscint)
-   {
-     cmd = QString(".x ") + flst[0];
-   }
-   else if(ispyth)
-   {
-     cmd = QString("$") + flst[0];
-   }
-   else
-   {
-     // never come here, but anyway...
-     cmd = QString(".x ") + flst[0];
-     if(!cmd.endsWith(".C")) cmd.append(".C");
+   if (iscint) {
+      cmd = QString(".x ") + flst[0];
+   } else if (ispyth) {
+      cmd = QString("$") + flst[0];
+   } else {
+      // never come here, but anyway...
+      cmd = QString(".x ") + flst[0];
+      if (!cmd.endsWith(".C"))
+         cmd.append(".C");
    }
    int index = fxCmdHist->findText(cmd);
-   if(index<0) {
-     fxCmdHist->insertItem(-1,cmd);
-     index = fxCmdHist->findText(cmd);
+   if (index < 0) {
+      fxCmdHist->insertItem(-1, cmd);
+      index = fxCmdHist->findText(cmd);
    }
    fxCmdHist->setCurrentIndex(index);
 }
@@ -540,19 +528,18 @@ void TGo4AnalysisWindow::linkedObjectRemoved(const char *linkname)
       ServiceCall("CloseAnalysisWindow");
 }
 
-void TGo4AnalysisWindow::resizeEvent(QResizeEvent * e)
+void TGo4AnalysisWindow::resizeEvent(QResizeEvent *e)
 {
    // store size of top widget - JAM only if not within dock window (analysis server)
    // size of top widget will be restored when new panel is created
-  if(HasOutput())
-     go4sett->storePanelSize(parentWidget(), "AnalysisWindow");
+   if (HasOutput())
+      go4sett->storePanelSize(parentWidget(), "AnalysisWindow");
 }
 
-void TGo4AnalysisWindow::closeEvent(QCloseEvent* e)
+void TGo4AnalysisWindow::closeEvent(QCloseEvent *e)
 {
-  e->ignore(); // destroying this would mix up the upper level management
-  QWidget *mdi = parentWidget();
-  if (mdi)
-     mdi->hide(); // instead of destroying, we just hide it when X is clicked. JAM
+   e->ignore(); // destroying this would mix up the upper level management
+   QWidget *mdi = parentWidget();
+   if (mdi)
+      mdi->hide(); // instead of destroying, we just hide it when X is clicked. JAM
 }
-
