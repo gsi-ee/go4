@@ -58,8 +58,8 @@ endfunction()
 #   The default value can be changed as many times as we wish before calling GO4_APPLY_OPTIONS()
 #--------------------------------------------------------------------------------------------------
 
-GO4_BUILD_OPTION(qt5 OFF "Use qt5 for GUI build (default)")
-GO4_BUILD_OPTION(qt6 OFF "Use qt6 for GUI build")
+GO4_BUILD_OPTION(qt5 OFF "Use qt5 for GUI build")
+GO4_BUILD_OPTION(qt6 OFF "Use qt6 for GUI build (default)")
 GO4_BUILD_OPTION(hdf5 ON "Enable support of HDF5")
 GO4_BUILD_OPTION(dabc OFF "Enable support of DABC")
 GO4_BUILD_OPTION(gui ON "Build go4 GUI components")
@@ -70,8 +70,27 @@ if(all)
   set(dabc_defvalue ON)
 endif()
 
+if(NOT qt5 AND NOT qt6)
+  find_package(Qt6 COMPONENTS Widgets QUIET)
+  if(Qt6_FOUND)
+    set(qt6_defvalue ON)
+  else()
+    set(qt5_defvalue ON)
+  endif()
+endif()
+
+
 #---Define at moment the options with the selected default values-----------------------------
 GO4_APPLY_OPTIONS()
+
+if(qt5 AND qt6)
+  if(GO4_QTVERSION STREQUAL Qt5)
+    set(qt5 OFF CACHE STRING "Use qt5 for GUI build" FORCE)
+  else()
+    set(qt6 OFF CACHE STRING "Use qt6 for GUI build" FORCE)
+  endif()
+endif()
+
 
 #---RPATH options-------------------------------------------------------------------------------
 #  When building, don't use the install RPATH already (but later on when installing)
