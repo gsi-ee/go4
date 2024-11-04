@@ -1499,6 +1499,10 @@ void TGo4MainWindow::ChangeNativeMenuBarSlot(bool flag)
    go4sett->setNativeMenuBar(flag);
    menuBar()->setNativeMenuBar(flag);
    TGo4MainWindow::SaveSettingsSlot();
+#ifdef Darwin   
+   QMessageBox::information(this, "Change menu type", 
+                            "On platforms like MacOS changing of menu type may require restart of application");
+#endif                            
 }
 
 void TGo4MainWindow::CanvasColorSlot()
@@ -2827,7 +2831,6 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel *panel)
 
 
    if (fd.exec() != QDialog::Accepted) return;
-
 
    bool blankbg = go4sett->getSavePadWhiteBackground();
    if(blankbg) {
