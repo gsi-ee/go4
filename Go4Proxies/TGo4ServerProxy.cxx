@@ -102,7 +102,7 @@ class TGo4Prefs {
       }
 
       /** Return true if more than two parameter exists, hostname and os is default*/
-      bool IsOk() const { return fPars.size()>2; }
+      bool IsOk() const { return fPars.size() > 2; }
 
       void SetPar(const char *name, const char *value, bool force = true)
       {
@@ -114,7 +114,8 @@ class TGo4Prefs {
       const char *GetPar(const char *name)
       {
          std::string dname = TString::Format("%s%s%s", "%", name, "%").Data();
-         if (fPars.find(dname) == fPars.end()) return nullptr;
+         if (fPars.find(dname) == fPars.end())
+            return nullptr;
          return fPars[dname].c_str();
       }
 
@@ -131,16 +132,14 @@ class TGo4Prefs {
 
          do {
             isany = false;
-            std::map<std::string,std::string>::iterator iter = fPars.begin();
-            while (iter != fPars.end()) {
+            for (auto &entry : fPars) {
                pos = 0;
-               while ((pos = str.find(iter->first, pos)) != str.npos) {
-                  str.replace(pos, iter->first.length(), iter->second);
+               while ((pos = str.find(entry.first, pos)) != std::string::npos) {
+                  str.replace(pos, entry.first.length(), entry.second);
                   isany = true;
                }
-               iter++;
             }
-            if (cnt++>100000) {
+            if (cnt++ > 100000) {
                std::cerr << "Syntax error in go4.prefs files - endless recursion" << std::endl;
                std::cerr << "Program aborted, please fix an error" << std::endl;
                exit(-1);
