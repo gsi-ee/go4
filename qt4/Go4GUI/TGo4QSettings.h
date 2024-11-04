@@ -236,6 +236,9 @@ class TGo4QSettings {
       void    setWebBasedCanvas(bool on = true) { fUseWeb = on; }
       bool    getWebBasedCanvas() { return fUseWeb; }
 
+      void    setNativeMenuBar(bool on = true);
+      bool    getNativeMenuBar();
+
       void    setRemoteFileSett(const QString& hostname, const QString& filename, const QString& protocol);
       void    getRemoteFileSett(QString& hostname, QString& filename, QString& protocol);
 

@@ -842,6 +842,22 @@ bool TGo4QSettings::getMoveSubwindowRubberBand()
    return getBool("/preferences/MoveSubwindowRubberBand", true);
 }
 
+void TGo4QSettings::setNativeMenuBar(bool on)
+{
+   setBool("/preferences/NativeMenuBar", on);
+}
+
+bool TGo4QSettings::getNativeMenuBar()
+{
+#ifdef Darwin
+   bool dflt = true;
+#else
+   bool dflt = false;
+#endif
+   return getBool("/preferences/NativeMenuBar", dflt);
+}
+
+
 void TGo4QSettings::setRemoteFileSett(const QString& hostname, const QString& filename, const QString& protocol)
 {
    setStr( "/OpenRemoteFile/Host", hostname);
