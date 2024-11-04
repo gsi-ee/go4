@@ -433,6 +433,9 @@ void TGo4MainWindow::AddSettingMenu()
 
    prefMenu->addAction("GUI HighDPI Scale factor...", this, &TGo4MainWindow::ScaleFactorSlot);
 
+   QObject::connect(QGo4Widget::CreateChkAction(prefMenu, "Native menu bar", go4sett->getNativeMenuBar()),
+            &QAction::toggled, this, &TGo4MainWindow::ChangeNativeMenuBarSlot);
+
    QMenu* panelMenu = settMenu->addMenu("&Panel defaults");
 
    panelMenu->addAction("&Canvas color...", this, &TGo4MainWindow::CanvasColorSlot);
@@ -1491,7 +1494,13 @@ void TGo4MainWindow::ChangeDrawOnceSlot(bool flag)
 
 void TGo4MainWindow::ChangeWindowRubberBandSlot(bool flag)
 {
-  go4sett->setMoveSubwindowRubberBand(flag);
+   go4sett->setMoveSubwindowRubberBand(flag);
+}
+
+void TGo4MainWindow::ChangeNativeMenuBarSlot(bool flag)
+{
+   go4sett->setNativeMenuBar(flag);
+   menuBar()->setNativeMenuBar(flag);
 }
 
 void TGo4MainWindow::CanvasColorSlot()

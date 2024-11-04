@@ -134,6 +134,7 @@ class TGo4MainWindow : public QMainWindow {
       void ChangeHideEventElement(bool);
       void ChangeDrawOnceSlot(bool);
       void ChangeWindowRubberBandSlot(bool);
+      void ChangeNativeMenuBarSlot(bool);
 
       void CanvasColorSlot();
       void SuperimposeSlot(bool);
