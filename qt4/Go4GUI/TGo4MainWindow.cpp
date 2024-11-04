@@ -317,8 +317,8 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
       QStringList LibList = QString(libs).split(":", Qt::SkipEmptyParts);
 #endif
 
-      for (auto it = LibList.begin(); it != LibList.end(); ++it)
-          gSystem->Load((*it).toLatin1().constData());
+      for (auto &lib : LibList)
+          gSystem->Load(lib.toLatin1().constData());
    }
 
    go4sett->restoreMainWindowState(this);
@@ -1039,47 +1039,42 @@ void TGo4MainWindow::OpenFileSlot()
 
    fd.setFileMode( QFileDialog::ExistingFiles);
 
-   if ( fd.exec() != QDialog::Accepted ) return;
+   if (fd.exec() != QDialog::Accepted) return;
 
    QStringList list = fd.selectedFiles();
-   QStringList::Iterator it = list.begin();
-   while( it != list.end() ) {
-      QString fileName = *it;
+   for (auto &fileName : list) {
       fLastFileDir = QFileInfo(fileName).absolutePath();
       Browser()->OpenFile(fileName.toLatin1().constData());
-      ++it;
    }
 }
 
 
 void TGo4MainWindow::ImportObjectSlot()
 {
-   QFileDialog fd( this,
-                   "Select a file for importing histogram objects",
-                   fLastFileDir,
-                   QString("ASCII/Go4 (*.hdat);;Ortec MCA (*.Spe);;All files (*.*)"));
+   QFileDialog fd(this,
+                  "Select a file for importing histogram objects",
+                  fLastFileDir,
+                  QString("ASCII/Go4 (*.hdat);;Ortec MCA (*.Spe);;All files (*.*)"));
 
-   fd.setFileMode( QFileDialog::ExistingFiles);
-
-   if (fd.exec() != QDialog::Accepted) return;
+   fd.setFileMode(QFileDialog::ExistingFiles);
+   if (fd.exec() != QDialog::Accepted)
+      return;
 
    QStringList list = fd.selectedFiles();
-   QStringList::Iterator it = list.begin();
-   while( it != list.end() ) {
-      QString fileName = *it;
+   for(auto &fileName : list) {
       fLastFileDir = QFileInfo(fileName).absolutePath();
       Browser()->ImportObjectFromFile(fileName.toLatin1().constData(),
                                       QFileInfo(fileName).absolutePath().toLatin1().constData(),
                                       fd.selectedNameFilter().toLatin1().constData());
-      ++it;
    }
 }
 
 
 void TGo4MainWindow::OpenRemoteFileSlot()
 {
-   TGo4OpenRemoteDialog fd( this);
-   if (fd.exec() != QDialog::Accepted) return;
+   TGo4OpenRemoteDialog fd(this);
+   if (fd.exec() != QDialog::Accepted)
+      return;
 
    QString ftype = fd.GetFileType();
    QString host = fd.GetServer();
@@ -1499,10 +1494,10 @@ void TGo4MainWindow::ChangeNativeMenuBarSlot(bool flag)
    go4sett->setNativeMenuBar(flag);
    menuBar()->setNativeMenuBar(flag);
    TGo4MainWindow::SaveSettingsSlot();
-#ifdef Darwin   
-   QMessageBox::information(this, "Change menu type", 
+#ifdef Darwin
+   QMessageBox::information(this, "Change menu type",
                             "On platforms like MacOS changing of menu type may require restart of application");
-#endif                            
+#endif
 }
 
 void TGo4MainWindow::CanvasColorSlot()

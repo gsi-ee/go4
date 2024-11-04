@@ -693,7 +693,7 @@ void TGo4ConfigStep::OutputFileDialog()
    QFileDialog fd( this, "Select file name for step output",
          fxPanel->GetStorePath(), filters);
    fd.setFileMode( QFileDialog::AnyFile);
-   if ( fd.exec() != QDialog::Accepted ) return;
+   if (fd.exec() != QDialog::Accepted) return;
 
    QStringList flst = fd.selectedFiles();
    if (flst.isEmpty()) return;
@@ -855,7 +855,7 @@ void TGo4ConfigStep::InputFileDialog()
     QFileDialog fd(this, "Select file name for step input", fxPanel->GetSourcePath(), filters);
     fd.setFileMode(QFileDialog::ExistingFile);
 
-    if ( fd.exec() != QDialog::Accepted ) return;
+    if (fd.exec() != QDialog::Accepted) return;
 
     QStringList flst = fd.selectedFiles();
     if (flst.isEmpty()) return;

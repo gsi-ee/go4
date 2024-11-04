@@ -21,8 +21,7 @@
 #include "TInterpreter.h"
 #include "TObjArray.h"
 
-TGo4LoadedLibraries::TGo4LoadedLibraries( QWidget *parent )
-    : QDialog( parent )
+TGo4LoadedLibraries::TGo4LoadedLibraries(QWidget *parent) : QDialog(parent)
 {
    setObjectName("Go4LoadedLibraries");
    setupUi(this);
@@ -39,14 +38,11 @@ void TGo4LoadedLibraries::LoadNewLibrary()
   QFileDialog fd(this, "Load Shared Library ", QString(), "Library (*.so)");
   fd.setFileMode( QFileDialog::ExistingFiles);
 
-  if ( fd.exec() != QDialog::Accepted ) return;
+  if (fd.exec() != QDialog::Accepted) return;
 
   QStringList list = fd.selectedFiles();
-  QStringList::Iterator it = list.begin();
-  while( it != list.end() ) {
-     gSystem->Load((*it).toLatin1().constData());
-     ++it;
-  }
+  for(auto &lib : list)
+     gSystem->Load(lib.toLatin1().constData());
 
   RefreshLibs();
 }
