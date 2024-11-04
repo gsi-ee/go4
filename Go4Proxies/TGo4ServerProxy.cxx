@@ -210,8 +210,10 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString &launchcmd,
       TGo4Prefs prefs(remotehost);
 
       const char *shellname = "exec";
-      if (shellkind==1) shellname = "rsh"; else
-      if (shellkind==2) shellname = konsole==1 ? "ssh" : "sshX";
+      if (shellkind == 1)
+         shellname = "rsh";
+      else if (shellkind == 2)
+         shellname = konsole == 1 ? "ssh" : "sshX";
       prefs.SetPar("shellkind", shellname, false);
       prefs.SetPar("exekind", TString::Format("%d", exe_kind).Data(), false);
       prefs.SetPar("clientkind", serverkind > 0 ? "Go4Server" : "Go4Client", false);
@@ -237,8 +239,10 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString &launchcmd,
          prefs.SetPar("userargs", "", false);
 
       const char *termname = "qtwindow";
-      if (konsole == 2) termname = "xterm"; else
-      if (konsole == 3) termname = "konsole";
+      if (konsole == 2)
+         termname = "xterm";
+      else if (konsole == 3)
+         termname = "konsole";
 
       // no need to change into local directory with exec and qtwinow - it happens automatically
       if ((shellkind == 0) && (konsole == 1))
@@ -259,14 +263,16 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString &launchcmd,
       }
       prefs.SetPar("analysis", executable.c_str());
 
-      if (!is_exe) prefs.SetPar("killexename", "go4analysis", false); else {
-         #ifdef _MSC_VER
+      if (!is_exe)
+         prefs.SetPar("killexename", "go4analysis", false);
+      else {
+#ifdef _MSC_VER
          char symbol = '\\';
-         #else
+#else
          char symbol = '/';
-         #endif
+#endif
          const char *runname = strrchr(remoteexe, symbol);
-         prefs.SetPar("killexename", runname ? runname+1 : remoteexe, false);
+         prefs.SetPar("killexename", runname ? runname + 1 : remoteexe, false);
       }
 
       std::string initcmd = prefs.GetOpt(shellkind == 0 ? "execinitcmd" : "shellinitcmd");
