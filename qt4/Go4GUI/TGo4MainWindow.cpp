@@ -411,7 +411,7 @@ void TGo4MainWindow::AddSettingMenu()
 
    QMenu *styleMenu = settMenu->addMenu("St&yle");
 
-   QMenu* prefMenu = settMenu->addMenu("&Preferences");
+   QMenu* prefMenu = settMenu->addMenu("&Gui preferences");
 
    QObject::connect(QGo4Widget::CreateChkAction(prefMenu, "Fetch when drawing", go4sett->getFetchDataWhenDraw()),
            &QAction::toggled, this, &TGo4MainWindow::ChangeFetchWhenDrawSlot);
@@ -1061,7 +1061,7 @@ void TGo4MainWindow::ImportObjectSlot()
 
    fd.setFileMode( QFileDialog::ExistingFiles);
 
-   if ( fd.exec() != QDialog::Accepted ) return;
+   if (fd.exec() != QDialog::Accepted) return;
 
    QStringList list = fd.selectedFiles();
    QStringList::Iterator it = list.begin();
@@ -1073,9 +1073,6 @@ void TGo4MainWindow::ImportObjectSlot()
                                       fd.selectedNameFilter().toLatin1().constData());
       ++it;
    }
-
-
-
 }
 
 
@@ -1319,7 +1316,7 @@ void TGo4MainWindow::SaveSettingsSlot()
 
    go4sett->Store();
 
-   std::cout <<"Save Qt settings to "<< go4sett->GetSettLoaction().toLatin1().constData() << std::endl;
+   std::cout << "Save Qt settings to " << go4sett->GetSettLoaction().toLatin1().constData() << std::endl;
 }
 
 void TGo4MainWindow::ChangeFontSlot()
@@ -1501,6 +1498,7 @@ void TGo4MainWindow::ChangeNativeMenuBarSlot(bool flag)
 {
    go4sett->setNativeMenuBar(flag);
    menuBar()->setNativeMenuBar(flag);
+   TGo4MainWindow::SaveSettingsSlot();
 }
 
 void TGo4MainWindow::CanvasColorSlot()
