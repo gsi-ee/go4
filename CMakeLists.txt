@@ -10,7 +10,7 @@
 # in Go4License.txt file which is part of the distribution.
 #-----------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 project(Go4)
 

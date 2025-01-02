@@ -1,5 +1,5 @@
 if(NOT CMAKE_PROJECT_NAME STREQUAL Go4)
-   cmake_minimum_required(VERSION 3.9)
+   cmake_minimum_required(VERSION 3.10)
    project(Go4Fit)
    find_package(ROOT REQUIRED)
    include(${ROOT_USE_FILE})
@@ -82,8 +82,8 @@ if(CMAKE_PROJECT_NAME STREQUAL Go4)
                         SOURCES ${Go4Fit_sources}
                         LIBRARIES ${ROOT_Minuit_LIBRARY} ${ROOT_Spectrum_LIBRARY})
 else()
-   ROOT_LINKER_LIBRARY(Go4Fit ${Go4Fit_sources} 
-                       TYPE SHARED 
+   ROOT_LINKER_LIBRARY(Go4Fit ${Go4Fit_sources}
+                       TYPE SHARED
                        LIBRARIES ${ROOT_Minuit_LIBRARY} ${ROOT_Spectrum_LIBRARY})
 
    ROOT_GENERATE_DICTIONARY(G__Go4Fit ${Go4Fit_headers}

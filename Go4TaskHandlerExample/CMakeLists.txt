@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.10)
 project(Go4TaskHandlerExample)
 find_package(Go4)
 include(${GO4_USE_FILE})
