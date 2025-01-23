@@ -9,8 +9,11 @@ on:
 jobs:
 
   build-ubuntu:
-    runs-on: ubuntu-latest
     name: Build Go4 on Ubuntu with root docker
+    runs-on: ubuntu-latest
+    container:
+      image: rootproject/root
+
     strategy:
       fail-fast: false
 
@@ -18,8 +21,19 @@ jobs:
       - name: Checkout Go4 repository
         uses: actions/checkout@v1
 
-      - name: Add dummy file
-        run: touch $HOME/stuff.txt
+      - name: Configure
+        shell: bash
+        run: |
+          cmake --version
+          cmake \
+            -S . \
+            -B build \
+            -DCMAKE_INSTALL_PREFIX:PATH=instdir
 
-      - name: Add ROOT docker
-        uses: docker://rootproject/root
+      - name: Build
+        shell: bash
+        run: cmake --build build
+
+      - name: Install
+        shell: bash
+        run: cmake --build build --target install
