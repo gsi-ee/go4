@@ -1,0 +1,25 @@
+name: Go4 CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    name: Build Go4 on Ubuntu with root docker
+    strategy:
+      fail-fast: false
+
+    steps:
+      - name: Checkout Go4 repository
+        uses: actions/checkout@v1
+
+      - name: Add dummy file
+        run: touch $HOME/stuff.txt
+
+      - name: Add ROOT docker
+        uses: docker://rootproject/root
