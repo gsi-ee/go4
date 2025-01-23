@@ -22,7 +22,7 @@ jobs:
         run: |
           rm -f /etc/apt/sources.list.d/archive_uri-*
           apt-get update || true
-          apt-get install -y qt6-base-dev qt6-webengine-dev
+          apt-get install -y qt6-base-dev
 
       - name: Checkout Go4 repository
         uses: actions/checkout@v1
