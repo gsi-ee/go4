@@ -18,6 +18,12 @@ jobs:
       fail-fast: false
 
     steps:
+      - name: Install Qt6
+        run: |
+          sudo rm -f /etc/apt/sources.list.d/archive_uri-*
+          sudo apt-get update || true
+          sudo apt-get install -y qt6-base-dev qt6-webengine-dev
+
       - name: Checkout Go4 repository
         uses: actions/checkout@v1
 
@@ -28,7 +34,8 @@ jobs:
           cmake \
             -S . \
             -B build \
-            -DCMAKE_INSTALL_PREFIX:PATH=instdir
+            -DCMAKE_INSTALL_PREFIX:PATH=instdir \
+            -Dqt6=ON
 
       - name: Build
         shell: bash
