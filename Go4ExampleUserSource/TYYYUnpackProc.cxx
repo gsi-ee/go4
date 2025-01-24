@@ -106,9 +106,9 @@ Bool_t TYYYUnpackProc::CheckEventClass(TClass *cl)
 //-----------------------------------------------------------
 Bool_t TYYYUnpackProc::BuildEvent(TGo4EventElement *dest)
 {
-   TYYYRawEvent *inp = dynamic_cast<TYYYRawEvent*> (GetInputEvent());
+   auto inp = dynamic_cast<TYYYRawEvent*> (GetInputEvent());
 
-   TYYYUnpackEvent* poutevt = (TYYYUnpackEvent*) (dest);
+   auto poutevt = static_cast<TYYYUnpackEvent *>(dest);
 
    if (!inp || !poutevt) {
       TGo4Log::Error("YYYUnpackProc: events are not specified!");
