@@ -37,6 +37,8 @@ EXAMPDEPENDENCS    += $(EXAMPMESH_DEP) $(EXAMPMESH_DDEP)
 
 ifdef DOPACKAGE
 DISTRFILES         += $(EXAMPMESH_S) $(EXAMPMESH_H) $(EXAMPMESH_LINKDEF)
+DISTRFILES         += $(EXAMPMESH_DIR)/Readme.md
+
 endif
 
 ##### local rules #####

@@ -1,12 +1,13 @@
-The Go4 template package
+# The Go4 template package
 
 This package contains a running 2 step Go4 analysis.
 There is one name string used for all classes and files: XXX
-You should replace this by your own name by
+You should replace this by your own name by `$GO4SYS/build/rename.sh "XXX" "myname"`
 
-$GO4SYS/build/rename.sh "XXX" "myname"
 Example:
-> $GO4SYS/build/rename.sh "XXX" "Ship"
+```
+shell> $GO4SYS/build/rename.sh "XXX" "Ship"
+```
 
 
 Note that "myname" will be part of all filenames! Do not use
@@ -14,36 +15,36 @@ a string which is already in the filenames.
 
 Then rebuild the package by
 
-make clean 
+```
+make clean
 make all
-
-
-Description of the package
+```
 
 A test file is $GO4SYS/data/test.lmd
 
 
-Analysis:  TXXXAnalysis
+
+## Analysis:  `TXXXAnalysis`
 
 All classes are defined and declared in two files (*.h and *.cxx)
 In TXXXAnalysis the two steps are created with their factories and input and output
 parameters. Here the defaults are set concerning the event IO.
 Two parameter objects are created (TXXXParameter). They can be used in both steps.
 
-Step one: Unpack
+## Step one: Unpack
 
-The event filled: TXXXUnpackEvent
-The processor:    TXXXUnpackProc
+The event filled: `TXXXUnpackEvent`
+The processor:    `TXXXUnpackProc`
 
 The factory TXXXUnpackFact normally need not to be changed. The TXXXUnpackEvent
 contains the data members to be filled from the input event (MBS 10,1).
 Here class TXXXUnpackEvent shows how to use a TGo4CompositeEvent:
-Each TXXXUnpackEvent consists of up to 4 TXXXCrate components. Each TXXXCrate can have 
+Each TXXXUnpackEvent consists of up to 4 TXXXCrate components. Each TXXXCrate can have
 up to 16 TXXXModules that contain the actual data channels (3 different integer values here).
-The maximum number of crates and modules can be set by definitions 
+The maximum number of crates and modules can be set by definitions
 XXX_NUM_CRATES and XXX_NUM_MODULES in TXXXUnpackEvent.h. The actual setup how many modules
 exists in each crate is steered by define NR_MODULES which is evaluated as static
-array Config_Crates[] within the loops of the unpacking code.    
+array Config_Crates[] within the loops of the unpacking code.
 
 The unpacking code is in the event processor TXXXUnpackProc. Members are
 histograms, conditions, and parameter pointers used in the event method
@@ -54,10 +55,10 @@ event TXXXUnpackEvent as argument (poutevt).
 The input event is retrieved from the framework. The histograms are filled,
 the 2d one with a polygon condition pc1, and the output event members are set.
 
-Step two: Analysis
+## Step two: Analysis
 
-The event filled: TXXXAnlEvent
-The processor:    TXXXAnlProc
+The event filled: `TXXXAnlEvent`
+The processor:    `TXXXAnlProc`
 
 The step two is build in the same way as step one.
 Note that the TXXXUnpackEvent is used two times: once as output of step one,
@@ -67,12 +68,11 @@ in step one or retrieved from input file of step two which should be an output f
 Step one must be disabled in the last case.
 The user method XXXEventAnalysis always gets the pointer to the correct event.
 
-A Parameter class
- TXXXParameter
+## A Parameter class `TXXXParameter`
 In this class one can store parameters, and use them in all steps.
 Parameters can be modified from GUI.
 
-Autosave file mechanism.
+## Autosave file mechanism.
 When autosave is enabled (MainUserAnalysis), all objects are saved into a ROOT file
 after n events, and at the end. At startup the autosave file is read and all objects are restored
 from that file.
@@ -83,18 +83,20 @@ it is already rebuilt from autosave file (if any).
 From GUI, objects are loaded from autosave file when Submit button is pressed.
 
 
-Run analysis.
+## Run analysis.
 The analysis can be started from the Go4 GUI or by command line:
+```
+    shell> go4analysis -file inputfile
+```
 
-  shell> go4analysis -file inputfile
-  
 When starting from command line, user-specific arguments can be specified:
-
-  shell> go4analysis -args customname
+```
+    shell> go4analysis -args customname
+```
 
 All arguments, placed after "-args" string will be delivered to TXXXAnalysis
 constructor and can be freely interpreted by user. In the example argument
-is used to configure input and output file names.    
+is used to configure input and output file names.
 The MBS events are read from one of standard event sources (lmd files,
 or MBS servers, or random generator). Then the first user event processor is
 called (unpack). This user event processor fills some histograms
@@ -110,10 +112,7 @@ Then it either starts the GUI client or the event loop.
 
 
 
-
-
-----------------------------------------------
-Parameter containing fitters for calibration
+## Parameter containing fitters for calibration
 
  Class TXXXCalibPar is another parameter class with the purpose of
  performing calibration. This parameter is used in the TXXXAnlProc.cxx
@@ -166,10 +165,9 @@ Parameter containing fitters for calibration
    also manually, i.e. with fbRecalibrate set to false, the user has
    full control of the calibration function
 
--------------------------------------------
-Example root macros in the package:
+## Example root macros in the package:
 
-"browse.C": To be executed in ROOTCINT session.
+* "browse.C": To be executed in ROOTCINT session.
     Will load all required Go4 libraries and
     opens the TBrowser. So access to all Go4 objects
     (fitters, conditions, dynamic list entries, markers)
@@ -177,7 +175,7 @@ Example root macros in the package:
     is possible from a plain rootcint session. This is
     meant as a template for own macros.
 
-"plothistos.C": To be executed in ROOTCINT session.
+* "plothistos.C": To be executed in ROOTCINT session.
     Example how to access histograms by name from a Go4
     autosave file and how to plot them in a user defined
     way. Usage: ".L plothistos.C" to load the function. Then
@@ -189,7 +187,7 @@ Example root macros in the package:
     plotting options (some commented out). Please see
     macro source for details.
 
-"convertfile.C": To be executed in ROOTCINT session.
+* "convertfile.C": To be executed in ROOTCINT session.
     Converts all histograms and graphs of a file recursively
     into ascii format. Usage: ".L convertfile.C" to load
     function. Call "convertfile("myfile");" to do conversion of
@@ -204,7 +202,7 @@ Example root macros in the package:
     this macro offers possibility to adjust output format
     explicitly. Please see macro source for details.
 
-"findobjects.C": To be excuted in the Go4 analysis process
+* "findobjects.C": To be excuted in the Go4 analysis process
     via the command line of the Go4 GUI analysis window.
     (".x findobjects.C").
     Searches for all objects in the analysis objects manager
@@ -215,4 +213,3 @@ Example root macros in the package:
     "SendObjectToGUI". Please edit macro to change
     search pattern.
 
-    

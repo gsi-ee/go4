@@ -1,24 +1,7 @@
--------------------------------------------------------------
-    The GSI Online Offline Object Oriented (Go4) Project
-    Experiment Data Processing at DVEE department, GSI
-------------------------------------------------------------
-
-***********************************************************
-*        Go4 Example of user defined event source         *
-***********************************************************
-             (15-Apr-2003, J. Adamczewski)
----------------------------------------------------------------
-Copyright (C) 2000- Gesellschaft f. Schwerionenforschung, GSI
-                    Planckstr. 1, 64291 Darmstadt, Germany
-Contact:            http://go4.gsi.de
----------------------------------------------------------------
-This software can be used under the license agreements as stated
-in Go4License.txt file which is part of the distribution.
----------------------------------------------------------------
+# The Go4 template package
 
 This package contains a running 1 step Go4 analysis.
 
-------------------------------------------------------------
 There is one name string used for all classes and files: YYY
 You should replace this by your own name by
 
@@ -32,16 +15,15 @@ a string which is already in the filenames.
 
 Then rebuild the package by
 
-make clean 
+make clean
 make all
-------------------------------------------------------------
 
-Description:
+## Description:
 
 The only analysis step gets the input not as usual from Mbs
-(MbsEvent structure and eventsources), but defines the input 
-from a text file with a user format. Therefore, the classes 
-TYYYRawEvent and TYYYEventSource are defined. 
+(MbsEvent structure and eventsources), but defines the input
+from a text file with a user format. Therefore, the classes
+TYYYRawEvent and TYYYEventSource are defined.
 
 This example reads a simple ascii file with columns of numbers
 separated by blank spaces. These are filled in the order of

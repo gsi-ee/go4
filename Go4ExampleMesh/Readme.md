@@ -1,16 +1,4 @@
---------------------------------------------------------------
-    Go4 Analysis Mesh example
--------------------------------------------------------------
-    The GSI Online Offline Object Oriented (Go4) Project
-    Experiment Data Processing at DVEE department, GSI
-------------------------------------------------------------
-Copyright (C) 2000- Gesellschaft f. Schwerionenforschung, GSI
-                    Planckstr. 1, 64291 Darmstadt, Germany
-Contact:            http://go4.gsi.de
----------------------------------------------------------------
-This software can be used under the license agreements as stated
-in Go4License.txt file which is part of the distribution.
----------------------------------------------------------------
+# Go4 Analysis Mesh example
 
 This example shows how to set up a go4 analysis of several steps
 that build a mesh of parallel analysis branches with different
@@ -18,7 +6,7 @@ result generations. Additionally, one can see how the
 improved TGo4FileSource class supports partial input of a
 ROOT tree.
 
-A) Structure:
+## Structure
 The setup of the mesh analysis is done in the constructor
 of the TMeshAnalysis class. As in the Go4ExampleSimple,
 the general TGo4StepFactory is used to specify the event
@@ -33,6 +21,7 @@ example)
 The step structure of the example mesh is as sketched in this figure
 (top to down dataflow):
 
+```
 ________________________________________________________
                      Unpack
                        |
@@ -50,9 +39,9 @@ Output1Provider     Output2Provider   Output3Provider
 
               Final (combines all output provider events)
 _________________________________________________________
+```
 
-
-Execution steps:
+## Execution steps
 
 These analysis steps do the actual analysis work, i.e. they
 convert some input event into the output event. This is the
@@ -70,7 +59,7 @@ There is no histogramming actions in the execution steps;
 to view the result data one has to use a dynamic list histogram or
 perform a TTree::Draw on the output event's tree, if existing.
 
-Provider steps:
+## Provider steps
 
 These analysis steps do not perform any analysis work at all,
 but only make sure that their own input event is always
@@ -130,7 +119,7 @@ In this example, the partial event input might increase the
 process speed by a factor of 2 compared to the full event
 input.
 
-B) Configuration:
+## Configuration:
 Although the step configuration can be defined as usual from
 the analysis configuration gui, not all combinations of enabled
 and disabled steps make sense to process a subpart of the
@@ -177,42 +166,42 @@ analysis mesh in a graphical way. However, such a user gui
 is not delivered here, but can be created according to the
 hints given in package Go4UserGUI.
 
-C) Usage of the example:
+## Usage of the example:
 
 One way to test the example could look like this:
-1) Enable the first unpack step, disable the rest of the mesh.
-Use TGo4MbsRandom as event source for the Unpack and fill
-the output event TMeshRawEvent into a root tree (switch on
-TGo4FileStore of unpack step). Do this until a reasonable
-number of events is processed.
 
-2) Disable the unpack step, enable one or more of the subsequent
-execution steps. The input for the first 3 provider steps should
-be the root file that was produced in 1). Note that the first
-providers could also read their subevents from different files.
-Eventually, produce further output trees from the execution steps.
+1. Enable the first unpack step, disable the rest of the mesh.
+   Use TGo4MbsRandom as event source for the Unpack and fill
+   the output event TMeshRawEvent into a root tree (switch on
+   TGo4FileStore of unpack step). Do this until a reasonable
+   number of events is processed.
 
-3) Change the setup in a way that only one branch of the mesh
-is processed, e.g. only Exec3 and Final.
+2. Disable the unpack step, enable one or more of the subsequent
+   execution steps. The input for the first 3 provider steps should
+   be the root file that was produced in 1). Note that the first
+   providers could also read their subevents from different files.
+   Eventually, produce further output trees from the execution steps.
 
-4) Change the setup in a way that only a certain generation of
-events is processed, e.g. only Exec1, Exec2, and Exec3, writing
-output files of their results. Alternatively, let only Exec12
-and Final work, reading their provider inputs from these
-output files.
+3. Change the setup in a way that only one branch of the mesh
+   is processed, e.g. only Exec3 and Final.
 
-5) Change the example code and recompile
-to add another execution branch,
-e.g. with new steps for InputProvider4, Exec4, OutputProvider4,
-and collect the results in the existing final step. New
-classes TMeshB4InputEvent, TMeshB4AnlProc, and TMeshB4OutputEvent
-should be defined for this (these can be derived from the
-corresponding classes as existing for the Exec3 branch)
+4. Change the setup in a way that only a certain generation of
+   events is processed, e.g. only Exec1, Exec2, and Exec3, writing
+   output files of their results. Alternatively, let only Exec12
+   and Final work, reading their provider inputs from these
+   output files.
 
-
-6) Create a new mesh analysis from this template
-that matches your analysis structure...
+5. Change the example code and recompile
+   to add another execution branch,
+   e.g. with new steps for InputProvider4, Exec4, OutputProvider4,
+   and collect the results in the existing final step. New
+   classes TMeshB4InputEvent, TMeshB4AnlProc, and TMeshB4OutputEvent
+   should be defined for this (these can be derived from the
+   corresponding classes as existing for the Exec3 branch)
 
 
-__________________________
+6. Create a new mesh analysis from this template
+  that matches your analysis structure...
+
+
 J. Adamczewski 12-Jan-2005
