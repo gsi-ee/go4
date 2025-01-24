@@ -1763,10 +1763,11 @@ TH1 *TGo4Analysis::MakeTH1(char type, const char *fullname, const char *title,
       case 'D': case 'd': itype = 2; sclass = "TH1D"; break;
       case 'S': case 's': itype = 3; sclass = "TH1S"; break;
       case 'C': case 'c': itype = 4; sclass = "TH1C"; break;
+      case 'L': case 'l': itype = 5; sclass = "TH1L"; break;
       default: TGo4Log::Error("There is no histogram type: %c, use I instead", type); break;
    }
 
-   TH1 *oldh = GetHistogram(fullname);
+   auto oldh = GetHistogram(fullname);
 
    if (oldh) {
       if (oldh->InheritsFrom(sclass) && fbMakeWithAutosave) {
@@ -1795,6 +1796,7 @@ TH1 *TGo4Analysis::MakeTH1(char type, const char *fullname, const char *title,
       case 2: newh = new TH1D(histoname, title, nbinsx, xlow, xup); break;
       case 3: newh = new TH1S(histoname, title, nbinsx, xlow, xup); break;
       case 4: newh = new TH1C(histoname, title, nbinsx, xlow, xup); break;
+      case 5: newh = new TH1L(histoname, title, nbinsx, xlow, xup); break;
    }
 
    newh->SetTitle(title);
@@ -1846,10 +1848,11 @@ TH2 *TGo4Analysis::MakeTH2(char type, const char *fullname, const char *title,
       case 'D': case 'd': itype = 2; sclass = "TH2D"; break;
       case 'S': case 's': itype = 3; sclass = "TH2S"; break;
       case 'C': case 'c': itype = 4; sclass = "TH2C"; break;
+      case 'L': case 'l': itype = 5; sclass = "TH2L"; break;
       default: TGo4Log::Error("There is no histogram type: %c, use I instead", type); break;
    }
 
-   TH1 *oldh = GetHistogram(fullname);
+   auto oldh = GetHistogram(fullname);
 
    if (oldh) {
       if (oldh->InheritsFrom(sclass) && fbMakeWithAutosave) {
@@ -1878,6 +1881,7 @@ TH2 *TGo4Analysis::MakeTH2(char type, const char *fullname, const char *title,
       case 2: newh = new TH2D(histoname, title, nbinsx, xlow, xup, nbinsy, ylow, yup); break;
       case 3: newh = new TH2S(histoname, title, nbinsx, xlow, xup, nbinsy, ylow, yup); break;
       case 4: newh = new TH2C(histoname, title, nbinsx, xlow, xup, nbinsy, ylow, yup); break;
+      case 5: newh = new TH2L(histoname, title, nbinsx, xlow, xup, nbinsy, ylow, yup); break;
    }
 
    newh->SetTitle(title);
