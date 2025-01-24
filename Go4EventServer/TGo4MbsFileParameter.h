@@ -42,7 +42,7 @@ class TGo4MbsFileParameter : public TGo4MbsSourceParameter {
     void AddMoreFile(const char *more);
 
     /** Number of more file names in parameter */
-    Int_t NumMoreFiles() const { return fxMoreFiles.GetLast()+1; }
+    Int_t NumMoreFiles() const { return fxMoreFiles.GetLast() + 1; }
 
     /** Returns name of extra files names, configured in the parameter */
     const char *GetMoreName(Int_t n) const;

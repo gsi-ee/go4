@@ -82,7 +82,7 @@ class TGo4MbsFile : public TGo4MbsSource {
     /** Called whenever new file is opened in multiple mode.
       * For ctor, argument dosave should be false
       * (no autosave possible inside InitEventClasses()) */
-    Int_t NewFileAction(Bool_t dosave=kTRUE);
+    Int_t NewFileAction(Bool_t dosave = kTRUE);
 
     /** Name of the tagfile associated with the listmode event file. */
     TString fxTagFile;

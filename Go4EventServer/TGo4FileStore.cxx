@@ -189,9 +189,9 @@ Int_t TGo4FileStore::Store(TGo4EventElement *event)
          if(go4branch) {
             // tree already had branch of our name, check it
             TGo4Log::Debug(" FileStore: Found existing branch %s, continue filling ", fgcEVBRANCHNAME);
-            // here we might check the classname of the stored events inbranch
+            // here we might check the classname of the stored events in the branch
             go4branch->SetAddress(&fxEvent);
-            fbBranchExists=kTRUE;
+            fbBranchExists = kTRUE;
          } else {
             // no such branch existing, create a new one
             TBranch *topbranch=
@@ -243,8 +243,10 @@ void TGo4FileStore::WriteToStore(TNamed *ob)
    auto dsav = gDirectory;
    TString oldname = ob->GetName();
    ob->SetName(TString::Format("%s_%d", oldname.Data(), fiFillCount).Data());
-   if(fxTree) fxFile = fxTree->GetCurrentFile();
-   if (fxFile) fxFile->cd();
+   if (fxTree)
+      fxFile = fxTree->GetCurrentFile();
+   if (fxFile)
+      fxFile->cd();
    ob->Write(nullptr, TObject::kOverwrite);
    ob->SetName(oldname.Data());
    if (dsav) dsav->cd();
