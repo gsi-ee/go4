@@ -65,7 +65,7 @@ TGo4AnalysisClient::TGo4AnalysisClient(const char *name,
    fbLoadPrefs(loadprefs),
    fbShowRate(showrate)
 {
-   GO4TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(const char*,...)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(const char *,...)",__LINE__, __FILE__));
 
    if(!analysis) {
       TGo4Log::Debug("!!! AnalysisClient ''%s'': no external analysis specified !!",GetName());

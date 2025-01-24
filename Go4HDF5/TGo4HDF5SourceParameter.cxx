@@ -19,7 +19,7 @@
 TGo4HDF5SourceParameter::TGo4HDF5SourceParameter(const char *name)
 : TGo4EventSourceParameter(name,  GO4EV_HDF5)
 {
-  GO4TRACE((14,"TGo4HDF5SourceParameter::TGo4HDF5SourceParameter(const char*,...)", __LINE__, __FILE__));
+  GO4TRACE((14,"TGo4HDF5SourceParameter::TGo4HDF5SourceParameter(const char *,...)", __LINE__, __FILE__));
 }
 
 TGo4HDF5SourceParameter::TGo4HDF5SourceParameter()

@@ -19,7 +19,7 @@
 TGo4AnalysisCommand::TGo4AnalysisCommand(const char *name, const char *desc) :
    TGo4Command(name, desc, 7)
 {
-   GO4TRACE((12,"TGo4AnalysisCommand::TGo4AnalysisCommand(const char*, const char*) ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisCommand::TGo4AnalysisCommand(const char *, const char *) ctor",__LINE__, __FILE__));
 
    fbIsEnabled = kTRUE;
    fbIsSynchron = kTRUE;

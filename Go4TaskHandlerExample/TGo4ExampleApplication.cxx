@@ -24,7 +24,7 @@
 TGo4ExampleApplication::TGo4ExampleApplication(TGo4BufferQueue *datq)
 : TNamed("My example application","Go4 Taskhandler example")
    {
-   GO4TRACE((15,"TGo4ExampleApplication::TGo4ExampleApplication() constructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ExampleApplication::TGo4ExampleApplication(TGo4BufferQueue *)",__LINE__, __FILE__));
    fxDataQ = datq;
    fxDemoHistogram = new TH1D("Test Histogram", "Client Data", 2048, 0, 2047);
 
@@ -34,7 +34,7 @@ TGo4ExampleApplication::TGo4ExampleApplication(TGo4BufferQueue *datq)
 
 TGo4ExampleApplication::~TGo4ExampleApplication()
 {
-   GO4TRACE((15,"TGo4ExampleApplication::TGo4ExampleApplication() destructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ExampleApplication::TGo4ExampleApplication()",__LINE__, __FILE__));
    delete fxDemoHistogram;
    TGo4CommandInvoker::UnRegister(this);
 }

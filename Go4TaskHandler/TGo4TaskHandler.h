@@ -34,9 +34,9 @@ class TGo4CommandRunnable;
  *  one thread runnable is acting on each transport channel (e.g. socket);
  *  one queue (buffer) is assigned to each channel
  *  depending on client or server mode of the task handler, the threads get objects
- *  from transporl and put them into the queue, or vice versa. (servertask sends commands,
+ *  from transport and put them into the queue, or vice versa. (servertask sends commands,
  *   but receives data and status objects)
- * taskhander is named such that it can be found in a list (i.e. task manager) by the server task
+ * task handler is named such that it can be found in a list (i.e. task manager) by the server task
  * which may serve more than one client tasks
  */
 class TGo4TaskHandler : public TNamed {

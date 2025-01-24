@@ -34,7 +34,7 @@ TGo4TreeStore::TGo4TreeStore(const char *name,
    TGo4EventStore(name),
    fxEvent(event), fiSplit(splitlevel), fiBufsize(bufsize)
 {
-   GO4TRACE((15,"TGo4TreeStore::TGo4TreeStore(const char*,...)", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TreeStore::TGo4TreeStore(const char *,...)", __LINE__, __FILE__));
 
    TString buffer = TString::Format("%s.", name);  // for branches containing the same event structure
    fxSingletonTree = TGo4MainTree::Instance();
@@ -70,7 +70,7 @@ TGo4TreeStore::TGo4TreeStore(const char *name,
 TGo4TreeStore::TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement *event)
 : TGo4EventStore("dummy"),fxEvent(event), fiSplit(par->fiSplit), fiBufsize(par->fiBufsize)
 {
-   GO4TRACE((15,"TGo4TreeStore::TGo4TreeStore(const char*,...)", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TreeStore::TGo4TreeStore(const char *,...)", __LINE__, __FILE__));
 
    SetName(par->GetName());
    TString buffer = TString::Format("%s.", par->GetName());
