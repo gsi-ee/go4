@@ -480,8 +480,7 @@ void TGo4ExportManager::ExportRoot(TObject *ob)
 
 
 
-TH1* TGo4ExportManager::ImportHistogram(const char *filename,
-      Go4Import_t format)
+TH1 *TGo4ExportManager::ImportHistogram(const char *filename, Go4Import_t format)
 {
    switch (format) {
       case GO4IM_ASCII:
@@ -504,7 +503,7 @@ TH1* TGo4ExportManager::ImportHistogram(const char *filename,
 }
 
 
-TH1* TGo4ExportManager::ImportHistogramOrtec(const char *nom)
+TH1 *TGo4ExportManager::ImportHistogramOrtec(const char *nom)
 {
 // here duplicate functionality of script import_spe.C:
    TString path = nom;
@@ -587,7 +586,7 @@ TH1* TGo4ExportManager::ImportHistogramOrtec(const char *nom)
 }
 
 
-TH1* TGo4ExportManager::ImportHistogramGo4Ascii(const char *nom)
+TH1 *TGo4ExportManager::ImportHistogramGo4Ascii(const char *nom)
 {
    TH1 *theHisto = nullptr;
    TString path = nom;

@@ -61,7 +61,7 @@ Bool_t hishisto(const char *file, const char *name1, Int_t bins, Bool_t draw)
   else        max = 0.9*max;
   if(min > 0) min = 0.9*min;
   else        min = 1.1*min;
-  TH1I* stat = new TH1I(finalname,finaltitle,bins,min,max);
+  auto stat = new TH1I(finalname,finaltitle,bins,min,max);
   stat->GetXaxis()->SetTitle(axistitle);
   stat->GetYaxis()->SetTitle("Counts");
   TGaxis::SetMaxDigits(2);

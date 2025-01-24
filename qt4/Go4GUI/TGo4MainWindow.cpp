@@ -155,7 +155,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    fxOM->AddProxy("", br, fOMBrowserPath.toLatin1().constData(), "Place for gui slots");
    br->CreateMemoryFolder();
 
-   TH1I* h1 = new TH1I("histo1","histo title", 100, -10., 10.);
+   auto h1 = new TH1I("histo1","histo title", 100, -10., 10.);
    h1->FillRandom("gaus",10000);
    h1->SetDirectory(nullptr);
    br->SaveToMemory("", h1, kTRUE);

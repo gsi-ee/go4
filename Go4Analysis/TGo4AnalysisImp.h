@@ -1102,13 +1102,13 @@ private:
    /** exact number of loop counts in batch mode */
    Int_t fBatchLoopCount{0};
 
-   /** preconfigured password for administrator access */
+   /** pre-configured password for administrator access */
    TString fServerAdminPass; //!
 
-   /** preconfigured password for controller access */
+   /** pre-configured password for controller access */
    TString fServerCtrlPass; //!
 
-   /** preconfigured password for observer access */
+   /** pre-configured password for observer access */
    TString fServerObserverPass; //!
 
    /** If false, do not use data from autosave file in Make... methods */
@@ -1117,7 +1117,7 @@ private:
    /** indicate if object was created by last Make... operation */
    Bool_t fbObjMade{kFALSE}; //!
 
-   /** If true, pyroot has already bound TGo4Anylsis object. For lazy initialization at first call of .py macro*/
+   /** If true, pyroot has already bound TGo4Analysis object. For lazy initialization at first call of .py macro*/
    Bool_t fbPythonBound{kFALSE}; //!
 
    /** number Ctrl-C handler called */

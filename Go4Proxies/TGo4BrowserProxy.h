@@ -234,7 +234,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       /** preserve fit result functions contained in any graph-like objects*/
       static void UpdateListOfFunctions(TGraph *oldgr, TGraph *newgr);
 
-      /** JAM24: also preserve fit result functions contained in any TH1*/
+      /** JAM24: also preserve fit result functions contained in any TH1 */
       static void UpdateHistoListOfFunctions(TH1 *oldh, TH1 *newh);
 
 
