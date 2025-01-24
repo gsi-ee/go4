@@ -83,13 +83,13 @@ TGo4Task::~TGo4Task()
    TGo4CommandInvoker::UnRegister(this);
 }
 
-void TGo4Task::SetMaster(TGo4Master* m)
+void TGo4Task::SetMaster(TGo4Master *m)
 {
    if(m) SetMaster(kTRUE);
    fxMaster=m;
 }
 
-void TGo4Task::SetSlave(TGo4Slave* s)
+void TGo4Task::SetSlave(TGo4Slave *s)
 {
    if(s) SetMaster(kFALSE);
    fxSlave=s;
@@ -98,8 +98,8 @@ void TGo4Task::SetSlave(TGo4Slave* s)
 void TGo4Task::SetOwner(TGo4TaskOwner* owner)
 {
    fxOwner=owner;
-   SetMaster(dynamic_cast<TGo4Master*>(owner));
-   SetSlave(dynamic_cast<TGo4Slave*>(owner));
+   SetMaster(dynamic_cast<TGo4Master *>(owner));
+   SetSlave(dynamic_cast<TGo4Slave *>(owner));
 }
 
 void TGo4Task::Start()

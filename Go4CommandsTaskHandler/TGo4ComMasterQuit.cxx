@@ -27,7 +27,7 @@ TGo4ComMasterQuit::TGo4ComMasterQuit() :
 
 Int_t TGo4ComMasterQuit::ExeCom()
 {
-   TGo4Master* master = dynamic_cast<TGo4Master*>(fxReceiverBase);
+   auto master = dynamic_cast<TGo4Master *>(fxReceiverBase);
 
    if (master) {
       master->Quit();

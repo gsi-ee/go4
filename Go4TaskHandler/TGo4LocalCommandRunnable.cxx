@@ -37,7 +37,7 @@ TGo4LocalCommandRunnable::~TGo4LocalCommandRunnable()
 
 Int_t TGo4LocalCommandRunnable::Run(void *ptr)
 {
-   TGo4ObjectQueue* fxQueue = fxLocalTask ? fxLocalTask->GetLocalCommandQueue() : nullptr;
+   TGo4ObjectQueue *fxQueue = fxLocalTask ? fxLocalTask->GetLocalCommandQueue() : nullptr;
 
    if(fxQueue) {
       TGo4Command *com = dynamic_cast<TGo4Command *> (fxQueue->WaitObject());

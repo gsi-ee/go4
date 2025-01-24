@@ -555,7 +555,7 @@ void TGo4ServerTask::Quit()
 {
    TGo4Log::Debug(" ServerTask Quit -- removing all connected clients ");
    SendStatusMessage(2,kTRUE,"ServerTask %s is shutting down now! All clients are removed...",GetName());
-   TGo4Slave* slave = GetSlave();
+   auto slave = GetSlave();
    if(slave) {
       TGo4Log::Debug(" ServerTask Quit is stopping slave...");
       slave->Stop(); // to execute analysis postloop if still running
@@ -583,7 +583,7 @@ void TGo4ServerTask::Shutdown()
 
    RemoveAllClients(true);
 
-   TGo4Slave* slave=GetSlave();
+   auto slave = GetSlave();
    if (slave) {
       TGo4Log::Debug(" ServerTask Shutdown stopping slave...");
       slave->Stop();             // to execute analysis postloop.

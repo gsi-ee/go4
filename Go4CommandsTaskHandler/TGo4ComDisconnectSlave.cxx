@@ -28,7 +28,7 @@ TGo4ComDisconnectSlave::TGo4ComDisconnectSlave()
 
 Int_t TGo4ComDisconnectSlave::ExeCom()
 {
-   TGo4Master *master = dynamic_cast<TGo4Master*>(fxReceiverBase);
+   auto master = dynamic_cast<TGo4Master *>(fxReceiverBase);
    if (master) {
       TGo4Log::Debug(" removing slave %s", fxSlaveName.Data());
       if (!master->DisconnectSlave(fxSlaveName.Data(), fbWaitForSlave)) {

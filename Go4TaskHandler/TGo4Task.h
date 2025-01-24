@@ -254,9 +254,9 @@ public:
 
     const char *GetCommanderName() const { return fxCommanderName.Data(); }
 
-    TGo4Master* GetMaster() const { return fxMaster; }
+    TGo4Master *GetMaster() const { return fxMaster; }
 
-    TGo4Slave* GetSlave() const { return fxSlave; }
+    TGo4Slave *GetSlave() const { return fxSlave; }
 
     /**
      * Send message buffers with stop values into queues and
@@ -276,10 +276,10 @@ public:
   protected:
 
     /** factory method for command list; overridden by implementation */
-    virtual TGo4TaskHandlerCommandList*  CreateCommandList();
+    virtual TGo4TaskHandlerCommandList *CreateCommandList();
 
     /** get pointer to currently valid command list */
-    TGo4TaskHandlerCommandList * GetPrototype();
+    TGo4TaskHandlerCommandList *GetPrototype();
 
     /**
      * method needed by method
@@ -289,7 +289,7 @@ public:
      */
     virtual void UpdateStatus(TGo4TaskStatus *state);
 
-    TGo4ObjectQueue* GetLocalCommandQueue() { return fxLocalCommandQueue; }
+    TGo4ObjectQueue *GetLocalCommandQueue() { return fxLocalCommandQueue; }
 
     void SetMaster(Bool_t on = kTRUE) { fbCommandMaster = on; }
 
@@ -303,15 +303,15 @@ public:
 
   private:
 
-    void SetMaster(TGo4Master* m);
+    void SetMaster(TGo4Master *m);
 
-    void SetSlave(TGo4Slave* s);
+    void SetSlave(TGo4Slave *s);
 
     /** the command list which holds all command prototypes */
-    TGo4TaskHandlerCommandList * fxCommandPrototype{nullptr}; //!
+    TGo4TaskHandlerCommandList *fxCommandPrototype{nullptr}; //!
 
     /** queue for the server side local commands, submitted by the gui or cli */
-    TGo4ObjectQueue* fxLocalCommandQueue{nullptr}; //!
+    TGo4ObjectQueue *fxLocalCommandQueue{nullptr}; //!
 
     /** This flag indicates the main state of the task: either master
       * (sends commands, receives data and status), or slave
