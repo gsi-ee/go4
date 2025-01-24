@@ -26,11 +26,6 @@ extern "C"
 #include "random-coll.h"
 }
 
-double TGo4MbsRandom::fgdPeak[]   = { 200., 302., 653., 1024., 2800.};
-double TGo4MbsRandom::fgdSigma[]  = {  10.,  22., 153.,  104.,   38.};
-double TGo4MbsRandom::fgdPeak2[]  = { 300., 402., 853., 2000., 3024.};
-double TGo4MbsRandom::fgdSigma2[] = {  22., 153., 104.,  100.,   20.};
-
 TGo4MbsRandom::TGo4MbsRandom() :
    TGo4MbsSource(),
    fiDLen(0),
@@ -202,6 +197,11 @@ double TGo4MbsRandom::get_int(double low, double high)
 
 long TGo4MbsRandom::rand_event(long choice)
 {
+   static double fgdPeak[]   = { 200., 302., 653., 1024., 2800.};
+   static double fgdSigma[]  = {  10.,  22., 153.,  104.,   38.};
+   static double fgdPeak2[]  = { 300., 402., 853., 2000., 3024.};
+   static double fgdSigma2[] = {  22., 153., 104.,  100.,   20.};
+
    int cnt;
    switch(choice) {
       case 1:

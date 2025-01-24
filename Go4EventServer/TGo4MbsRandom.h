@@ -75,11 +75,6 @@ class TGo4MbsRandom : public TGo4MbsSource {
 
     long rand_event(long choice);
 
-    static double fgdPeak[];
-    static double fgdSigma[];
-    static double fgdPeak2[];
-    static double fgdSigma2[];
-
   ClassDefOverride(TGo4MbsRandom,1)
 };
 
