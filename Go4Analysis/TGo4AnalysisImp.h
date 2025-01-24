@@ -703,10 +703,11 @@ public:
     * 'D', 'd' for TH1D - Double_t as bin content
     * 'S', 's' for TH1S - Short_t as bin content
     * 'C', 'c' for TH1C - Char_t as bin content
-    * fullname specifies name of histogram (optionally with subfolder name)
-    * title - histogram title
-    * nbinsx, xlow, xup - range arguments for X axis
-    * xtitle, ytitle - title for X and Y axis of histogram
+    * 'L', 'l' for TH1L - Long64_t as bin content
+    * \param fullname specifies name of histogram (optionally with subfolder name)
+    * \param title - histogram title
+    * \param nbinsx, \param xlow, \param xup - range arguments for X axis
+    * \param xtitle, \param ytitle - title for X and Y axis of histogram
     * If histogram exactly with same name and type already exists in  autosave file,
     * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave. */
    TH1 *MakeTH1(char type, const char *fullname, const char *title,
@@ -719,11 +720,12 @@ public:
     * 'D', 'd' for TH2D - Double_t as bin content
     * 'S', 's' for TH2S - Short_t as bin content
     * 'C', 'c' for TH1C - Char_t as bin content
-    * fullname specifies name of histogram (optionally with subfolder name)
-    * title - histogram title
-    * nbinsx, xlow, xup - range arguments for X axis
-    * nbinsy, ylow, yup - range arguments for Y axis
-    * xtitle, ytitle, ztitle - title for X, Y and Z axis of histogram
+    * 'L', 'l' for TH2L - Long64_t as bin content
+    * \param fullname specifies name of histogram (optionally with subfolder name)
+    * \param title - histogram title
+    * \param nbinsx, \param xlow, \param xup - range arguments for X axis
+    * \param nbinsy, \param ylow, \param yup - range arguments for Y axis
+    * \param xtitle, \param ytitle, \param ztitle - title for X, Y and Z axis of histogram
     * If histogram exactly with same name and type already exists in  autosave file,
     * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave. */
    TH2 *MakeTH2(char type, const char *fullname, const char *title,
@@ -732,29 +734,29 @@ public:
                 const char *xtitle = nullptr, const char *ytitle = nullptr, const char *ztitle = nullptr);
 
    /** Create 1D window condition.
-    * fullname specifies name of condition (optionally with subfolder name)
-    * xmin, xmax - condition range
-    * HistoName - name of histogram, to which condition is assigned */
+    * \param fullname specifies name of condition (optionally with subfolder name)
+    * \param xmin, \param xmax - condition range
+    * \param HistoName - name of histogram, to which condition is assigned */
    TGo4WinCond *MakeWinCond(const char *fullname,
                             Double_t xmin, Double_t xmax,
                             const char *HistoName = nullptr);
 
    /** Create 2D window condition.
-    * fullname specifies name of condition (optionally with subfolder name)
-    * xmin, xmax - X condition range
-    * ymin, ymax - Y condition range
-    * HistoName - name of histogram, to which condition is assigned */
+    * \param fullname specifies name of condition (optionally with subfolder name)
+    * \param xmin, \param xmax - X condition range
+    * \param ymin, \param ymax - Y condition range
+    * \param HistoName - name of histogram, to which condition is assigned */
    TGo4WinCond *MakeWinCond(const char *fullname,
                             Double_t xmin, Double_t xmax,
                             Double_t ymin, Double_t ymax,
                             const char *HistoName = nullptr);
 
    /** Create polygon condition.
-    * fullname specifies name of condition (optionally with subfolder name)
-    * npoints - number of points in polygon condition
-    * points - (X,Y) points
-    * HistoName - name of histogram, to which condition is assigned
-    * shapedcond - create a freestyle TGo4ShapedCond
+    * \param fullname specifies name of condition (optionally with subfolder name)
+    * \param npoints - number of points in polygon condition
+    * \param points - (X,Y) points
+    * \param HistoName - name of histogram, to which condition is assigned
+    * \param shapedcond - create a freestyle TGo4ShapedCond
     * To use method, array should be declared as following:
     * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
     * cond = MakePolyCond("Folder/CondName", 4, points); */
@@ -765,33 +767,33 @@ public:
                               Bool_t shapedcond = kFALSE);
 
    /** Create ellipse shaped polygon condition.
-    * fullname specifies name of condition (optionally with subfolder name)
-    * npoints - number of points in ellipse condition, 0 for default resolution
-    * cx,cy - center coordinates of ellipse
-    * a1,a2 - width of ellipse half axes
-    * theta - ellipse tilt angle
-    * HistoName - name of histogram, to which condition is assigned  */
+    * \param fullname specifies name of condition (optionally with subfolder name)
+    * \param npoints - number of points in ellipse condition, 0 for default resolution
+    * \param cx, \param cy - center coordinates of ellipse
+    * \param a1, \param a2 - width of ellipse half axes
+    * \param theta - ellipse tilt angle
+    * \param HistoName - name of histogram, to which condition is assigned  */
    TGo4ShapedCond *MakeEllipseCond(const char *fullname,
                                    Int_t npoints,
                                    Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta = 0.,
                                    const char *HistoName = nullptr);
 
    /** Create circular shaped polygon condition.
-    * fullname specifies name of condition (optionally with subfolder name)
-    * npoints - number of points in shaped condition, 0 for default resolution
-    * cx,cy   - circle center coordinates
-    * r       - circle radius
-    * HistoName - name of histogram, to which condition is assigned */
+    * \param fullname specifies name of condition (optionally with subfolder name)
+    * \param npoints - number of points in shaped condition, 0 for default resolution
+    * \param cx, \param cy   - circle center coordinates
+    * \param r       - circle radius
+    * \param HistoName - name of histogram, to which condition is assigned */
    TGo4ShapedCond *MakeCircleCond(const char *fullname,
                                   Int_t npoints, Double_t cx, Double_t cy, Double_t r,
                                   const char *HistoName = nullptr);
 
    /** Create tilted rectangular box shaped polygon condition.
-    *  fullname specifies name of condition (optionally with subfolder name)
-    *  cx,cy - center coordinates of box
-    *  a1,a2 - width of box half axes
-    *  theta - tilt angle
-    *  HistoName - name of histogram, to which condition is assigned */
+    *  \param fullname specifies name of condition (optionally with subfolder name)
+    *  \param cx, \param cy - center coordinates of box
+    *  \param a1, \param a2 - width of box half axes
+    *  \param theta - tilt angle
+    *  \param HistoName - name of histogram, to which condition is assigned */
    TGo4ShapedCond *MakeBoxCond(const char *fullname, Double_t cx, Double_t cy,
                                Double_t a1, Double_t a2, Double_t theta,
                                const char *HistoName = nullptr);
@@ -799,10 +801,10 @@ public:
    /** Create free shaped (polygon) condition.
     * in contrast to plain TGo4PolyCond, this one can be converted later
     * to different dedicated shape types (ellipse, box, etc.)
-    * fullname specifies name of condition (optionally with subfolder name)
-    * npoints - number of points in polygon condition
-    * points - (X,Y) points
-    * HistoName - name of histogram, to which condition is assigned
+    * \param fullname specifies name of condition (optionally with subfolder name)
+    * \param npoints - number of points in polygon condition
+    * \param points - (X,Y) points
+    * \param HistoName - name of histogram, to which condition is assigned
     * To use method, array should be declared as following:
     * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
     * cond = MakePolyCond("Folder/CondName", 4, points); */
@@ -811,20 +813,20 @@ public:
 
    /** Create "whitlelist" condition with separate values to test against
     * condition is true if any of the values matches
-    * fullname specifies name of condition (optionally with subfolder name)
-    * num - number of values in array
-    * values - 1d array with values
-    * HistoName - name of histogram, to which condition is assigned */
+    * \param fullname specifies name of condition (optionally with subfolder name)
+    * \param num - number of values in array
+    * \param values - 1d array with values
+    * \param HistoName - name of histogram, to which condition is assigned */
    TGo4ListCond *MakeListCond(const char *fullname, const Int_t num,
                               const Int_t *values, const char *HistoName = nullptr);
 
    /** Create "whitlelist" condition with separate values to test against
     * condition is true if any of the values matches
-    * fullname specifies name of condition (optionally with subfolder name)
-    * start - first value in list
-    * stop - last value in list
-    * step - distance between list entries
-    * HistoName - name of histogram, to which condition is assigned */
+    * \param fullname specifies name of condition (optionally with subfolder name)
+    * \param start - first value in list
+    * \param stop - last value in list
+    * \param step - distance between list entries
+    * \param HistoName - name of histogram, to which condition is assigned */
    TGo4ListCond *MakeListCond(const char *fullname, const Int_t start,
                               const Int_t stop, const Int_t step = 1, const char *HistoName = nullptr);
 
