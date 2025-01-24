@@ -37,7 +37,7 @@ EXAMPDEPENDENCS    += $(EXAMPSIMP_DEP) $(EXAMPSIMP_DDEP) $(EXAMPSIMP_EDEP)
 
 ifdef DOPACKAGE
 DISTRFILES         += $(EXAMPSIMP_S) $(EXAMPSIMP_H) $(EXAMPSIMP_LINKDEF)
-DISTRFILES         += $(EXAMPSIMP_DIR)/Readme.txt
+DISTRFILES         += $(EXAMPSIMP_DIR)/Readme.md
 endif
 
 ##### local rules #####
