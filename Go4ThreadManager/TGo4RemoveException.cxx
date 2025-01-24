@@ -22,19 +22,19 @@
 
 TGo4RemoveException::TGo4RemoveException(const TGo4RemoveException &right) : TGo4ThreadException(right)
 {
-   GO4TRACE((14, "TGo4RemoveException::TGo4RemoveException() copy constructor", __LINE__, __FILE__));
+   GO4TRACE((14, "TGo4RemoveException::TGo4RemoveException(const TGo4RemoveException &)", __LINE__, __FILE__));
 }
 
 TGo4RemoveException::TGo4RemoveException(TGo4Runnable *runnable, const char *threadname)
    : TGo4ThreadException(runnable, threadname)
 {
-   GO4TRACE((14, "TGo4RemoveException::TGo4RemoveException(TGo4Runnable *, const char*) constructor", __LINE__, __FILE__));
+   GO4TRACE((14, "TGo4RemoveException::TGo4RemoveException(TGo4Runnable *, const char *)", __LINE__, __FILE__));
    fxDescription = "!!!-- Go4 Remove Exception --!!!";
 }
 
 TGo4RemoveException::~TGo4RemoveException()
 {
-   GO4TRACE((14, "TGo4RemoveException::~TGo4RemoveException() destructor", __LINE__, __FILE__));
+   GO4TRACE((14, "TGo4RemoveException::~TGo4RemoveException()", __LINE__, __FILE__));
 }
 
 TGo4RemoveException &TGo4RemoveException::operator=(const TGo4RemoveException &right)

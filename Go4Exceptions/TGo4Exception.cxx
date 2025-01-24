@@ -17,18 +17,18 @@
 
 TGo4Exception::TGo4Exception() : fxDescription("!!!-- Go4 General Exception --!!!")
 {
-   GO4TRACE((14, "TGo4Exception::TGo4Exception() constructor", __LINE__, __FILE__));
+   GO4TRACE((14, "TGo4Exception::TGo4Exception()", __LINE__, __FILE__));
 }
 
 TGo4Exception::TGo4Exception(const TGo4Exception &right)
 {
-   GO4TRACE((14,"TGo4Exception::TGo4Exception() copy constructor",__LINE__, __FILE__));
-   fxDescription=right.fxDescription;
+   GO4TRACE((14,"TGo4Exception::TGo4Exception(const TGo4Exception &)",__LINE__, __FILE__));
+   fxDescription = right.fxDescription;
 }
 
 TGo4Exception::~TGo4Exception()
 {
-  GO4TRACE((14,"TGo4Exception::TGo4Exception() destructor",__LINE__, __FILE__));
+  GO4TRACE((14,"TGo4Exception::TGo4Exception()",__LINE__, __FILE__));
 }
 
 TGo4Exception & TGo4Exception::operator=(const TGo4Exception &right)

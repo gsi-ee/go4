@@ -20,14 +20,14 @@
 TGo4LoggingRunnable::TGo4LoggingRunnable(const char *name, TGo4ExampleServer* serv)
 : TGo4Runnable(name,serv)
 {
-   GO4TRACE((15,"TGo4LoggingRunnable::TGo4LoggingRunnable(const char*,TGo4ExampleServer*) constructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4LoggingRunnable::TGo4LoggingRunnable(const char *,TGo4ExampleServer *)",__LINE__, __FILE__));
    fxController=serv->GetController();
    fxServer=serv;
 }
 
 TGo4LoggingRunnable::~TGo4LoggingRunnable()
 {
-   GO4TRACE((15,"TGo4LoggingRunnable::TGo4LoggingRunnable() constructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4LoggingRunnable::TGo4LoggingRunnable()",__LINE__, __FILE__));
 }
 
 Int_t TGo4LoggingRunnable::Run(void *)

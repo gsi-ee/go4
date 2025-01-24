@@ -19,20 +19,20 @@
 
 TGo4ControlException::TGo4ControlException()
 {
-   GO4TRACE((14,"TGo4ControlException::TGo4ControlException() constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ControlException::TGo4ControlException()",__LINE__, __FILE__));
    fxDescription= "!!!-- Go4 Control Exception --!!!";
 }
 
 TGo4ControlException::TGo4ControlException(const TGo4ControlException &right)
    :TGo4RuntimeException(right)
 {
-   GO4TRACE((14,"TGo4ControlException::TGo4ControlException() copy constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ControlException::TGo4ControlException()",__LINE__, __FILE__));
 }
 
 
 TGo4ControlException::~TGo4ControlException()
 {
-  GO4TRACE((14,"TGo4ControlException::~TGo4ControlException() destructor",__LINE__, __FILE__));
+  GO4TRACE((14,"TGo4ControlException::~TGo4ControlException()",__LINE__, __FILE__));
 }
 
 

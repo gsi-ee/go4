@@ -26,31 +26,31 @@ TGo4Runnable::TGo4Runnable(const TGo4Runnable &right) :
    fxManager(right.fxManager),
    fxGo4Thread(right.fxGo4Thread)
 {
-   GO4TRACE((14,"TGo4Runnable::TGo4Runnable() copy constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Runnable::TGo4Runnable(const TGo4Runnable &)",__LINE__, __FILE__));
 }
 
 TGo4Runnable::TGo4Runnable(const char *name, TGo4ThreadManager *man) :
    TNamed(name,"This is a TGo4Runnable")
 {
-   GO4TRACE((14,"TGo4Runnable::TGo4Runnable(const char *,TGo4ThreadManager *) constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Runnable::TGo4Runnable(const char *,TGo4ThreadManager *)",__LINE__, __FILE__));
    fxManager = man;
 }
 
 TGo4Runnable::~TGo4Runnable()
 {
-   GO4TRACE((14,"TGo4Runnable::~TGo4Runnable() destructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Runnable::~TGo4Runnable()",__LINE__, __FILE__));
 }
 
-void TGo4Runnable::ThreadCatch (TGo4Exception &ex)
+void TGo4Runnable::ThreadCatch(TGo4Exception &ex)
 {
-   GO4TRACE((12,"TGo4Runnable::ThreadCatch()",__LINE__, __FILE__));
+   GO4TRACE((12, "TGo4Runnable::ThreadCatch()", __LINE__, __FILE__));
 
-   TGo4Log::Debug("\n %s occured in Runnable``%s''(Thread``%s''PID:%d) \n",
-      ex.What(),GetName(),fxGo4Thread->GetName(),fxGo4Thread->GetPID());
+   TGo4Log::Debug("\n %s occured in Runnable``%s''(Thread``%s''PID:%d) \n", ex.What(), GetName(),
+                  fxGo4Thread->GetName(), fxGo4Thread->GetPID());
    ex.Handle(); // execute Exception own handler method
 }
 
-void TGo4Runnable::UnexpectedCatch ()
+void TGo4Runnable::UnexpectedCatch()
 {
    GO4TRACE((12,"TGo4Runnable::UnexpectedCatch()",__LINE__, __FILE__));
 
@@ -61,7 +61,7 @@ void TGo4Runnable::UnexpectedCatch ()
    //gApplication->Terminate(0);
 }
 
-Int_t TGo4Runnable::PreRun (void *arg)
+Int_t TGo4Runnable::PreRun(void *)
 {
    GO4TRACE((12,"TGo4Runnable::PreRun()",__LINE__, __FILE__));
 
@@ -69,7 +69,7 @@ Int_t TGo4Runnable::PreRun (void *arg)
    return 0;
 }
 
-Int_t TGo4Runnable::PostRun (void *arg)
+Int_t TGo4Runnable::PostRun(void *)
 {
    GO4TRACE((12,"TGo4Runnable::PostRun()",__LINE__, __FILE__));
 

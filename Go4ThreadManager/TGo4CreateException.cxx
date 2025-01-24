@@ -23,20 +23,20 @@
 TGo4CreateException::TGo4CreateException(const TGo4CreateException &right)
   :TGo4ThreadException(right)
 {
-   GO4TRACE((14,"TGo4CreateException::TGo4CreateException() copy constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4CreateException::TGo4CreateException(const TGo4CreateException &)",__LINE__, __FILE__));
 }
 
 TGo4CreateException::TGo4CreateException (TGo4Runnable *runnable, const char *threadname)
 :TGo4ThreadException(runnable,threadname)
 {
-   GO4TRACE((14,"TGo4CreateException::TGo4CreateException(TGo4Runnable *, const char *) constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4CreateException::TGo4CreateException(TGo4Runnable *, const char *)",__LINE__, __FILE__));
    fxDescription= "!!!-- Go4 Create Exception --!!!";
 }
 
 
 TGo4CreateException::~TGo4CreateException()
 {
- GO4TRACE((14,"TGo4CreateException::~TGo4CreateException() destructor",__LINE__, __FILE__));
+ GO4TRACE((14,"TGo4CreateException::~TGo4CreateException()",__LINE__, __FILE__));
 }
 
 
@@ -53,18 +53,15 @@ Int_t TGo4CreateException::Handle ()
    GO4TRACE((14,"TGo4CreateException::Handle()",__LINE__, __FILE__));
    std::cout << "\t This is the TGo4CreateException::Handler"<<std::endl;
    Int_t rev=-1;
-   if(!GetThreadName())
+   if (!GetThreadName()) {
       // no threadname specified, operate on thread of runnable
-      {
-         GO4TRACE((13,"TGo4CreateException::Handle() -- creating thread of runnable",__LINE__, __FILE__));
-         rev=fxRunnable->GetThread()->Create();
-      }
-   else
+      GO4TRACE((13, "TGo4CreateException::Handle() -- creating thread of runnable", __LINE__, __FILE__));
+      rev = fxRunnable->GetThread()->Create();
+   } else {
       // threadname given, use thread handler to cancel
-      {
-         GO4TRACE((13,"TGo4CreateException::Handle() -- creating thread by name",__LINE__, __FILE__));
-         rev = fxThreadHandler->Create(GetThreadName());
-      }
+      GO4TRACE((13, "TGo4CreateException::Handle() -- creating thread by name", __LINE__, __FILE__));
+      rev = fxThreadHandler->Create(GetThreadName());
+   }
    // note: boolean return values of called methods are implicitly casted to int
    return rev;
 }

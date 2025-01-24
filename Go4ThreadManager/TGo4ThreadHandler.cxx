@@ -24,34 +24,34 @@
 TGo4ThreadHandler::TGo4ThreadHandler(const TGo4ThreadHandler &right)
   : TNamed(right)
 {
-   GO4TRACE((15,"TGo4ThreadHandler::TGo4ThreadHandler() copy constructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ThreadHandler::TGo4ThreadHandler()",__LINE__, __FILE__));
    fxManager = right.fxManager;
-   fxListMutex=new TMutex;
-   fxOperMutex=new TMutex;
-   fxArray= (TObjArray *) ((right.fxArray)->Clone());
+   fxListMutex = new TMutex;
+   fxOperMutex = new TMutex;
+   fxArray = (TObjArray *) ((right.fxArray)->Clone());
    fxIterator=fxArray->MakeIterator();
 }
 
-TGo4ThreadHandler::TGo4ThreadHandler (const char *name, TGo4ThreadManager *parent)
+TGo4ThreadHandler::TGo4ThreadHandler(const char *name, TGo4ThreadManager *parent)
    :TNamed(name,"This is a TGo4ThreadHandler"),fbIsOperating(kFALSE)
 {
-   GO4TRACE((15,"TGo4ThreadHandler::TGo4ThreadHandler(const char*, TGo4ThreadManager *) constructor",__LINE__, __FILE__));
-   fxManager=parent;
-   fxListMutex=new TMutex;
-   fxOperMutex=new TMutex;
-   fxArray=new TObjArray;
-   fxIterator=fxArray->MakeIterator();
+   GO4TRACE((15,"TGo4ThreadHandler::TGo4ThreadHandler(const char *, TGo4ThreadManager *)",__LINE__, __FILE__));
+   fxManager = parent;
+   fxListMutex = new TMutex;
+   fxOperMutex = new TMutex;
+   fxArray = new TObjArray;
+   fxIterator = fxArray->MakeIterator();
 }
 
 
 TGo4ThreadHandler::~TGo4ThreadHandler()
 {
-   GO4TRACE((15,"TGo4ThreadHandler::~TGo4ThreadHandler() destructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ThreadHandler::~TGo4ThreadHandler()",__LINE__, __FILE__));
    StopAll();
    CancelAll();
    TGo4Thread *th = nullptr;
    {
-   TGo4LockGuard listguard(fxListMutex);
+      TGo4LockGuard listguard(fxListMutex);
       fxIterator->Reset();
       while((th = (TGo4Thread*) fxIterator->Next()) != nullptr)
          {
@@ -138,18 +138,18 @@ Bool_t TGo4ThreadHandler::RemoveThread (const char *name)
 
 Bool_t TGo4ThreadHandler::NewThread(const char *name, TGo4Runnable *runnable)
 {
-   GO4TRACE((14,"TGo4ThreadHandler::NewThread(const char*,TGo4Runnable *)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ThreadHandler::NewThread(const char *,TGo4Runnable *)",__LINE__, __FILE__));
    TGo4Runnable *nrun = nullptr;
    TGo4Thread *nthread = nullptr;
    if(!runnable)
       {
-         GO4TRACE((13,"TGo4ThreadHandler::NewThread(const char*,TGo4Runnable *) No runnable specified error",__LINE__, __FILE__));
+         GO4TRACE((13,"TGo4ThreadHandler::NewThread(const char *,TGo4Runnable *) No runnable specified error",__LINE__, __FILE__));
          return kFALSE;
          //throw TGo4RuntimeException();
       }
   else
      {
-        GO4TRACE((13,"TGo4ThreadHandler::NewThread(const char*,TGo4Runnable *) Assigning external runnable to new internal thread",__LINE__, __FILE__));
+        GO4TRACE((13,"TGo4ThreadHandler::NewThread(const char *,TGo4Runnable *) Assigning external runnable to new internal thread",__LINE__, __FILE__));
         nrun=runnable;
      }
   nthread= new TGo4Thread(name,nrun,kTRUE);

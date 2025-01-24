@@ -50,7 +50,7 @@ TGo4MbsSource::TGo4MbsSource(TGo4MbsSourceParameter* par, Int_t mode) :
    fiPort(par->GetPort())
 {
    fxInputChannel=f_evt_control();
-   GO4TRACE((15,"TGo4MbsSource::TGo4MbsSource(const char*, Int_t)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsSource::TGo4MbsSource(const char *, Int_t)",__LINE__, __FILE__));
    // Open() call will be done by subclasses ctors, so we can overwrite Open() method
 }
 
@@ -66,7 +66,7 @@ TGo4MbsSource::TGo4MbsSource(const char *name, Int_t mode) :
    fiTimeout(-1), fbPollingMode(kFALSE), fiPort(0)
 {
    fxInputChannel = f_evt_control();
-   GO4TRACE((15,"TGo4MbsSource::TGo4MbsSource(const char*, Int_t)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsSource::TGo4MbsSource(const char *, Int_t)",__LINE__, __FILE__));
 
    SetTimeout(fgiTIMEOUTDEFAULT);
 

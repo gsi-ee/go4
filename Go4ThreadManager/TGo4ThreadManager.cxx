@@ -28,19 +28,19 @@ TGo4ThreadManager::TGo4ThreadManager(const TGo4ThreadManager &right)
    fbTerminating(kFALSE),
    fbTerminateApplication(kFALSE)
 {
-   GO4TRACE((15,"TGo4ThreadManager::TGo4ThreadManager copy ctor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ThreadManager::TGo4ThreadManager(const TGo4ThreadManager &)",__LINE__, __FILE__));
    fxWorkHandler=right.fxWorkHandler;
    fxBlocker = right.fxBlocker;
 }
 
-TGo4ThreadManager::TGo4ThreadManager (const char *name, Bool_t blockingmode, Bool_t autostart, Bool_t autocreate)
+TGo4ThreadManager::TGo4ThreadManager(const char *name, Bool_t blockingmode, Bool_t autostart, Bool_t autocreate)
    :TNamed(name,"This is a TGo4ThreadManager"),
       fbInitDone(kFALSE),
       fbTerminating(kFALSE),
       fbTerminateApplication(kFALSE),
       fbBeingQuit(kFALSE)
 {
-   GO4TRACE((15,"TGo4ThreadManager::TGo4ThreadManager (const char*, Bool_t, Bool_t, Bool_t) constructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ThreadManager::TGo4ThreadManager(const char *, Bool_t, Bool_t, Bool_t)",__LINE__, __FILE__));
 
    TString myname=GetName();
    myname+="-";
@@ -71,7 +71,7 @@ TGo4ThreadManager::TGo4ThreadManager (const char *name, Bool_t blockingmode, Boo
 
 TGo4ThreadManager::~TGo4ThreadManager()
 {
-   GO4TRACE((15,"TGo4ThreadManager::~TGo4ThreadManager destructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ThreadManager::~TGo4ThreadManager()",__LINE__, __FILE__));
    delete fxWorkHandler; // this will cancel all threads and delete the internal instances
    //delete fxBlocker; // dtor is called from fxBlocker, may not delete it!
    //gApplication->Terminate(0);

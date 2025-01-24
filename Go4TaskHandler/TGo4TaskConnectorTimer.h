@@ -27,7 +27,7 @@ class TGo4TaskConnectorTimer : public TTimer {
 
   public:
 
-      TGo4TaskConnectorTimer (TGo4ServerTask *server, Long_t msperiod = 3000);
+      TGo4TaskConnectorTimer(TGo4ServerTask *server, Long_t msperiod = 3000);
 
       virtual ~TGo4TaskConnectorTimer();
 

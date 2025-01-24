@@ -17,20 +17,19 @@
 
 TGo4LogicException::TGo4LogicException()
 {
-  GO4TRACE((14,"TGo4LogicException::TGo4LogicException() constructor",__LINE__, __FILE__));
+  GO4TRACE((14,"TGo4LogicException::TGo4LogicException()",__LINE__, __FILE__));
   fxDescription= "!!!-- Go4 Logic Exception --!!!";
 }
 
 TGo4LogicException::TGo4LogicException(const TGo4LogicException &right)
   :TGo4Exception(right)
 {
-   GO4TRACE((14,"TGo4LogicException::TGo4LogicException() copy constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4LogicException::TGo4LogicException(const TGo4LogicException &)",__LINE__, __FILE__));
 }
-
 
 TGo4LogicException::~TGo4LogicException()
 {
-  GO4TRACE((14,"TGo4LogicException::~TGo4LogicException() destructor",__LINE__, __FILE__));
+  GO4TRACE((14,"TGo4LogicException::~TGo4LogicException()",__LINE__, __FILE__));
 }
 
 TGo4LogicException & TGo4LogicException::operator=(const TGo4LogicException &right)
@@ -44,6 +43,6 @@ TGo4LogicException & TGo4LogicException::operator=(const TGo4LogicException &rig
 Int_t TGo4LogicException::Handle ()
 {
    GO4TRACE((14,"TGo4LogicException::Handle()",__LINE__, __FILE__));
-   TGo4Exception::Handle(); // basic handle method printsout exception type
+   TGo4Exception::Handle(); // basic handle method prints out exception type
    return 0;
 }

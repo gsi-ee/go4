@@ -33,7 +33,7 @@ TGo4ExampleClient::TGo4ExampleClient(const char *name,
                                      Bool_t blockingmode)
 : TGo4ClientTask(name, host, negport, blockingmode, kFALSE)
 {
-   GO4TRACE((15,"TGo4ExampleClient::TGo4ExampleClient(const char*, const char*, Uint_t, Bool_t) constructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ExampleClient::TGo4ExampleClient(const char *, const char *, Uint_t, Bool_t)",__LINE__, __FILE__));
    SetMaster(kFALSE);
    TGo4Log::Debug(" ExampleClient ''%s'' started ",GetName());
    fxApplication= new TGo4ExampleApplication( (TGo4BufferQueue*) GetTaskHandler()->GetDataQueue());
@@ -49,7 +49,7 @@ TGo4ExampleClient::TGo4ExampleClient(const char *name,
 
 TGo4ExampleClient::~TGo4ExampleClient()
 {
-   GO4TRACE((15,"TGo4ExampleClient::~TGo4ExampleClient() destructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ExampleClient::~TGo4ExampleClient()",__LINE__, __FILE__));
    fxWorkHandler->CancelAll(); // make sure threads wont work on application when its deleted
    delete fxApplication;
 }

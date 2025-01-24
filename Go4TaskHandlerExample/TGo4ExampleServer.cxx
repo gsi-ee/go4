@@ -33,7 +33,7 @@ TGo4ExampleController* TGo4ExampleServer::GetController()
 }
 TGo4ExampleServer::~TGo4ExampleServer()
 {
-   GO4TRACE((15,"TGo4ExampleServer::~TGo4ExampleServer() destructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ExampleServer::~TGo4ExampleServer()",__LINE__, __FILE__));
 
    fxWorkHandler->CancelAll(); // make sure threads wont work on controller instance when its deleted
    delete fxController;
@@ -44,15 +44,15 @@ TGo4ExampleServer::TGo4ExampleServer(const char *name,
                                      Bool_t blockingmode)
 : TGo4ServerTask(name, negotiationport, blockingmode,kFALSE)
 {
-   GO4TRACE((15,"TGo4ExampleServer::TGo4ExampleServer(const char*, Bool_t) constructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ExampleServer::TGo4ExampleServer(const char *, Bool_t)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" ExampleServer ''%s'' started ",GetName());
 
    fxController = new TGo4ExampleController();
 
-   TGo4ControllerRunnable* controlrun= new TGo4ControllerRunnable(TString::Format("ControllerRunnable of %s",GetName()).Data(), this);
+   auto controlrun = new TGo4ControllerRunnable(TString::Format("ControllerRunnable of %s",GetName()).Data(), this);
 
-   TGo4LoggingRunnable* logrun = new TGo4LoggingRunnable(TString::Format("LoggerRunnable of %s",GetName()).Data(), this);
+   auto logrun = new TGo4LoggingRunnable(TString::Format("LoggerRunnable of %s",GetName()).Data(), this);
 
    // adding runnables to thread handler who takes over the responsibility...:
 
@@ -60,7 +60,7 @@ TGo4ExampleServer::TGo4ExampleServer(const char *name,
    fxWorkHandler->NewThread(fcControlName.Data(), controlrun);
 
    fcLoggingName.Form("%s%s",fgcLOGGINGTHREAD,GetName());
-   fxWorkHandler->NewThread(fcLoggingName.Data(),logrun);
+   fxWorkHandler->NewThread(fcLoggingName.Data(), logrun);
 
    Launch();
 }

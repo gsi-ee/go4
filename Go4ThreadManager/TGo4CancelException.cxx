@@ -23,20 +23,20 @@
 TGo4CancelException::TGo4CancelException(const TGo4CancelException &right)
   :TGo4ThreadException(right)
 {
-   GO4TRACE((14,"TGo4CancelException::TGo4CancelException() copy constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4CancelException::TGo4CancelException(const TGo4CancelException &)",__LINE__, __FILE__));
 }
 
 TGo4CancelException::TGo4CancelException (TGo4Runnable *runnable, const char *threadname)
 : TGo4ThreadException(runnable, threadname)
 {
-   GO4TRACE((14,"TGo4CancelException::TGo4CancelException(TGo4Runnable *, const char*) constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4CancelException::TGo4CancelException(TGo4Runnable *, const char *)",__LINE__, __FILE__));
    fxDescription= "!!!-- Go4 Cancel Exception --!!!";
 }
 
 
 TGo4CancelException::~TGo4CancelException()
 {
-  GO4TRACE((14,"TGo4CancelException::~TGo4CancelException() destructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4CancelException::~TGo4CancelException()",__LINE__, __FILE__));
 }
 
 
@@ -51,18 +51,15 @@ TGo4CancelException & TGo4CancelException::operator=(const TGo4CancelException &
 Int_t TGo4CancelException::Handle()
 {
    GO4TRACE((14,"TGo4CancelException::Handle()",__LINE__, __FILE__));
-   if(!GetThreadName())
+   if (!GetThreadName()) {
       // no threadname specified, operate on thread of runnable
-      {
-         GO4TRACE((13,"TGo4CancelException::Handle() -- canceling thread of runnable",__LINE__, __FILE__));
-         fxRunnable->GetThread()->Cancel();
-      }
-   else
+      GO4TRACE((13, "TGo4CancelException::Handle() -- canceling thread of runnable", __LINE__, __FILE__));
+      fxRunnable->GetThread()->Cancel();
+   } else {
       // threadname given, use thread handler to cancel
-      {
-         GO4TRACE((13,"TGo4CancelException::Handle() -- canceling thread by name",__LINE__, __FILE__));
-         fxThreadHandler->Cancel(GetThreadName());
-      }
+      GO4TRACE((13, "TGo4CancelException::Handle() -- canceling thread by name", __LINE__, __FILE__));
+      fxThreadHandler->Cancel(GetThreadName());
+   }
    TThread::CancelPoint(); // if thread cancels itself, this is necessary for proper cancellation:
    return 0;
 }

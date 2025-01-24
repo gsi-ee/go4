@@ -24,7 +24,7 @@
 TGo4Thread::TGo4Thread(const TGo4Thread &right)
    :TNamed(right)
 {
-   GO4TRACE((14,"TGo4Thread::TGo4Thread() copy constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Thread::TGo4Thread(const TGo4Thread &)",__LINE__, __FILE__));
    fxRunnable = right.fxRunnable;
    fbIsInternal = right.fbIsInternal;
    fxCondition = new TCondition();
@@ -39,7 +39,7 @@ TGo4Thread::TGo4Thread (const char *name, TGo4Runnable *runnable, Bool_t interna
    fbIsWaiting(kFALSE),
    fxThread(nullptr)
 {
-   GO4TRACE((14,"TGo4Thread::TGo4Thread(const char*, TGo4Runnable *, Bool_t) constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Thread::TGo4Thread(const char *, TGo4Runnable *, Bool_t)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Go4Thread ``%s'' created ",name);
    fxRunnable = runnable;
@@ -51,25 +51,20 @@ TGo4Thread::TGo4Thread (const char *name, TGo4Runnable *runnable, Bool_t interna
 
 TGo4Thread::~TGo4Thread()
 {
-   GO4TRACE((14,"TGo4Thread::~TGo4Thread() destructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Thread::~TGo4Thread()",__LINE__, __FILE__));
 
    Stop();
    Cancel();
    delete fxCondition;
    fxCondition = nullptr;
-   if(fbIsInternal)
-      {
-         GO4TRACE((14,"TGo4Thread::~TGo4Thread() internal mode",__LINE__, __FILE__));
-         TGo4Log::Debug(" Go4Thread ``%s'' deleting runnable ``%s'' ",
-                  GetName(),fxRunnable->GetName());
-         delete fxRunnable; // internal mode: go4thread responsible for runnable
-      }
-   else
-      {
-         GO4TRACE((14,"TGo4Thread::~TGo4Thread() non internal mode",__LINE__, __FILE__));
-         // do nothing
-      }
-
+   if (fbIsInternal) {
+      GO4TRACE((14, "TGo4Thread::~TGo4Thread() internal mode", __LINE__, __FILE__));
+      TGo4Log::Debug(" Go4Thread ``%s'' deleting runnable ``%s'' ", GetName(), fxRunnable->GetName());
+      delete fxRunnable; // internal mode: go4thread responsible for runnable
+   } else {
+      GO4TRACE((14, "TGo4Thread::~TGo4Thread() non internal mode", __LINE__, __FILE__));
+      // do nothing
+   }
 }
 
 void TGo4Thread::Threadfunc(void *arg)
@@ -87,7 +82,7 @@ void TGo4Thread::Threadfunc(void *arg)
    TGo4Log::Debug(" TThread %ld (PID:%d) of Go4Thread ``%s''  started... \n",
             go4th->GetSelfID(), go4th->GetPID(), go4th->GetName());
 
-for(;;) // loop keeps thread alive after exception has occured...
+for(;;) // loop keeps thread alive after exception has occurred...
    {
    try
       {

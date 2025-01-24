@@ -100,13 +100,13 @@ class TGo4ExportManager : public TNamed {
     /****** new 2024: add some most wanted import functions*****************************/
 
     /**create imported histogram from file of given name  */
-    TH1* ImportHistogram(const char* filename, Go4Import_t format);
+    TH1 *ImportHistogram(const char *filename, Go4Import_t format);
 
     /** Convert from Ortec MCA (request U.Spillmann)*/
-    TH1* ImportHistogramOrtec(const char* filename);
+    TH1 *ImportHistogramOrtec(const char *filename);
 
     /** Provide reading back ascii histograms exported by another go4*/
-    TH1* ImportHistogramGo4Ascii(const char *nom);
+    TH1 *ImportHistogramGo4Ascii(const char *nom);
 
 
   private:

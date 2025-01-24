@@ -23,20 +23,20 @@
 
 TGo4ExampleController::TGo4ExampleController()
 {
-   GO4TRACE((15,"TGo4ExampleController::TGo4ExampleController() constructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ExampleController::TGo4ExampleController()",__LINE__, __FILE__));
    fxCanvas = new TCanvas("Example Display","Go4 controller canvas",3);
 }
 
 TGo4ExampleController::~TGo4ExampleController()
 {
-   GO4TRACE((15,"TGo4ExampleController::~TGo4ExampleController() destructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ExampleController::~TGo4ExampleController()",__LINE__, __FILE__));
    delete fxPreviousData;
    delete fxCanvas;
 }
 
 void TGo4ExampleController::DisplayData(TObject *data)
 {
-   GO4TRACE((12,"TGo4ExampleController::DisplayData(TNamed*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ExampleController::DisplayData(TObject *)",__LINE__, __FILE__));
    if (data) {
       delete fxPreviousData;
       fxPreviousData = data;

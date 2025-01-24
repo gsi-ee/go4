@@ -19,7 +19,7 @@
 TGo4FileSourceParameter::TGo4FileSourceParameter(const char *name)
 : TGo4EventSourceParameter(name, GO4EV_FILE)
 {
-  GO4TRACE((14,"TGo4FileSourceParameter::TGo4FileSourceParameter(const char*,...)", __LINE__, __FILE__));
+  GO4TRACE((14,"TGo4FileSourceParameter::TGo4FileSourceParameter(const char *,...)", __LINE__, __FILE__));
 }
 
 TGo4FileSourceParameter::TGo4FileSourceParameter()
