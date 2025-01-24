@@ -75,6 +75,7 @@ TXXXAnlProc::TXXXAnlProc(const char *name) :
 
    fFitCounter = 0;
 }
+
 //***********************************************************
 TXXXAnlProc::~TXXXAnlProc()
 {
@@ -84,11 +85,12 @@ TXXXAnlProc::~TXXXAnlProc()
 
 Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement *dest)
 {
-   TXXXUnpackEvent* inp_evt  = (TXXXUnpackEvent*) GetInputEvent();
-   TXXXAnlEvent* out_evt = (TXXXAnlEvent*) dest;
+   auto inp_evt = static_cast<TXXXUnpackEvent *>(GetInputEvent());
+   auto out_evt = static_cast<TXXXAnlEvent *>(dest);
 
-   out_evt->SetValid(kFALSE);       // events are not stored until kTRUE is set
-   if(!inp_evt || !inp_evt->IsValid()) return kFALSE;    // do not process unvalid event
+   out_evt->SetValid(kFALSE);           // events are not stored until kTRUE is set
+   if(!inp_evt || !inp_evt->IsValid())  // do not process unvalid event
+      return kFALSE;
    out_evt->SetValid(kTRUE);       // events are not stored until kTRUE is set
    Int_t cnt = 0;
    TXXXUnpackEvent& ev=*inp_evt; // ref instead pointer for array syntax below

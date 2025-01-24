@@ -164,7 +164,7 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement *target)
 {
    // called by framework from TXXXEvent to fill it
 
-   TXXXEvent *XXXEvent = (TXXXEvent *) target;
+   auto XXXEvent = static_cast<TXXXEvent *>(target);
 
    TGo4MbsEvent *source = (TGo4MbsEvent *) GetInputEvent();
    if(!source) {

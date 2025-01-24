@@ -63,8 +63,8 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement *dest)
 {
 	Bool_t isValid = kFALSE; // validity of output event
 
-   TXXXUnpackEvent* inp_evt  = (TXXXUnpackEvent*) GetInputEvent();
-   TXXXAnlEvent* out_evt = (TXXXAnlEvent*) dest;
+   auto inp_evt  = static_cast<TXXXUnpackEvent *>(GetInputEvent());
+   auto out_evt = static_cast<TXXXAnlEvent *>(dest);
 
    // see comments in UnpackProc
    if(!inp_evt || !inp_evt->IsValid()){ // input invalid
