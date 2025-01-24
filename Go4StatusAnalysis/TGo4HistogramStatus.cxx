@@ -55,56 +55,23 @@ TGo4HistogramStatus::TGo4HistogramStatus(TH1 *his, Bool_t allstatistics)
       fdEntries = his->GetEntries();
       //////////////////////////////////////////////////////
       ///// correct object size for real size of data array:
-      Int_t fieldsize = 0;
+      Int_t fieldsize = 4; // use as default bin size 4 bytes
       // because of multiple inheritance of histogram types, we
       // must check for all types separately to downcast the correct TArray:
-      if (his->InheritsFrom(TH1D::Class())) {
-         TH1D *dhis = dynamic_cast<TH1D*>(his);
-         fieldsize = sizeof(Double_t) * dhis->GetSize(); // method of TArray baseclass
-      } else if (his->InheritsFrom(TH1F::Class())) {
-         TH1F *fhis = dynamic_cast<TH1F*>(his);
-         fieldsize = sizeof(Float_t) * fhis->GetSize(); // method of TArray baseclass
-      } else if (his->InheritsFrom(TH1I::Class())) {
-         TH1I *ihis = dynamic_cast<TH1I*>(his);
-         fieldsize = sizeof(Int_t) * ihis->GetSize(); // method of TArray baseclass
-      } else if (his->InheritsFrom(TH1S::Class())) {
-         TH1S *shis = dynamic_cast<TH1S*>(his);
-         fieldsize = sizeof(Short_t) * shis->GetSize(); // method of TArray baseclass
-      } else if (his->InheritsFrom(TH1C::Class())) {
-         TH1C *chis = dynamic_cast<TH1C*>(his);
-         fieldsize = sizeof(Char_t) * chis->GetSize(); // method of TArray baseclass
-      } else if (his->InheritsFrom(TH2D::Class())) {
-         TH2D *dhis = dynamic_cast<TH2D*>(his);
-         fieldsize = sizeof(Double_t) * dhis->GetSize(); // method of TArray baseclass
-      } else if (his->InheritsFrom(TH2F::Class())) {
-         TH2F *fhis = dynamic_cast<TH2F*>(his);
-         fieldsize = sizeof(Float_t) * fhis->GetSize(); // method of TArray baseclass
-      } else if (his->InheritsFrom(TH2I::Class())) {
-         TH2I *ihis = dynamic_cast<TH2I*>(his);
-         fieldsize = sizeof(Int_t) * ihis->GetSize(); // method of TArray baseclass
-      } else if (his->InheritsFrom(TH2S::Class())) {
-         TH2S *shis = dynamic_cast<TH2S*>(his);
-         fieldsize = sizeof(Short_t) * shis->GetSize(); // method of TArray baseclass
-      } else if (his->InheritsFrom(TH2C::Class())) {
-         TH2C *chis = dynamic_cast<TH2C*>(his);
-         fieldsize = sizeof(Char_t) * chis->GetSize(); // method of TArray baseclass
-      } else if (his->InheritsFrom(TH3D::Class())) {
-         TH3D *dhis = dynamic_cast<TH3D*>(his);
-         fieldsize = sizeof(Double_t) * dhis->GetSize(); // method of TArray baseclass
-      } else if (his->InheritsFrom(TH3F::Class())) {
-         TH3F *fhis = dynamic_cast<TH3F*>(his);
-         fieldsize = sizeof(Float_t) * fhis->GetSize(); // method of TArray baseclass
-      } else if (his->InheritsFrom(TH3I::Class())) {
-         TH3I *ihis = dynamic_cast<TH3I*>(his);
-         fieldsize = sizeof(Int_t) * ihis->GetSize(); // method of TArray baseclass
-      } else if (his->InheritsFrom(TH3S::Class())) {
-         TH3S *shis = dynamic_cast<TH3S*>(his);
-         fieldsize = sizeof(Short_t) * shis->GetSize(); // method of TArray baseclass
-      } else if (his->InheritsFrom(TH3C::Class())) {
-         TH3C *chis = dynamic_cast<TH3C*>(his);
-         fieldsize = sizeof(Char_t) * chis->GetSize(); // method of TArray baseclass
+      if (his->InheritsFrom(TH1D::Class()) || his->InheritsFrom(TH2D::Class()) || his->InheritsFrom(TH3D::Class())) {
+         fieldsize = sizeof(Double_t);
+      } else if (his->InheritsFrom(TH1F::Class()) || his->InheritsFrom(TH2F::Class()) || his->InheritsFrom(TH3F::Class())) {
+         fieldsize = sizeof(Float_t);
+      } else if (his->InheritsFrom(TH1I::Class()) || his->InheritsFrom(TH2I::Class()) || his->InheritsFrom(TH3I::Class())) {
+         fieldsize = sizeof(Int_t);
+      } else if (his->InheritsFrom(TH1S::Class()) || his->InheritsFrom(TH2S::Class()) || his->InheritsFrom(TH3S::Class())) {
+         fieldsize = sizeof(Short_t);
+      } else if (his->InheritsFrom(TH1C::Class()) || his->InheritsFrom(TH2C::Class()) || his->InheritsFrom(TH3C::Class())) {
+         fieldsize = sizeof(Char_t);
+      } else if (his->InheritsFrom(TH1L::Class()) || his->InheritsFrom(TH2L::Class()) || his->InheritsFrom(TH3L::Class())) {
+         fieldsize = sizeof(Long64_t);
       }
-      fiObjectSize += fieldsize; // add heap field to object stack memory size
+      fiObjectSize += fieldsize * his->GetNcells(); // add heap field to object stack memory size
       //////////////////////////////////////////////////////////////////
 
       if (allstatistics) {
