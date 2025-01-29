@@ -29,7 +29,7 @@ class TTree;
  * managed by this user event.
  * The way of subelement organization (e.g.
  * user event class members, TObjArray,...) is not restricted here.
- * @interface
+ * @interface TGo4EventElement
  * @author J. Adamczewski
  * @since 12/2000*/
 
