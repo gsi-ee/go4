@@ -29,6 +29,10 @@ include/*
 *.json
 packages/*
 
+# doxygen
+
+docs/doxygen
+
 # qt generated files
 
 qt4/Go4GUI/.moc/*
