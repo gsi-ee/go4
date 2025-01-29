@@ -18,11 +18,11 @@ jobs:
       fail-fast: false
 
     steps:
-      - name: Install Qt6
+      - name: Install Qt6 and Doxygen
         run: |
           rm -f /etc/apt/sources.list.d/archive_uri-*
           apt-get update || true
-          apt-get install -y qt6-base-dev doxygen texlive-font-utils
+          apt-get install -y qt6-base-dev doxygen
 
       - name: Checkout Go4 repository
         uses: actions/checkout@v1
