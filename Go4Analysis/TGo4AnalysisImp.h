@@ -697,7 +697,8 @@ public:
      * kFALSE when object was retrieved from autosavefile */
    Bool_t IsObjMade() const { return fbObjMade; }
 
-   /** Create one dimensional histogram of specified type. Type can be:
+   /** Create one dimensional histogram of specified type.
+    * \param type can be:
     * 'I', 'i' for TH1I - Int_t as bin content (default)
     * 'F', 'f' for TH1F - Float_t as bin content
     * 'D', 'd' for TH1D - Double_t as bin content
@@ -706,15 +707,19 @@ public:
     * 'L', 'l' for TH1L - Long64_t as bin content
     * \param fullname specifies name of histogram (optionally with subfolder name)
     * \param title - histogram title
-    * \param nbinsx, \param xlow, \param xup - range arguments for X axis
-    * \param xtitle, \param ytitle - title for X and Y axis of histogram
+    * \param nbinsx - number of bins for X axis
+    * \param xlow - minium for X axis
+    * \param xup - maximum for X axis
+    * \param xtitle - title for X axis of histogram
+    * \param ytitle - title for Y axis of histogram
     * If histogram exactly with same name and type already exists in  autosave file,
     * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave. */
    TH1 *MakeTH1(char type, const char *fullname, const char *title,
                 Int_t nbinsx, Double_t xlow, Double_t xup,
                 const char *xtitle = nullptr, const char *ytitle = nullptr);
 
-   /** Create two dimensional histogram of specified type. Type can be:
+   /** Create two dimensional histogram of specified type.
+    * \param type can be:
     * 'I', 'i' for TH2I - Int_t as bin content (default)
     * 'F', 'f' for TH2F - Float_t as bin content
     * 'D', 'd' for TH2D - Double_t as bin content
@@ -723,9 +728,15 @@ public:
     * 'L', 'l' for TH2L - Long64_t as bin content
     * \param fullname specifies name of histogram (optionally with subfolder name)
     * \param title - histogram title
-    * \param nbinsx, \param xlow, \param xup - range arguments for X axis
-    * \param nbinsy, \param ylow, \param yup - range arguments for Y axis
-    * \param xtitle, \param ytitle, \param ztitle - title for X, Y and Z axis of histogram
+    * \param nbinsx - number of bins for X axis
+    * \param xlow - minium for X axis
+    * \param xup - maximum for X axis
+    * \param nbinsy - number of bins for X axis
+    * \param ylow - minium for X axis
+    * \param yup - maximum for X axis
+    * \param xtitle - title for X axis of histogram
+    * \param ytitle - title for Y axis of histogram
+    * \param ztitle - title for Z axis of histogram
     * If histogram exactly with same name and type already exists in  autosave file,
     * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave. */
    TH2 *MakeTH2(char type, const char *fullname, const char *title,
@@ -735,7 +746,8 @@ public:
 
    /** Create 1D window condition.
     * \param fullname specifies name of condition (optionally with subfolder name)
-    * \param xmin, \param xmax - condition range
+    * \param xmin - X min condition range
+    * \param xmax - X max condition range
     * \param HistoName - name of histogram, to which condition is assigned */
    TGo4WinCond *MakeWinCond(const char *fullname,
                             Double_t xmin, Double_t xmax,
@@ -743,8 +755,10 @@ public:
 
    /** Create 2D window condition.
     * \param fullname specifies name of condition (optionally with subfolder name)
-    * \param xmin, \param xmax - X condition range
-    * \param ymin, \param ymax - Y condition range
+    * \param xmin - X min condition range
+    * \param xmax - X max condition range
+    * \param ymin - Y min condition range
+    * \param ymax - Y max condition range
     * \param HistoName - name of histogram, to which condition is assigned */
    TGo4WinCond *MakeWinCond(const char *fullname,
                             Double_t xmin, Double_t xmax,
@@ -769,8 +783,10 @@ public:
    /** Create ellipse shaped polygon condition.
     * \param fullname specifies name of condition (optionally with subfolder name)
     * \param npoints - number of points in ellipse condition, 0 for default resolution
-    * \param cx, \param cy - center coordinates of ellipse
-    * \param a1, \param a2 - width of ellipse half axes
+    * \param cx - center X coordinate of ellipse
+    * \param cy - center Y coordinate of ellipse
+    * \param a1 - width of ellipse X half axes
+    * \param a2 - width of ellipse Y half axes
     * \param theta - ellipse tilt angle
     * \param HistoName - name of histogram, to which condition is assigned  */
    TGo4ShapedCond *MakeEllipseCond(const char *fullname,
@@ -781,8 +797,9 @@ public:
    /** Create circular shaped polygon condition.
     * \param fullname specifies name of condition (optionally with subfolder name)
     * \param npoints - number of points in shaped condition, 0 for default resolution
-    * \param cx, \param cy   - circle center coordinates
-    * \param r       - circle radius
+    * \param cx - circle center X coordinate
+    * \param cy - circle center Y coordinate
+    * \param r  - circle radius
     * \param HistoName - name of histogram, to which condition is assigned */
    TGo4ShapedCond *MakeCircleCond(const char *fullname,
                                   Int_t npoints, Double_t cx, Double_t cy, Double_t r,
@@ -790,8 +807,10 @@ public:
 
    /** Create tilted rectangular box shaped polygon condition.
     *  \param fullname specifies name of condition (optionally with subfolder name)
-    *  \param cx, \param cy - center coordinates of box
-    *  \param a1, \param a2 - width of box half axes
+    *  \param cx - center X coordinates of box
+    *  \param cy - center Y coordinates of box
+    *  \param a1 - width of box half axes
+    *  \param a2 - height of box half axes
     *  \param theta - tilt angle
     *  \param HistoName - name of histogram, to which condition is assigned */
    TGo4ShapedCond *MakeBoxCond(const char *fullname, Double_t cx, Double_t cy,
@@ -856,9 +875,9 @@ public:
    TGo4RollingGraph *MakeRollingGraph(const char *fullname, const char *title, Int_t points = 0, Int_t average = 1);
 
    /** Create parameter of specified class,
-    * fullname specifies name of condition (optionally with subfolder name)
-    * classname - name of required parameter class, it should be known to ROOT.
-    * cmd - optional argument, can be used for two purposes:
+    * \param fullname specifies name of condition (optionally with subfolder name)
+    * \param classname - name of required parameter class, it should be known to ROOT.
+    * \param cmd - optional argument, can be used for two purposes:
     *    1) as new command to create parameter like "new UserParameter(%s, 1000, 2000)",
     *       where %s is place for parameter name.  Should be specified, if parameter
     *       constructor contains more parameters as only parameter name. Such argument
