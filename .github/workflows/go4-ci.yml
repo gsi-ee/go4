@@ -22,7 +22,7 @@ jobs:
         run: |
           rm -f /etc/apt/sources.list.d/archive_uri-*
           apt-get update || true
-          apt-get install -y qt6-base-dev
+          apt-get install -y qt6-base-dev doxygen
 
       - name: Checkout Go4 repository
         uses: actions/checkout@v1
@@ -44,3 +44,7 @@ jobs:
       - name: Install
         shell: bash
         run: cmake --build build --target install
+
+      - name: Doxygen
+        shell: bash
+        run: doxygen docs/go4doxygenconfig
