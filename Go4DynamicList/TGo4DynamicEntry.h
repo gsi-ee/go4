@@ -20,7 +20,7 @@
  * The Dynamic list itself is a dynamic entry, too; thus
  * the analysis can handle a dynamic list containing
  * dynamic sub-lists of histograms.
- * @interface
+ * @interface TGo4DynamicEntry
  * @author J. Adamczewski
  * @since 1/2001 */
 

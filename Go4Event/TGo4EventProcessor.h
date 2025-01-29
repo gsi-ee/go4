@@ -60,7 +60,7 @@ class TGo4EventCalibration;
  * might be more than one factory method in this class, each
  * dedicated for one special subevent. Default factory method is
  * CreateSubElement
- * @interface
+ * @interface TGo4EventProcessor
  * @author J. Adamczewski
  * @since 1/2001 */
 
