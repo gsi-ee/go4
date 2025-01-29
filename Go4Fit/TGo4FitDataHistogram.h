@@ -77,7 +77,6 @@ class TGo4FitDataHistogram : public TGo4FitData {
 
       /**
        * Slot for storing pointer on TH1 object
-       * @label slot for TH1 *
        */
       TGo4FitSlot fxHistogram;
 

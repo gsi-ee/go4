@@ -213,7 +213,8 @@ class TGo4EventProcessor: public TGo4EventSource {
        * kFALSE when object was retrieved from autosavefile */
       Bool_t IsObjMade() const;
 
-      /** Create one dimensional histogram of specified type. Type can be:
+      /** Create one dimensional histogram of specified type.
+       * \param type can be:
        * 'I', 'i' for TH1I - Int_t as bin content (default)
        * 'F', 'f' for TH1F - Float_t as bin content
        * 'D', 'd' for TH1D - Double_t as bin content
@@ -222,8 +223,11 @@ class TGo4EventProcessor: public TGo4EventSource {
        * 'L', 'l' for TH1L - Long64_t as bin content
        * \param fullname specifies name of histogram (optionally with subfolder name)
        * \param title - histogram title
-       * \param nbinsx, \param xlow, \param xup - range arguments for X axis
-       * \param xtitle, \param ytitle - title for X and Y axis of histogram
+       * \param nbinsx - number of X bins
+       * \param xlow - minimum value for X axis
+       * \param xup - maximum value for X axis
+       * \param xtitle - title for X axis of histogram
+       * \param ytitle - title for Y axis of histogram
        * If histogram exactly with same name and type already exists in  autosave file,
        * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
        */
@@ -231,7 +235,8 @@ class TGo4EventProcessor: public TGo4EventSource {
                    Int_t nbinsx, Double_t xlow, Double_t xup,
                    const char *xtitle = nullptr, const char *ytitle = nullptr);
 
-      /** Create two dimensional histogram of specified type. Type can be:
+      /** Create two dimensional histogram of specified type.
+       * \param type can be:
        * 'I', 'i' for TH2I - Int_t as bin content (default)
        * 'F', 'f' for TH2F - Float_t as bin content
        * 'D', 'd' for TH2D - Double_t as bin content
@@ -240,9 +245,15 @@ class TGo4EventProcessor: public TGo4EventSource {
        * 'L', 'l' for TH2L - Long64_t as bin content
        * \param fullname specifies name of histogram (optionally with subfolder name)
        * \param title - histogram title
-       * \param nbinsx, \param xlow, \param xup - range arguments for X axis
-       * \param nbinsy, \param ylow, \param yup - range arguments for Y axis
-       * \param xtitle, \param ytitle, \param ztitle - title for X, Y and Z axis of histogram
+       * \param nbinsx - number of X bins
+       * \param xlow - minimum value for X axis
+       * \param xup - maximum value for X axis
+       * \param nbinsy - number of Y bins
+       * \param ylow - minimum value for Y axis
+       * \param yup - maximum value for Y axis
+       * \param xtitle - title for X axis of histogram
+       * \param ytitle - title for Y axis of histogram
+       * \param ztitle - title for Z axis of histogram
        * If histogram exactly with same name and type already exists in  autosave file,
        * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
        */
@@ -271,17 +282,20 @@ class TGo4EventProcessor: public TGo4EventSource {
 
       /** Create 1D window condition.
        * \param fullname specifies name of condition (optionally with subfolder name)
-       * \param xmin, \param xmax - condition range
+       * \param xmin - X min condition range
+       * \param xmax - X max condition range
        * \param HistoName - name of histogram, to which condition is assigned */
       TGo4WinCond *MakeWinCond(const char *fullname,
                                Double_t xmin, Double_t xmax,
                                const char *HistoName = nullptr);
 
       /** Create 2D window condition.
-       * \param fullname specifies name of condition (optionally with subfolder name)
-       * \param xmin, \param xmax - X condition range
-       * \param ymin, \param ymax - Y condition range
-       * \param HistoName - name of histogram, to which condition is assigned */
+        * \param fullname specifies name of condition (optionally with subfolder name)
+        * \param xmin - X min condition range
+        * \param xmax - X max condition range
+        * \param ymin - Y min condition range
+        * \param ymax - Y max condition range
+        * \param HistoName - name of histogram, to which condition is assigned */
       TGo4WinCond *MakeWinCond(const char *fullname,
                                Double_t xmin, Double_t xmax,
                                Double_t ymin, Double_t ymax,
@@ -294,8 +308,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * \param HistoName - name of histogram, to which condition is assigned
        * To use method, array should be declared as following:
        * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
-       * cond = MakePolyCond("Folder/CondName", 4, points);
-       */
+       * cond = MakePolyCond("Folder/CondName", 4, points); */
       TGo4PolyCond *MakePolyCond(const char *fullname,
                                  Int_t npoints,
                                  Double_t (*points) [2],
@@ -304,11 +317,12 @@ class TGo4EventProcessor: public TGo4EventSource {
       /** Create ellipse shaped polygon condition.
        * \param fullname specifies name of condition (optionally with subfolder name)
        * \param npoints - number of points in ellipse condition, 0 for default resolution
-       * \param cx, \param cy - center coordinates of ellipse
-       * \param a1, \param a2 - width of ellipse half axes
+       * \param cx - center X coordinate of ellipse
+       * \param cy - center Y coordinate of ellipse
+       * \param a1 - width of ellipse X half axes
+       * \param a2 - width of ellipse Y half axes
        * \param theta - ellipse tilt angle
-       * \param HistoName - name of histogram, to which condition is assigned
-       */
+       * \param HistoName - name of histogram, to which condition is assigned  */
       TGo4ShapedCond *MakeEllipseCond(const char *fullname,
                                       Int_t npoints,
                                       Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta = 0,
@@ -316,22 +330,23 @@ class TGo4EventProcessor: public TGo4EventSource {
 
       /** Create circular shaped polygon condition.
        * \param fullname specifies name of condition (optionally with subfolder name)
-       * \param npoints - number of points in ellipse condition, 0 for default resolution
-       * \param cx, \param cy - circle center coordinates
-       * \param r - circle radius
-       * \param HistoName - name of histogram, to which condition is assigned  */
+       * \param npoints - number of points in shaped condition, 0 for default resolution
+       * \param cx - circle center X coordinate
+       * \param cy - circle center Y coordinate
+       * \param r  - circle radius
+       * \param HistoName - name of histogram, to which condition is assigned */
       TGo4ShapedCond *MakeCircleCond(const char *fullname,
                                      Int_t npoints, Double_t cx, Double_t cy, Double_t r,
                                      const char *HistoName = nullptr);
 
       /** Create tilted rectangular box shaped polygon condition.
-       * \param fullname specifies name of condition (optionally with subfolder name)
-       * \param npoints - number of points in ellipse condition, 0 for default resolution
-       * \param cx, \param cy - center coordinates of ellipse
-       * \param a1, \param a2 - width of ellipse half axes
-       * \param theta - tilt angle
-       * \param HistoName - name of histogram, to which condition is assigned
-       */
+       *  \param fullname specifies name of condition (optionally with subfolder name)
+       *  \param cx - center X coordinates of box
+       *  \param cy - center Y coordinates of box
+       *  \param a1 - width of box half axes
+       *  \param a2 - height of box half axes
+       *  \param theta - tilt angle
+       *  \param HistoName - name of histogram, to which condition is assigned */
       TGo4ShapedCond *MakeBoxCond(const char *fullname, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
                                   const char *HistoName = nullptr);
 
@@ -344,8 +359,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * \param HistoName - name of histogram, to which condition is assigned
        * To use method, array should be declared as following:
        * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
-       * cond = MakePolyCond("Folder/CondName", 4, points);
-       */
+       * cond = MakePolyCond("Folder/CondName", 4, points); */
       TGo4ShapedCond *MakeFreeShapeCond(const char *fullname,
                                         Int_t npoints,
                                         Double_t (*points) [2],

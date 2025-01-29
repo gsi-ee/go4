@@ -102,7 +102,6 @@ class TGo4FitModelFromData : public TGo4FitModel {
 
       /**
        * Slot for TGo4FitData object, which is used as model component.
-       * @label slot for TGo4FitData
        */
       TGo4FitSlot fxData;
 

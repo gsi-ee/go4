@@ -78,7 +78,6 @@ class TGo4FitDataGraph : public TGo4FitData {
 
       /**
        * Slot to for TGraph object.
-       * @label fxGraph
        */
       TGo4FitSlot fxGraph;
 

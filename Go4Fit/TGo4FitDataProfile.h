@@ -74,7 +74,6 @@ class TGo4FitDataProfile : public TGo4FitData {
 
       /**
        * Slot for TProfile object.
-       * @label fxProfile
        */
       TGo4FitSlot fxProfile;
 
