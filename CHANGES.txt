@@ -22,10 +22,11 @@ in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
 Changes in Go4 v6.4
-1. Support ES6 modules, requires non yet released ROOT
-2. GUI: Add histogram import functionality for ASCII (go4 exported) and Ortec MCA formats
-3. Bugfix: display and update result functions of ROOT fitter together with original histogram in GU
-4. Support TH1L and TH2L classes in MakeTH1/MakeTH2 methods
+1. Support ES6 modules, requires ROOT 6.34
+2. Use web graphics on Wayland by default, can be disabled with --x11 command-line argument
+3. GUI: Add histogram import functionality for ASCII (go4 exported) and Ortec MCA formats
+4. Bugfix: display and update result functions of ROOT fitter together with original histogram in GU
+5. Support TH1L and TH2L classes in MakeTH1/MakeTH2 methods
 
 
 Changes in Go4 v6.3 (January 2024)
@@ -35,7 +36,7 @@ Changes in Go4 v6.3 (January 2024)
 4. Require at least c++11 - as ROOT6
 5. Fully delete out-of-date qt3 part
 6. Remove support of Qt4 - either qt5 or qt6 can be used for compilation
-7. Supports MBS Version 7.0 and 7.1 for status strutcture monitoring
+7. Supports MBS Version 7.0 and 7.1 for status structure monitoring
 
 
 Changes in Go4 v6.2.0 (April 2022)
