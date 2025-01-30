@@ -134,7 +134,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    fView = findChild<QWebEngineView*>("RootWebView");
    if (!fView) {
-      printf("FAIL TO FIND QWebEngineView - ROOT Qt5Web plugin does not work properly !!!!!\n");
+      printf("FAIL TO FIND QWebEngineView - ROOT %sweb plugin does not work properly !!!!!\n", kind);
       exit(11);
    }
 
