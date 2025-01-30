@@ -187,6 +187,8 @@ ALIASES                = supplierCardinality="" \
                          stereotype="" \
                          directed="" \
                          aggregation="" \
+                         associationAsClass="" \
+                         associates="" \
                          link=""
 
 
