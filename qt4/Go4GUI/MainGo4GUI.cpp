@@ -61,6 +61,8 @@ int go4_usage() {
 
    std::cout << "Usage: " << std::endl;
    std::cout << "   go4 [args]                  - start go4 GUI" << std::endl;
+   std::cout << "   go4 --web                   - start go4 GUI with web graphics" << std::endl;
+   std::cout << "   go4 --x11                   - start go4 GUI with X11 graphics" << std::endl;
    std::cout << "   go4 file1.root              - load ROOT file(s) at start" << std::endl;
    std::cout << "   go4 filename[.hotstart]     - process hotstart file" << std::endl;
    std::cout << "   go4 -observer hostname port - connect with running analysis server" << std::endl;
@@ -114,7 +116,7 @@ int main(int argc, char **argv)
    int logport = 5000;
    const char *logpass = nullptr;
 
-   bool prepare_for_client = false, traceon = false, usergui = false;
+   bool prepare_for_client = false, traceon = false, usergui = false, usex11 = false;
 
 #ifdef __GO4WEB__
    bool useweb = false;
@@ -143,6 +145,8 @@ int main(int argc, char **argv)
 #ifdef __GO4WEB__
             useweb = true;
 #endif
+         } else if ((curr == "--x11") || (curr == "-x11")) {
+            usex11 = true;
          } else if (curr == "-debug") {
             std::cout << "G-OOOO-> MainGo4GUI switched on debug output" << std::endl;
             traceon = true;
@@ -214,6 +218,14 @@ int main(int argc, char **argv)
 
    go4sett = new TGo4QSettings(settfile);
 #ifdef __GO4WEB__
+   if (!usex11 && !useweb) {
+      const char *kind = gSystem->Getenv("XDG_SESSION_TYPE");
+      if (kind && !strcmp(kind,"wayland")) {
+         useweb = true;
+         std::cout << "Use web graphics on Wayland by default, start go4 --x11 to force Wayland usage" << std::endl;
+      }
+   }
+
    go4sett->setWebBasedCanvas(useweb);
 #endif
 
