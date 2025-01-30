@@ -43,6 +43,8 @@ TGo4RollingGraph::~TGo4RollingGraph()
 
 /** \brief Fills a new value into the rolling graph
 * \param value The value to fill
+* \param xerror The X value
+* \param yerror The Y value
 *
 * If the Update Interval is larger than one, the value will not be displayed directly in the graph but added to the averaging
 */

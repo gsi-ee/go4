@@ -27,7 +27,7 @@ class TFormula;
  * In constructor expression, number of additional parameters and using of amplitude parameter should be specified.
  * Fort instance, equation with 3 parameters and amplitude:
  *
- *   TGo4FitModelFormula *f = new TGo4FitModelFormula("Form","(x-Par0)*(y-Par1)*(z-Par2)", 3, kTRUE);
+ *   auto f = new TGo4FitModelFormula("Form","(x-Par0)*(y-Par1)*(z-Par2)", 3, kTRUE);
  */
 class TGo4FitModelFormula : public TGo4FitModel {
    public:

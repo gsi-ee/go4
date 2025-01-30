@@ -26,17 +26,17 @@ typedef Double_t (*TUserFunction)(Double_t *, Double_t *);
  * Double_t Func(Double_t *coord, Int_t ncoord, Double_t *pars, Int_t npars) {
  *     // coord - array of axis values, ncoord - number of axis values
  *     // pars - model parameters values, npars - number of parameters
- *    return (coord[0]-pars[0])*(coord[1]-pars[1])*(coord[2]-pars[2]);
+ *    return (coord[0] - pars[0]) * (coord[1] - pars[1]) * (coord[2] - pars[2]);
  * }
  * In constructor user should define name and title of object, pointer to user function, number of parameters and, optionally, using additional amplitude parameters. For instance, user function with three parameters and amplitude:
  *
- *   TGo4FitModelFunction *f = new TGo4FitModelFunction("func", "user function Func",&Func, 3, kTRUE);
+ *   auto f = new TGo4FitModelFunction("func", "user function Func",&Func, 3, kTRUE);
  *
  * In constructor "Par0", "Par1", "Par2" and "Ampl" parameters will be created. They are accessible in usual way from fitter or model object itself.
  * Important notice - this model object can not be saved to file and restored in proper way, because address of user function may change in between. To correctly use this object after saving and restoring routines, user should directly set address of user function to TGo4FitModelFunction object (SetUserFunction() method) before using it. Otherwise, run-time error will occur. To avoid this user should create it's own model class (see example 4) or put function to shared library (example 2).
  * If shared library is created, it can be used in constructor like:
  *
- *   new TGo4FitModelFunction("Gauss1", "Example8Func.so", "gaussian",3,kTRUE) );
+ *   auto f = new TGo4FitModelFunction("Gauss1", "Example8Func.so", "gaussian", 3, kTRUE);
  *
  * During initialization routine library will be loaded and function will be used for modeling. In this case, if library will be present on the same location, model object can be reused directly after storing to file and reading it back.
  */

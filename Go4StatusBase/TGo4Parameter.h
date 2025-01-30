@@ -34,9 +34,10 @@ class TGo4Parameter : public TNamed {
 
       virtual ~TGo4Parameter();
 
-      /** DEPRECATED - please use Print(Option_t *) signature
+      /** DEPRECATED! - please use Print(Option_t *) signature
         * Basic method to printout parameter on stdout or in text buffer;
-        * to be overridden by specific subclass  */
+        * to be overridden by specific subclass
+        * \deprecated */
       virtual Int_t PrintParameter(Text_t *buffer = nullptr, Int_t buflen = 0);
 
       void Print(Option_t *opt = "") const override;
@@ -64,8 +65,9 @@ class TGo4Parameter : public TNamed {
       Bool_t SetMemberValues(TObjArray *fItems);
 
       /** Standard way to store parameter in form of macro,
-       * If \param opt == "savemacro", parameter saved in form of macro,
-       * which can be rerun in analysis-  see saveparam.C macro for example */
+       * \param fs output stream,
+       * \param opt - if "savemacro" specified, parameter saved in form of macro
+       * which can be rerun in analysis,  see saveparam.C macro for example */
       void SavePrimitive(std::ostream &fs, Option_t *opt= "") override;
 
       /** Creates parameter status object. It should be destroyed by the user */
