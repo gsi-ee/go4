@@ -230,8 +230,8 @@ int main(int argc, char **argv)
 #endif
 
    ////// end settings setup ///////////////////////////////
-   if(traceon) TGo4Log::SetIgnoreLevel(0);
-          else TGo4Log::SetIgnoreLevel(1);
+
+   TGo4Log::SetIgnoreLevel(traceon ? 0 : 1);
 
    print_go4_version();
 
@@ -295,39 +295,39 @@ int main(int argc, char **argv)
    gEnv->SetValue("Canvas.ShowGuideLines", 0);
 
    // create instance, which should be used everywhere
-   TGo4MainWindow* Go4MainGUI = new TGo4MainWindow(&myapp);
+   auto main = new TGo4MainWindow(&myapp);
 
    myapp.connect(&myapp, &QRootApplication::lastWindowClosed, &myapp, &QRootApplication::quit);
 
-   Go4MainGUI->ensurePolished();
-   Go4MainGUI->show();
+   main->ensurePolished();
+   main->show();
 
    QApplication::setDoubleClickInterval(400); //ms, for Qt>=3.3 avoid very fast defaults!
    QApplication::setStartDragTime(150); // ms
 
    for (int i = 0; i < files.size(); ++i)
-      Go4MainGUI->Browser()->OpenFile(files.at(i).toLatin1().constData());
+      main->Browser()->OpenFile(files.at(i).toLatin1().constData());
 
    if (dabcnode.length() > 0)
-      Go4MainGUI->Browser()->ConnectDabc(dabcnode.toLatin1().constData());
+      main->Browser()->ConnectDabc(dabcnode.toLatin1().constData());
 
    for (int i = 0; i < httpnodes.size(); ++i)
-      Go4MainGUI->ConnectHttpServer(httpnodes.at(i).toLatin1().constData());
+      main->ConnectHttpServer(httpnodes.at(i).toLatin1().constData());
 
    if (hotstart.length() > 0)
-      Go4MainGUI->HotStart(hotstart.toLatin1().constData());
+      main->HotStart(hotstart.toLatin1().constData());
 
    if (usergui)
-      Go4MainGUI->UserPanelSlot();
+      main->UserPanelSlot();
 
    if (dologin >= 0) {
       go4sett->setClientNode(loghost);
       go4sett->setClientPort(logport);
       go4sett->setClientDefaultPass(!logpass);
       go4sett->setClientControllerMode(dologin);
-      Go4MainGUI->ConnectServer(false, logpass);
+      main->ConnectServer(false, logpass);
    } else if (prepare_for_client) {
-      Go4MainGUI->PrepareForClientConnection(false);
+      main->PrepareForClientConnection(false);
    }
 
    int res = myapp.exec();
