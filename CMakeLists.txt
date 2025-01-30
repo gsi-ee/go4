@@ -210,59 +210,58 @@ endif(gui)
 
 # ================== Go4 examples =================
 
-ExternalProject_Add(Go4FitExample
-                    DEPENDS Go4Fit
-                    CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
-                    SOURCE_DIR ${CMAKE_SOURCE_DIR}/Go4FitExample
-                    BINARY_DIR Go4FitExample
-                    BUILD_ALWAYS true
-                    INSTALL_COMMAND "")
+if(examples)
 
-ExternalProject_Add(Go4ThreadManagerExample
-                    DEPENDS Go4ThreadManager
-                    CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
-                    SOURCE_DIR ${CMAKE_SOURCE_DIR}/Go4ThreadManagerExample
-                    BINARY_DIR Go4ThreadManagerExample
-                    BUILD_ALWAYS true
-                    INSTALL_COMMAND "")
+   ExternalProject_Add(Go4FitExample
+                     DEPENDS Go4Fit
+                     CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
+                     SOURCE_DIR ${CMAKE_SOURCE_DIR}/Go4FitExample
+                     BINARY_DIR Go4FitExample
+                     BUILD_ALWAYS true
+                     INSTALL_COMMAND "")
 
-ExternalProject_Add(Go4TaskHandlerExample
-                    DEPENDS Go4TaskHandler
-                    CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
-                    SOURCE_DIR ${CMAKE_SOURCE_DIR}/Go4TaskHandlerExample
-                    BINARY_DIR Go4TaskHandlerExample
-                    BUILD_ALWAYS true
-                    INSTALL_COMMAND "")
+   ExternalProject_Add(Go4ThreadManagerExample
+                     DEPENDS Go4ThreadManager
+                     CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
+                     SOURCE_DIR ${CMAKE_SOURCE_DIR}/Go4ThreadManagerExample
+                     BINARY_DIR Go4ThreadManagerExample
+                     BUILD_ALWAYS true
+                     INSTALL_COMMAND "")
 
-list(APPEND examples
-   Go4ExampleSimple
-   Go4Example1Step
-   Go4Example2Step
-   Go4ExampleAdvanced
-   Go4ExampleUserSource
-   Go4ExampleUserStore
-   Go4ExampleMesh
-   Go4EventServerExample
-)
+   ExternalProject_Add(Go4TaskHandlerExample
+                     DEPENDS Go4TaskHandler
+                     CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
+                     SOURCE_DIR ${CMAKE_SOURCE_DIR}/Go4TaskHandlerExample
+                     BINARY_DIR Go4TaskHandlerExample
+                     BUILD_ALWAYS true
+                     INSTALL_COMMAND "")
 
-if(DABC_FOUND)
-   list(APPEND examples Go4ExampleDabc)
-endif()
+   list(APPEND examples
+      Go4ExampleSimple
+      Go4Example1Step
+      Go4Example2Step
+      Go4ExampleAdvanced
+      Go4ExampleUserSource
+      Go4ExampleUserStore
+      Go4ExampleMesh
+      Go4EventServerExample
+   )
 
-foreach(ex ${examples})
-   ExternalProject_Add(${ex}
-                       DEPENDS Go4Analysis Go4AnalBase Go4Fit
-                       BUILD_ALWAYS true
-                       CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR} -DBUILDING_GO4=ON
-                       SOURCE_DIR ${CMAKE_SOURCE_DIR}/${ex}
-                       BINARY_DIR ${ex}
-                       INSTALL_COMMAND "")
-endforeach()
+   if(DABC_FOUND)
+      list(APPEND examples Go4ExampleDabc)
+   endif()
 
-# this is direct include of the examples
-# foreach(ex ${examples})
-#    add_subdirectory(${ex})
-# endforeach()
+   foreach(ex ${examples})
+      ExternalProject_Add(${ex}
+                        DEPENDS Go4Analysis Go4AnalBase Go4Fit
+                        BUILD_ALWAYS true
+                        CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR} -DBUILDING_GO4=ON
+                        SOURCE_DIR ${CMAKE_SOURCE_DIR}/${ex}
+                        BINARY_DIR ${ex}
+                        INSTALL_COMMAND "")
+   endforeach()
+
+endif(examples)
 
 # ================== Produce Go4 headers ==========
 
