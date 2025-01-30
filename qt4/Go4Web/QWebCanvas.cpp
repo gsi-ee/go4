@@ -38,15 +38,15 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    // JAM the following is pure empiric. hopefully default denominator won't change in future qt?
    fQtScalingfactor = (double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
 
-   setObjectName( "QWebCanvas");
+   setObjectName("QWebCanvas");
 
-   setSizeIncrement( QSize( 100, 100 ) );
+   setSizeIncrement(QSize(100, 100));
 
-   setUpdatesEnabled( true );
+   setUpdatesEnabled(true);
    setMouseTracking(true);
 
-   setFocusPolicy( Qt::TabFocus );
-   setCursor( Qt::CrossCursor );
+   setFocusPolicy(Qt::TabFocus);
+   setCursor(Qt::CrossCursor);
 
    setAcceptDrops(true);
 
@@ -79,11 +79,10 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    gPad = fCanvas;
 
-   TWebCanvas *web = new TWebCanvas(fCanvas, "title", 0, 0, 800, 600, kFALSE);
+   auto web = new TWebCanvas(fCanvas, "title", 0, 0, 800, 600, kFALSE);
 
 
    #if ROOT_VERSION_CODE >= ROOT_VERSION(6,33,0) && QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-
    // this is usage of new JS modules functionality, works only with qt6
    ROOT::RWebWindowsManager::AddServerLocation("go4sys", TGo4Log::GO4SYS());
    static std::string go4script = "modules:go4sys/html5/go4canvas.mjs";
@@ -134,11 +133,9 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    args.SetDriverData(this); // it is parent widget for created QWebEngineView element
    args.SetUrlOpt("noopenui");
 
-   printf("Starting window batch %d webbatch %d\n", (int) gROOT->IsBatch(), (int) gROOT->IsWebDisplayBatch());
-
    web->ShowWebWindow(args);
 
-   fView = findChild<QWebEngineView*>("RootWebView");
+   fView = findChild<QWebEngineView *>("RootWebView");
    if (!fView) {
       printf("FAIL TO FIND QWebEngineView - ROOT %sweb plugin does not work properly !!!!!\n", kind);
       exit(11);
@@ -193,11 +190,8 @@ void QWebCanvas::SetPrivateCanvasFields(bool on_init)
 
 }
 
-
 void QWebCanvas::resizeEvent(QResizeEvent *event)
 {
-   // printf("Resize width: %d %d height: %d %d\n", (int) width(), (int) fView->width(), (int) height(), (int) fView->height());
-
    fCanvas->SetCanvasSize(fView->width(), fView->height());
 }
 
@@ -211,9 +205,7 @@ void QWebCanvas::dropEvent(QDropEvent* event)
 #else
    QPoint pos = event->position().toPoint();
 #endif
-   TPad *pad = fCanvas->Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
-
-   printf("Drop on pad %s\n", pad ? pad->GetName() : "---");
+   auto pad = fCanvas->Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
 
    emit CanvasDropEvent(event, pad ? pad : fCanvas);
 }
@@ -226,16 +218,14 @@ void QWebCanvas::dropView(QDropEvent* event)
 #else
    QPoint pos = event->position().toPoint();
 #endif
-   TPad *pad = fCanvas->Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
-
-   printf("Drop on view %s\n", pad ? pad->GetName() : "---");
+   auto pad = fCanvas->Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
 
    emit CanvasDropEvent(event, pad ? pad : fCanvas);
 }
 
 void QWebCanvas::activateEditor(TPad *pad, TObject *obj)
 {
-   TWebCanvas *cimp = dynamic_cast<TWebCanvas*> (fCanvas->GetCanvasImp());
+   auto cimp = dynamic_cast<TWebCanvas *> (fCanvas->GetCanvasImp());
    if (cimp) {
       cimp->ShowEditor(kTRUE);
       cimp->ActivateInEditor(pad, obj);
@@ -260,13 +250,13 @@ void QWebCanvas::setStatusBarVisible(bool flag)
 
 void QWebCanvas::setEditorVisible(bool flag)
 {
-   TCanvasImp *cimp = fCanvas->GetCanvasImp();
+   auto cimp = fCanvas->GetCanvasImp();
    if (cimp) cimp->ShowEditor(flag);
 }
 
 void QWebCanvas::activateStatusLine()
 {
-   TCanvasImp *cimp = fCanvas->GetCanvasImp();
+    auto cimp = fCanvas->GetCanvasImp();
    if (cimp) cimp->ShowStatusBar(kTRUE);
 }
 
