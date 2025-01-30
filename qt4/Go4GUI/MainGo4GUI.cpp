@@ -227,6 +227,8 @@ int main(int argc, char **argv)
    }
 
    go4sett->setWebBasedCanvas(useweb);
+#else
+   (void) usex11; // avoid warnings
 #endif
 
    ////// end settings setup ///////////////////////////////
