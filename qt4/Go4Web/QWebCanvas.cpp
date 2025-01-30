@@ -54,6 +54,10 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    fRepaintTimer->setSingleShot(true);
    QObject::connect(fRepaintTimer, &QTimer::timeout, this, &QWebCanvas::processRepaintTimer);
 
+   // if ROOT compiled with X11 - batch mode is default, disable it before create web widget
+   if (gROOT->IsBatch())
+      gROOT->SetBatch(kFALSE);
+
    // disable option that at least background is redrawn immediately
    // and canvas content after 100 ms timeout
    //setAttribute(Qt::WA_NoSystemBackground);
@@ -129,6 +133,8 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    args.SetDriverData(this); // it is parent widget for created QWebEngineView element
    args.SetUrlOpt("noopenui");
+
+   printf("Starting window batch %d webbatch %d\n", (int) gROOT->IsBatch(), (int) gROOT->IsWebDisplayBatch());
 
    web->ShowWebWindow(args);
 
