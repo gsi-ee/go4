@@ -3385,9 +3385,9 @@ void rawQueryPrint(
 
       ii = MAX_ATLSERVER;
       if (ii > 1)
-         sprintf(cMClass, "%s%d", cMClass, iATLServer);
-      else
-         sprintf(cMClass, "%s", cMClass);
+         snprintf(cMClass, sizeof(cMClass), "%s%d", cMClass, iATLServer);
+      //else
+      //    sprintf(cMClass, "%s", cMClass);
    }
 
    if ( (ipMode == 10) || (ipMode == 11) )
@@ -3573,9 +3573,9 @@ int rawQueryString(
 
       ii = MAX_ATLSERVER;
       if (ii > 1)
-         sprintf(cMClass, "%s%d", cMClass, iATLServer);
-      else
-         sprintf(cMClass, "%s", cMClass);
+         snprintf(cMClass, sizeof(cMClass), "%s%d", cMClass, iATLServer);
+      //else
+      //   sprintf(cMClass, "%s", cMClass);
    }
    if ( (ipMode == 10) || (ipMode == 11) )
       strcat(cMClass, "??");             /* stage status not checked */
