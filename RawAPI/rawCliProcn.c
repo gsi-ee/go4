@@ -3273,7 +3273,7 @@ void rawQueryPrint(
 {
    char cModule[32]="rawQueryPrint";
    char ctype[8] = "";
-   char cMClass[50] = "";
+   char cMClass[12] = "";
    char cPath[MAX_OBJ_HL];
    char cStatus[16] = "";
 
@@ -3469,7 +3469,7 @@ int rawQueryString(
 
    int iMsg = 0;
    char ctype[8] = "";
-   char cMClass[50] = "";
+   char cMClass[12] = "";
    char cPath[MAX_OBJ_HL];
    char cMsg[4096] = "";
    char cMsg1[1024] = "";
