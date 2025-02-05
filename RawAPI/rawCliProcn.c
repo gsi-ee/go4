@@ -133,7 +133,6 @@
 
 #ifdef Linux
 #include <netinet/in.h>
-#pragma GCC diagnostic ignored "-Wformat-truncation"
 #endif
 
 #include "rawapitd.h"
@@ -143,6 +142,10 @@
 #include "rawclin.h"
 #include "rawentn.h"
 #include "rawapplcli.h"
+
+#ifdef __GNUC__
+#pragma GCC diagnostic ignored "-Wformat-truncation"
+#endif
 
 extern FILE *fLogFile;
 extern int *piEntryList;                /* for rawGetFilelistEntries */
