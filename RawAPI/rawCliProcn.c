@@ -133,6 +133,7 @@
 
 #ifdef Linux
 #include <netinet/in.h>
+#pragma GCC diagnostic ignored "-Wformat-truncation"
 #endif
 
 #include "rawapitd.h"
