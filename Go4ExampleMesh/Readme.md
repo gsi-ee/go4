@@ -1,5 +1,8 @@
 # Go4 Analysis Mesh example
 
+\ingroup go4_examples
+
+
 This example shows how to set up a go4 analysis of several steps
 that build a mesh of parallel analysis branches with different
 result generations. Additionally, one can see how the

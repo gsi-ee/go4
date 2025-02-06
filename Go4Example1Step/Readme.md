@@ -1,11 +1,15 @@
-# The Go4 template package
+# The Go4 one step example
+
+\ingroup go4_examples
 
 This package contains a simple running 1 step Go4 analysis.
 
 ## Rebuild the package by
 
-make clean
-make all
+~~~
+   shell> make clean
+   shell> make all
+~~~
 
 A test file is $GO4SYS/data/test.lmd
 

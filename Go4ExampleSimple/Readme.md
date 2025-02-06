@@ -1,4 +1,6 @@
-# The Go4 template package
+# The Go4 simple example
+
+\ingroup go4_examples
 
 This package contains a simple running 1 step Go4 analysis.
 
@@ -7,9 +9,10 @@ All classes separated on two files *.h - class definition and
 
 ## Rebuild the package by
 
-make clean
-make all
-
+~~~
+   shell> make clean
+   shell> make all
+~~~
 
 ## The processor class `TXXXProc`
 The analysis code is in the event processor TXXXProc. Members are

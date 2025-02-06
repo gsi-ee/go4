@@ -1,16 +1,17 @@
-# The Go4 template package
+# The Go4 - DABC example
+
+\ingroup go4_examples
 
 This package demonstrate usage of DABC functionality in go4 analysis
 
 Rebuild the package by
 
-make clean
-make all
+~~~
+   shell> make clean
+   shell> make all
+~~~
 
 Description of the package
-
-All classes separated on two files *.h - class definition and
-*.cxx - implementation
 
 ## The processor class TXXXProc
 
@@ -27,11 +28,11 @@ Then the histograms are filled, the 2d one with polygon conditions.
 ## Run analysis
 
 Analysis can be started from the Go4 GUI or by command line:
-```
+~~~
    shell> go4analysis -file $GO4SYS/data/test.lmd
    shell> go4analysis -random
    shell> go4analysis -stream r3f-12
-```
+~~~
 The events can be read from standard GSI lmd files or MBS or event servers.
 For each event the user event processor TXXXProc is called.
 It fills some histograms, taking data from input MBS event.
@@ -48,5 +49,4 @@ If you need to fill data in output event, please consider Go4Example1Step exampl
 
 ## Creating a new class
 Provide the definition and implementation files (.h and .cxx)
-Add class in XXXLinkDef.h
-Then `make all`.
+Add class in XXXLinkDef.h Then `make all`.
