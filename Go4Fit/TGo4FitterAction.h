@@ -20,6 +20,7 @@ class TGo4FitterAbstract;
 
 /**
  * Basic class for objects, which performs actions on fitter.
+ * @ingroup go4_fit
  */
 class TGo4FitterAction : public TGo4FitNamed {
    public:
