@@ -17,15 +17,16 @@
 #include "TGo4FitModel.h"
 
 /**
- * Two dimensional gaussian peak.
+ * @brief Two dimensional gaussian peak.
  *
- * Has following parameters:
- *   "Ampl" - amplitude;
- *   "Pos0" - line position on first coordinate;
- *   "Pos1" - line position on second coordinate;
- *   "Width0" - line width on first coordinate;
- *   "Width1" - line width on second coordinate;
- *   "Cov0_1" - covariation between first and second coordinate.
+ * @details Has following parameters:
+ *   - "Ampl" - amplitude;
+ *   - "Pos0" - line position on first coordinate;
+ *   - "Pos1" - line position on second coordinate;
+ *   - "Width0" - line width on first coordinate;
+ *   - "Width1" - line width on second coordinate;
+ *   - "Cov0_1" - covariation between first and second coordinate.
+ *
  * By default, first coordinate associated with x axis, second - with y axis. To create instance of this model:
  * ~~~{cpp}
  * *   TGo4FitModelGauss2 *g = new TGo4FitModelGauss2("Gauss", 5., 5., 1., 1., 0.5);

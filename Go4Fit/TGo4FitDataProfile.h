@@ -20,9 +20,9 @@
 class TProfile;
 
 /**
- * Data object, which provides access to TProfile ROOT class.
+ * @brief Data object, which provides access to TProfile ROOT class.
  *
- * The TProfile object can be assigned to TGo4FitDataProfile object in constructor, in SetProfile() method or in SetObject() method of fitter. TProfile object may owned, or may not owned by data object.
+ * @details The TProfile object can be assigned to TGo4FitDataProfile object in constructor, in SetProfile() method or in SetObject() method of fitter. TProfile object may owned, or may not owned by data object.
  *
  * @ingroup go4_fit
  */

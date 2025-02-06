@@ -21,29 +21,32 @@
 class TGo4FitMinuitResult;
 
 /**
- * Minuit minimization action
- * Now only TGo4FitMinuit class, provided general minimization routine, is available. It uses standard ROOT TMinuit class [3]. TGo4FitMinuit class includes Minuit commands list, which will be executed during minimizatione. There are several methods of TGo4FitMinuit class to operate with command list:
- * AddCommand() - add command to commands list;
- * GetNumCommands() - get number of commands in list;
- * GetCommand() - get command from list;
- * ClearCommands() - clear commands list.
+ * @brief Minuit minimization action
+ *
+ * @details Now only TGo4FitMinuit class, provided general minimization routine, is available. It uses standard ROOT TMinuit class [3]. TGo4FitMinuit class includes Minuit commands list, which will be executed during minimizatione. There are several methods of TGo4FitMinuit class to operate with command list:
+ *  - AddCommand() - add command to commands list;
+ *  - GetNumCommands() - get number of commands in list;
+ *  - GetCommand() - get command from list;
+ *  - ClearCommands() - clear commands list.
+ *
  * To get full description of Minuit commands, see Minuit reference manual [4].
  * In additional to standard Minuit commands, one adds result command, which get status and results values from Minuit and store them as TGo4FitMinuitResult objects in TGo4FitMinuit results list. The syntax of command is
- *
+ * ~~~
  * result [xxxx [result_name]]
- *
- * where "result"- identifier of this command, "xxxx" - flags field (default - "1000"), "result_name"- optional name of result object (default - "Result"). The each "x" in flags field can be: "0" - option switched off or "1" - switched on. The meanings of flags are:
- * 1.   Storing of current parameters values and errors (ParValues and ParError arrays of doubles, TArrayD class).
- * 2.   Storing result of Minos error analysis (EPLUS, EMINUS, EPARAB & GLOBCC arrays of doubles). Normally should be used after "MINOs" command of Minuit.
- * 3.   Storing error matrice estimations to ERRORMATRIX (TMatrix class). Columns and strings in matrix, corresponds to fixed elements, will be set to 0.
- * 4.   Storing contour plot in CONTOX, CONTOY (both are arrays of doubles) and CONTOCH (array of char, TArrayC). Normally should be switched on after "MNContour" command of Minuit.
+ * ~~~
+ * where "result"- identifier of this command, "xxxx" - flags field (default - "1000"), "result_name"- optional name of result object (default - "Result"). The each "x" in flags field can be: "0" - option switched off or "1" - switched on.
+ * The meanings of flags are:
+ *  1. Storing of current parameters values and errors (ParValues and ParError arrays of doubles, TArrayD class).
+ *  2. Storing result of Minos error analysis (EPLUS, EMINUS, EPARAB & GLOBCC arrays of doubles). Normally should be used after "MINOs" command of Minuit.
+ *  3. Storing error matrice estimations to ERRORMATRIX (TMatrix class). Columns and strings in matrix, corresponds to fixed elements, will be set to 0.
+ *  4. Storing contour plot in CONTOX, CONTOY (both are arrays of doubles) and CONTOCH (array of char, TArrayC). Normally should be switched on after "MNContour" command of Minuit.
  * Result object always store status values of Minuit (see MNSTAT command in Minuit reference manual [4]):
- * FMIN - the best function value found so far;
- * FEDM - the estimated vertical distance remaining to minimum;
- * ERRDEF - the value of UP defining parameter uncertainties;
- * NPARI - number of currently variable parameters;
- * NPARX - the highest (external) parameter number defined by user;
- * ISTAT - a status integer indicating how good is the covariance matrix.
+ *  - FMIN - the best function value found so far;
+ *  - FEDM - the estimated vertical distance remaining to minimum;
+ *  - ERRDEF - the value of UP defining parameter uncertainties;
+ *  - NPARI - number of currently variable parameters;
+ *  - NPARX - the highest (external) parameter number defined by user;
+ *  - ISTAT - a status integer indicating how good is the covariance matrix.
  * Several result commands can be present in Minuit command list and the same number of TGo4FitMinuitResult object will be present in TGo4FitMinuit object after minimization is finished. Results can be accessed via index, using GetNumResults() and GetResult() methods or via result name, using FindResult() method. The results objects always owned by TGo4FitMinuit object and stored together with it. Thus, if TGo4FitMinuit object will be saved together with fitter, the TGo4FitMinuitResult objects also will be stored and can be accessed later, then fitter will be loaded.
  *
  * @ingroup go4_fit

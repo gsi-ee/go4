@@ -19,15 +19,16 @@
 class TFormula;
 
 /**
- * Model object, which uses ROOT TFormula class facility.
+ * @brief Model object, which uses ROOT TFormula class facility.
  *
- * Any kind of one-line expression can be analyzed by TFormula object and evaluated for given set of axis values and set of parameters.
+ * @details Any kind of one-line expression can be analyzed by TFormula object and evaluated for given set of axis values and set of parameters.
  * TGo4FitModelFormula in constructor creates additional parameters with names "Par0", "Par1" and so on,
  * which can be used in equation and can be optimized. Optionally amplitude parameters with name "Ampl" can be created.
  * In constructor expression, number of additional parameters and using of amplitude parameter should be specified.
  * Fort instance, equation with 3 parameters and amplitude:
- *
+ * ~~~{cpp}
  *   auto f = new TGo4FitModelFormula("Form","(x-Par0)*(y-Par1)*(z-Par2)", 3, kTRUE);
+ * ~~~
  *
  * @ingroup go4_fit
  */

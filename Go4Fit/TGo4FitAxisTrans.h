@@ -17,7 +17,7 @@
 #include "TGo4FitParsList.h"
 
 /**
- * Base class for axis transformation objects
+ * @brief Base class for axis transformation objects
  * @ingroup go4_fit
  */
 

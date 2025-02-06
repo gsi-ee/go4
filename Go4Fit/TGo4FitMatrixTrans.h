@@ -17,12 +17,12 @@
 #include "TGo4FitAxisTrans.h"
 
 /**
- * Matrix transformation of scale values.
+ * @brief Matrix transformation of scale values.
  *
- * It has full matrix (N x N) to transfrom axis values like:
- *
+ * @details  has full matrix (N x N) to transfrom axis values like:
+ * ~~~
  *   scale' = Matrix x scale
- *
+ * ~~~
  * Each matrix element can be changed individually
  *
  * @ingroup go4_fit

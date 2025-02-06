@@ -20,9 +20,9 @@
 class TH1;
 
 /**
- * Data objects, which provides access to generic TH1 ROOT histogram.
+ * @brief Data objects, which provides access to generic TH1 ROOT histogram.
  *
- * There are several implementations of TH1 for one, two and three-dimensional histogram. All of them inherited from TH1 class and supported in TGo4FitDataHistogram object.
+ * @details There are several implementations of TH1 for one, two and three-dimensional histogram. All of them inherited from TH1 class and supported in TGo4FitDataHistogram object.
  * The histogram can be assigned to TGo4FitDataHistogram object in constructor, in SetHistogram() method or in SetObject() method of fitter. Histogram may owned, or may not owned by data object.
  * TGo4FitDataHistogram gets from histogram number of dimensions and number of bins on each axis. The first and last bins on each axis (0 and NBins+1 indexes) are excluded from data analysis. This means, that data object uses only bins, which has indexes from 1 to NBins.
  * If no calibration objects are sets up, TGo4FitDataHistogram can uses axis values, taken from histogram itself. As axis values central position of each bin is using.

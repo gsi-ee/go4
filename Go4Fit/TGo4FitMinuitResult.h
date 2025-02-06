@@ -22,12 +22,13 @@ class TArrayD;
 class TArrayC;
 
 /**
- * Result values, taken from Minuit object.
- * This object used only to store results from minuit like:
- * Minuit status,
- * Current parameters values and errors,
- * Covariation (error) matrix
- * Contour plot.
+ * @brief Result values, taken from Minuit object.
+ *
+ * @details This object used only to store results from minuit like:
+ *  - Minuit status,
+ *  - Current parameters values and errors,
+ *  - Covariation (error) matrix
+ *  - Contour plot.
  * Name of variables corresponds to Minuit documentation.
  *
  * @ingroup go4_fit

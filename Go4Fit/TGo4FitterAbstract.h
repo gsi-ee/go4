@@ -26,8 +26,8 @@ class TGo4FitterAction;
 class TGo4FitterOutput;
 
 /**
- * Abstract fitter class.
- * This is abstract class, which implement a general behavior of fitter.
+ * @brief Abstract fitter class.
+ * @details This is abstract class, which implement a general behavior of fitter.
  * It has a list of all parameters (class inherited from TGo4FitParsList) and function, which should be fitted.
  * It has a list of action, which may be performed on the fitter.
  * The specific things, like list of data and list of models, are implemented in inherited TGo4Fitter class.

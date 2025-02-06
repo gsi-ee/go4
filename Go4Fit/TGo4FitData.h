@@ -33,7 +33,7 @@ class TGo4FitAxisTrans;
 class TGo4FitDataIter;
 
 /**
- * Basic abstract class for representing data, which should be fitted.
+ * @brief Basic abstract class for representing data, which should be fitted.
  * @ingroup go4_fit
  */
 class TGo4FitData : public TGo4FitComponent {

@@ -19,9 +19,9 @@
 typedef Double_t (*TUserFunction)(Double_t *, Double_t *);
 
 /**
- * Model objects, which uses external user function to calculate model values.
+ * @brief Model objects, which uses external user function to calculate model values.
  *
- * The function should has such signature:
+ * @details The function should has such signature:
  *
  * ~~~{cpp}
  * Double_t Func(Double_t *coord, Int_t ncoord, Double_t *pars, Int_t npars) {

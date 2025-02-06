@@ -20,8 +20,8 @@ class TSeqCollection;
 class TObjArray;
 
 /**
- * Object for managing pointers on specific objects.
- * General purpose of this object - store pointer on any kind of object (derived from TObject) with/without ownership and provide a general interface to set/get and store/restore this object. Slot always belong to another object (has owner). Slot always knows, what kind of object should be assigned to it (via Class property).
+ * @brief Managing pointers on specific objects.
+ * @details General purpose of this object - store pointer on any kind of object (derived from TObject) with/without ownership and provide a general interface to set/get and store/restore this object. Slot always belong to another object (has owner). Slot always knows, what kind of object should be assigned to it (via Class property).
  * Slots may be distributed in different places of fitter: in data object (typically for assigning data like TH1, TGraph or other), sometimes in model object (like in TGo4FitModelFromData in slot TGo4FitData object should be placed to provide bins for model component) or complex hierarchy of these objects possible. Fitter has a method to collect a list of all slots from all possible places. Once all slots are collected, fitter know, how many and what kind of objects should be (or can be) assigned to fitter before start fitting. Fitter (see TGo4FitterAbstract description) has a set of function for manipulating with objects in slots.
  * @ingroup go4_fit
  */

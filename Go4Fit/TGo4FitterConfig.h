@@ -23,14 +23,16 @@ class TGo4FitterAbstract;
 class TGo4FitDependency;
 
 /**
- * Fitter configuration action
- * By default all fitter parameters are used in optimization as independent from each other. But there are a lot of situation, then one would like to introduce some kind of dependency between parameters. For instance, two lines have constant difference in positions. In other cases some of the parameter properties should be redefined without touching parameter object itself. For such a cases configuration class TGo4FitterConfig was introduced. There are several routines of TGo4FitterConfig class, which provide useful fitter configurations:
- * SetParFixed() - fix value of given parameter;
- * SetParRange() - fix range for given parameter;
- * SetParEpsilon() - set initial error for given parameter.
- * SetParInit() - set initial value for parameter (can be double value or expression);
- * SetParDepend() - set dependency of given parameter via expression;
- * AddParNew() - create new parameter, which can be used in expressions.
+ * @brief Fitter configuration action
+ * @details By default all fitter parameters are used in optimization as independent from each other. But there are a lot of situation, then one would like to introduce some kind of dependency between parameters. For instance, two lines have constant difference in positions. In other cases some of the parameter properties should be redefined without touching parameter object itself. For such a cases configuration class TGo4FitterConfig was introduced.
+ * There are several routines of TGo4FitterConfig class, which provide useful fitter configurations:
+ * - SetParFixed() - fix value of given parameter;
+ * - SetParRange() - fix range for given parameter;
+ * - SetParEpsilon() - set initial error for given parameter.
+ * - SetParInit() - set initial value for parameter (can be double value or expression);
+ * - SetParDepend() - set dependency of given parameter via expression;
+ * - AddParNew() - create new parameter, which can be used in expressions.
+ *
  * Several configuration objects can be added to actions list. It may be useful, if several minimization routines are used. Then before each minimization action new configuration can be applied.
  * @ingroup go4_fit
  */

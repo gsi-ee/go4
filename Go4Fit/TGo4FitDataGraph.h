@@ -20,9 +20,9 @@
 class TGraph;
 
 /**
- * Data object, which provides access to TGraph and TGraphErrors ROOT objects.
+ * @brief Data object, which provides access to TGraph and TGraphErrors ROOT objects.
  *
- * TGraph is just N points with X and Y coordinates. This is mean, that it may be only one-dimensional.
+ * @details TGraph is just N points with X and Y coordinates. This is mean, that it may be only one-dimensional.
  * The TGraph object can be assigned to TGo4FitDataGraph object in constructor, in SetGraph() method or in SetObject() method of fitter.
  * TGraph object may owned, or may not owned by data object.
  * TGo4FitDataGraph gets Y values as bins containment. If no calibration object is sets up, X can be used as axis values.

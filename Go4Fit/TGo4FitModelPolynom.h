@@ -19,9 +19,9 @@
 class TArrayD;
 
 /**
- * Model objects, which reproduce component of polynomial function.
+ * @brief Model objects, which reproduce component of polynomial function.
  *
- * Expression can be written like:
+ * @details Expression can be written like:
  * ~~~
  * Ampl * x^nx * y^ny * z^nz * ...
  * ~~~

@@ -18,9 +18,9 @@
 #include "TGo4FitSlot.h"
 
 /**
- * Special object to approximate ridges on multi-dimensional histograms.
+ * @brief Special object to approximate ridges on multi-dimensional histograms.
  *
- * Ridge means that some coordinate in multidimensional histograms can be represented as function of another coordinate(s) like y = f(x). If one has histogram, build in (x,y) space, one can try to approximate function f by several way.
+ * @details Ridge means that some coordinate in multidimensional histograms can be represented as function of another coordinate(s) like y = f(x). If one has histogram, build in (x,y) space, one can try to approximate function f by several way.
  *
  * First simplest way, which works for two-dimensional way is to build TProfile from TH2 object, averaging data along y axis. Then TGo4FitDataProfile can be used to approximate TProfile by any kind of functional dependency.
  *

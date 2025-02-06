@@ -22,10 +22,8 @@ class TGo4Fitter;
 class TGo4FitData;
 
 /**
- * Output action
- * To add some output to actions, TGo4FitterOutput action class should be used. In constructor output command and options (if required) should be specified. Also AddOuputAction() routine of fitter can be used. Now following commands are available:
- * "Print". Possible options are: "*"- print all internal objects, "**" - print also objects in slots, "Pars" - print parameters values, "Ampls" - only amplitude parameters, "Results" - result values.
- * "Draw". Draw of the fitter data and model objects. As option name of data object and its components should be sets up. For instance, "data1,Gauss1,Gauss2". If first character will be "#", Draw command creates new canvas for output.
+ * @brief Peak finder action
+ * @details Let find and create several peaks in the data
  * @ingroup go4_fit
  */
 class TGo4FitPeakFinder : public TGo4FitterAction {
@@ -43,7 +41,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
       TGo4FitPeakFinder(const char *Name, const char *DataName = nullptr, Bool_t ClearModels = kFALSE, Int_t PolOrder = -1);
 
       /**
-       * Destroys TGo4FitterOutput object.
+       * Destroys TGo4FitPeakFinder object.
        */
       virtual ~TGo4FitPeakFinder();
 
@@ -51,7 +49,6 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
       const char *GetDataName() const { return fxDataName.Data(); }
       void SetClearModels(Bool_t clear) { fbClearModels = clear; }
       Bool_t GetClearModels() const { return fbClearModels; }
-
 
       void SetupPolynomialBackground(Int_t PolynomOrder);
 

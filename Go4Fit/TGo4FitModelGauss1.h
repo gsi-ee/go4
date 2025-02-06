@@ -17,12 +17,12 @@
 #include "TGo4FitModel.h"
 
 /**
- * One dimensional gaussian peak.
+ * @brief One dimensional gaussian peak.
  *
- * Has following parameters :
- *   "Ampl" - amplitude,
- *   "Pos" - position of gaussian peak,
- *   "Width" - width of gaussian.
+ * @details Has following parameters :
+ *   - "Ampl" - amplitude,
+ *   - "Pos" - position of gaussian peak,
+ *   - "Width" - width of gaussian.
  * In constructor initial values of these parameter and number of selected axis (0 - x axis, 1 - y axis and so on) should be setup:
  *
  * ~~~{cpp}

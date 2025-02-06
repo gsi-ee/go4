@@ -21,8 +21,8 @@
 class TGo4FitParameter;
 
 /**
- * List of TGo4FitParameter objects.
- * Contain list of parameters and provides access to parameters properties via names.
+ * @brief List of TGo4FitParameter objects.
+ * @details Contain list of parameters and provides access to parameters properties via names.
  * Parameters objects may owned or not owned by TGo4FitParsList object.
  * @ingroup go4_fit
  */

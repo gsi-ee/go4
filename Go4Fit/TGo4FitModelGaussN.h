@@ -21,9 +21,9 @@
 #include "TMatrixD.h"
 
 /**
- * N-dimensional gaussian peak.
+ * @brief N-dimensional gaussian peak.
  *
- * Has following parameters:
+ * @details Has following parameters:
  *   - "Ampl" - amplitude;
  *   - "Pos0", "Pos1", ... - line positions;
  *   - "Width0", "Width1", ... - line widths;

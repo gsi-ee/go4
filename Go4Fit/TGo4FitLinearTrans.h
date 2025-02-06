@@ -19,19 +19,20 @@
 #include "TGo4FitParameter.h"
 
 /**
- * The linear transformation of selected data axis.
+ * @brief The linear transformation of selected data axis.
  *
- * It has two coefficients to transfrom axis values like:
- *
+ * @details It has two coefficients to transfrom axis values like:
+ * ~~~
  *   scale[naxis] = CoefK * scale[naxis] + CoefB
+ * ~~~
  *
  * After linear transformation object is constructed, the coefficients can be defined by three ways:
  *
- * SetCalibration() - just setting these coefficients;
+ * - SetCalibration() - just setting these coefficients;
  *
- * SetCalibrationByRange() - coefficients defines from range and number of points in this range;
+ * - SetCalibrationByRange() - coefficients defines from range and number of points in this range;
  *
- * SetCalibrationByPoints() - coefficients calculates from coordinates of two points, where first coordinate is channel number and second - axis value.
+ * - SetCalibrationByPoints() - coefficients calculates from coordinates of two points, where first coordinate is channel number and second - axis value.
  *
  * @ingroup go4_fit
  */

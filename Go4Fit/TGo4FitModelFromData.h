@@ -22,9 +22,9 @@ class TGo4FitData;
 class TH1;
 
 /**
- * Model object, which is uses TGo4FitData object to produce model bins.
+ * @brief Model object, which is uses TGo4FitData object to produce model bins.
  *
- * In constructor one should just specify data object (it may be TGo4FitDataHistogram or other), which will be used as model. Optionally, amplitude parameter can be created. For instance:
+ * @details In constructor one should just specify data object (it may be TGo4FitDataHistogram or other), which will be used as model. Optionally, amplitude parameter can be created. For instance:
  *
  * ~~~{cpp}
  *   TH1 *histo = GetHistogramSomewhere();
