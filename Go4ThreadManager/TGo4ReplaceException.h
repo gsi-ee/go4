@@ -19,6 +19,8 @@
 class TGo4Runnable;
 
 /**
+ * @brief Replace exception
+ * @details
 *   Exception with the effect of removing old TGo4Thread from
 *   TGo4ThreadHandler and creating and starting new
 *   TGo4Thread with new runnable fxNewRunnable.
@@ -29,6 +31,7 @@ class TGo4Runnable;
 *   runnable will be removed and a new thread with the
 *   calling runnable will be created, added to the handler
 *   list and started
+* @ingroup go4_threadmgr
 * @author J. Adamczewski
 * @author Go4 project-DVEE-GSI Darmstadt
 * @author Germany

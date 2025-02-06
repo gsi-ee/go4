@@ -18,6 +18,9 @@
 @ref go4_fit
 <br>
 <br>
+@ref go4_threadmgr
+<br>
+<br>
 
 
 \defgroup go4_major_classes Main GO4 classes
@@ -30,6 +33,9 @@
 
 
 \defgroup go4_taskhandler GO4 task handler
+
+
+\defgroup go4_threadmgr Go4 thread manager
 
 
 \defgroup go4_fit GO4 fit classes

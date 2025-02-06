@@ -17,7 +17,8 @@
 #include "TGo4ThreadException.h"
 
 /**
- * start thread associated with runnable.
+ * @brief start thread associated with runnable.
+ * @ingroup go4_threadmgr
  * @author J. Adamczewski
  * @author Go4 project-DVEE-GSI Darmstadt
  * @author Germany

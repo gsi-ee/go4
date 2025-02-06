@@ -21,7 +21,8 @@ class TGo4Runnable;
 class TGo4ThreadManager;
 
 /**
- * Exception which terminates the threadmanager and the application.
+ * @brief Exception which terminates the threadmanager and the application.
+ * @ingroup go4_threadmgr
  * @author J. Adamczewski
  * @author Go4 project-DVEE-GSI Darmstadt
  * @author Germany

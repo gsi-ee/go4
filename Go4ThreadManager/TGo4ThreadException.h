@@ -21,7 +21,8 @@ class TGo4Runnable;
 class TGo4ThreadHandler;
 
 /**
- * Exception base class for all exceptions acting on a thread.
+ * @brief Exception base class for all exceptions acting on a thread.
+ * @ingroup go4_threadmgr
  * @author J. Adamczewski(at)gsi.de
  * @author Go4 project-DVEE-GSI Darmstadt
  * @author Germany

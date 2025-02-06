@@ -23,14 +23,16 @@ class TMutex;
 class TGo4ThreadManager;
 class TGo4Runnable;
 
-/** Thread Handler holds array of Go4Thread Objects; each
+/** @brief Go4 thread handler
+ * @details Thread Handler holds array of Go4Thread Objects; each
   *   Go4Thread handles one TThread and Mutex, Condition...
   *   knows threadmanager instance
   *   that owns the handler (that owns the
   *   task connector  which owns the thread handler, respectively)
   *   this threadmanager instance pointer is given to each thread and runnable on
-  *   creation, thus each thread can acces its manager  methods by
+  *   creation, thus each thread can access its manager  methods by
   *   threadmanager pointer
+  * @ingroup go4_threadmgr
   * @author J. Adamczewski(at)gsi.de
   * @author Go4 project-DVEE-GSI Darmstadt
   * @author Germany

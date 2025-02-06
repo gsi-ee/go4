@@ -17,7 +17,8 @@
 #include "TGo4ThreadException.h"
 
 /**
- * Cancel thread associated with runnable or with threadname.
+ * @brief Cancel thread associated with runnable or with threadname.
+ * @ingroup go4_threadmgr
  * @author J. Adamczewski
  * @author Go4 project-DVEE-GSI Darmstadt
  * @author Germany

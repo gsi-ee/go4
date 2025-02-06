@@ -20,9 +20,9 @@ class TGo4ThreadManager;
 class TCondition;
 
 /**
-*   Timer with main purpose to block the root
-*   TApplication loop during thread execution. Moreover,
-*   this timer calls Initialization() function of threadmanager,
+*   @brief Timer with main purpose to block the root
+*   TApplication loop during thread execution.
+    @details This timer calls Initialization() function of threadmanager,
 *   which can be overridden by user to define any actions which should not
 *   be run within a thread (critical root system calls, like opening TServerSocket,
 *   should be done within the application loop, i.e. in the timer).
@@ -30,6 +30,7 @@ class TCondition;
 *   regularly with the period specified in threadmanager; in blocking mode
 *   it is called once after each threadmanager UnBlockApp().
 *   This timer is also responsible for proper termination of the threadmanager.
+* @ingroup go4_threadmgr
 * @author J. Adamczewski
 * @author Go4 project-DVEE-GSI Darmstadt
 * @author Germany

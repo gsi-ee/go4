@@ -19,8 +19,10 @@
 class TGo4ThreadHandler;
 class TGo4AppControlTimer;
 
-/** Base class for classes that
+/** @brief Go4 thread manager
+ * @details Base class for classes that
   *   shall be accessed from a thread /runnable instance
+  * @ingroup go4_threadmgr
   * @author J. Adamczewski(at)gsi.de
   * @author Go4 project-DVEE-GSI Darmstadt
   * @author Germany

@@ -17,11 +17,13 @@
 #include "TGo4ThreadException.h"
 
 /**
-*   Exception with default handler which removes TGo4Thread
+* @brief Remove exception
+* @details Exception with default handler which removes TGo4Thread
 *   of given name from the threadhandlerlist of given
 *   TGo4Runnable (usually the exception throwing runnable)
 *   and deletes it; if no threadname is specified,
 *   the respective thread of the runnable is removed
+* @ingroup go4_threadmgr
 * @author J. Adamczewski
 * @author Go4 project-DVEE-GSI Darmstadt
 * @author Germany

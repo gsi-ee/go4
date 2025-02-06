@@ -21,8 +21,10 @@ class TGo4ThreadManager;
 class TGo4Exception;
 
 /**
-*   Base class for all go4 runnables. Virtual method Run() is working in
+* @brief Base class for all go4 runnables.
+* @details Virtual method Run() is working in
 * the thread, this must be overridden by the user runnables.
+* @ingroup go4_threadmgr
 * @author J. Adamczewski
 * @author Go4 project-DVEE-GSI Darmstadt
 * @author Germany

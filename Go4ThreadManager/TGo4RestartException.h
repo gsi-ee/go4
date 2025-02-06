@@ -17,9 +17,11 @@
 #include "TGo4ThreadException.h"
 
 /**
- * Exception which cancels and recreates a thread associated with runnable,
+ * @brief Restart exception
+ * @details Exception which cancels and recreates a thread associated with runnable,
  * or associated with a given name. Similar to TGo4ReplaceException, but uses
  * Recreate method of taskhandler.
+ * @ingroup go4_threadmgr
  * @author J. Adamczewski
  * @author Go4 project-DVEE-GSI Darmstadt
  * @author Germany
