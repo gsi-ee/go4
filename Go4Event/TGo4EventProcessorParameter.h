@@ -22,6 +22,7 @@
  * event factory; factory method gets (possibly subclassed)
  * parameter object which is suited to the concrete user
  * factory. Name string can be used as filename, e.g.
+ * @ingroup go4_event
  */
 class TGo4EventProcessorParameter : public TGo4Parameter {
    public:

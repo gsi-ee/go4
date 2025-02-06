@@ -21,6 +21,7 @@
  * (unpacked) by a subelement factory to construct the user event (the
  * user detector data, respectively)
  * @ingroup go4_major_classes
+ * @ingroup go4_event
  * @author J. Adamczewski
  * @since 12/2000 */
 

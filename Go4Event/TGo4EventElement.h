@@ -30,6 +30,7 @@ class TTree;
  * The way of subelement organization (e.g.
  * user event class members, TObjArray,...) is not restricted here.
  * @ingroup go4_major_classes
+ * @ingroup go4_event
  * @author J. Adamczewski
  * @since 12/2000*/
 

@@ -19,8 +19,9 @@
 class TGo4EventSource;
 
    /**
-    *   Exception to be thrown on error of event source.
-    *   Mbs Error codes/messages are accessible from exception.
+    * Exception to be thrown on error of event source.
+    * Mbs Error codes/messages are accessible from exception.
+    * @ingroup go4_event
     */
 class TGo4EventErrorException : public TGo4EventSourceException {
 

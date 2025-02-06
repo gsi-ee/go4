@@ -19,6 +19,10 @@
 
 class TGo4EventStore;
 
+/** Event store exception
+ * @ingroup go4_event
+ */
+
 class TGo4EventStoreException : public TGo4RuntimeException {
 
   public:

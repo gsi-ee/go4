@@ -29,6 +29,7 @@ class TTree;
  * (unpacked) by a subelement factory to construct the user event (the
  * user detector data, respectively)
  * @ingroup go4_major_classes
+ * @ingroup go4_event
  * @author J. Adamczewski
  * @since 12/2000; added some Store() methods 10/2003 */
 

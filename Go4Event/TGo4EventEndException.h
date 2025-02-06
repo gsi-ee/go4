@@ -17,7 +17,8 @@
 #include "TGo4EventSourceException.h"
 
 /**  Exception to throw on event source timeout.
-  *   (e.g. blocked mbs socket) */
+  *   (e.g. blocked mbs socket)
+  * @ingroup go4_event */
 class TGo4EventEndException : public TGo4EventSourceException {
 
   public:

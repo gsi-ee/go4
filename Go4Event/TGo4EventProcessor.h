@@ -61,6 +61,7 @@ class TGo4EventCalibration;
  * dedicated for one special subevent. Default factory method is
  * CreateSubElement
  * @ingroup go4_major_classes
+ * @ingroup go4_event
  * @author J. Adamczewski
  * @since 1/2001 */
 
