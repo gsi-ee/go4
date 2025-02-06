@@ -6,7 +6,7 @@ This package contains a simple running 1 step Go4 analysis.
 
 ## Rebuild the package by
 
-~~~{.sh}
+~~~
    make clean
    make all
 ~~~
@@ -57,7 +57,7 @@ One can inspect the content of the auto save file with the Go4 GUI.
 
 ## Run analysis.
 Analysis can be started from the Go4 GUI or by command line:
-~~~{.sh}
+~~~
    go4analysis -file $GO4SYS/data/test.lmd
    go4analysis -random
    go4analysis -stream r3f-12

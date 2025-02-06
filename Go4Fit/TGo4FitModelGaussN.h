@@ -24,15 +24,20 @@
  * N-dimensional gaussian peak.
  *
  * Has following parameters:
- *   "Ampl" - amplitude;
- *   "Pos0", "Pos1", ... - line positions;
- *   "Width0", "Width1", "... - line widths;
- *   "Cov0_1", "Cov0_2", ..., "Cov1_2", "Cov1_3", ... - covariations parameters.
+ *   - "Ampl" - amplitude;
+ *   - "Pos0", "Pos1", ... - line positions;
+ *   - "Width0", "Width1", ... - line widths;
+ *   - "Cov0_1", "Cov0_2", ..., "Cov1_2", "Cov1_3", ... - covariations parameters.
+ *
  * To create instance of this model:
  *
- *   TGo4FitModelGaussN *g = new TGo4FitModelGaussN("Gauss", 2);
+ * ~~~~~~{cpp}
+ * auto g = new TGo4FitModelGaussN("Gauss", 2);
+ * ~~~~~~
  *
  * where first parameter - name of model component, second - number of dimensions.
+ *
+ * @ingroup go4_fit
  */
 class TGo4FitModelGaussN : public TGo4FitModel {
    public:

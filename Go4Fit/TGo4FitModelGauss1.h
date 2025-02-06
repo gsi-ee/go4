@@ -25,9 +25,13 @@
  *   "Width" - width of gaussian.
  * In constructor initial values of these parameter and number of selected axis (0 - x axis, 1 - y axis and so on) should be setup:
  *
+ * ~~~{cpp}
  *   TGo4FitModelGauss1 *g = new TGo4FitModelGauss1("Gauss", 10., 5., 1);
+ * ~~~
  *
  * where "Gauss" - name of model component, "10." - peak position, "5." - peak width, "1" - selected axis (here - y).
+ *
+ * @ingroup go4_fit
  */
 class TGo4FitModelGauss1 : public TGo4FitModel {
    public:

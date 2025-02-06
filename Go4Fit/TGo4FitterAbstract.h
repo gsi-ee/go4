@@ -31,6 +31,7 @@ class TGo4FitterOutput;
  * It has a list of all parameters (class inherited from TGo4FitParsList) and function, which should be fitted.
  * It has a list of action, which may be performed on the fitter.
  * The specific things, like list of data and list of models, are implemented in inherited TGo4Fitter class.
+ * @ingroup go4_fit
  */
 class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
    public:

@@ -20,6 +20,7 @@
  * Model and data objects parameter.
  * Has value, error, range and epsilon attributes.
  * From TGo4FitNamed class obtains full name, which consist of owner name (name of data object or model component) and name of parameter like "Gauss1.Width".
+ * @ingroup go4_fit
  */
 class TGo4FitParameter : public TGo4FitNamed {
    public:

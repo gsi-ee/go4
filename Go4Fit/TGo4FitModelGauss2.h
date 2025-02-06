@@ -27,14 +27,16 @@
  *   "Width1" - line width on second coordinate;
  *   "Cov0_1" - covariation between first and second coordinate.
  * By default, first coordinate associated with x axis, second - with y axis. To create instance of this model:
- *
- *   TGo4FitModelGauss2 *g = new TGo4FitModelGauss2("Gauss", 5., 5., 1., 1., 0.5);
- *
+ * ~~~{cpp}
+ * *   TGo4FitModelGauss2 *g = new TGo4FitModelGauss2("Gauss", 5., 5., 1., 1., 0.5);
+ * ~~~
  * where first parameter - name of model component, then initial value for positions, widths and covariation parameters are defined. To assigned coordinates to another axis, two more parameters should be used in the constructor:
- *
+ * ~~~{cpp}
  *   TGo4FitModelGauss2 *g = new TGo4FitModelGauss2("Gauss", 5., 5., 1., 1., 0.5, 1, 2);
- *
+ * ~~~
  * where 1 - assignment of first coordinate to y axis, 2 - assignment of second coordinate to z axis.
+ *
+ * @ingroup go4_fit
  */
 class TGo4FitModelGauss2 : public TGo4FitModel {
    public:

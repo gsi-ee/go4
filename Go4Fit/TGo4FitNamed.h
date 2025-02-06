@@ -20,6 +20,7 @@
  * Extension of ROOT TNamed class.
  * In addition to TNamed class property has owner and provides additional GetFullName() method.
  * Full name consist of full name (if exists) of owner and name of object itself, divided by dot. For instance: "OwnerName.ObjectName". If owner has its owner, the full name will look like: "Owner1Name.Owner2Name.ObjectName". Any level of ownership is supported. Thus, full name shows hierarchy of ownership for given object.
+ * @ingroup go4_fit
  */
 class TGo4FitNamed : public TNamed {
    public:

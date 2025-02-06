@@ -33,6 +33,7 @@ typedef Double_t (*TUserFitFunction)(Double_t, Double_t, Double_t);
 
 /**
  * Central class of Go4Fit package.
+ * @ingroup go4_fit
  */
 class TGo4Fitter : public TGo4FitterAbstract {
    public:

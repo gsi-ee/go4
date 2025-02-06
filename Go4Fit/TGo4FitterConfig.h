@@ -32,6 +32,7 @@ class TGo4FitDependency;
  * SetParDepend() - set dependency of given parameter via expression;
  * AddParNew() - create new parameter, which can be used in expressions.
  * Several configuration objects can be added to actions list. It may be useful, if several minimization routines are used. Then before each minimization action new configuration can be applied.
+ * @ingroup go4_fit
  */
 class TGo4FitterConfig : public TGo4FitterAction {
    public:

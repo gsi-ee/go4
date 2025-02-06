@@ -22,31 +22,38 @@ class TArrayD;
  * Model objects, which reproduce component of polynomial function.
  *
  * Expression can be written like:
- *
+ * ~~~
  * Ampl * x^nx * y^ny * z^nz * ...
- *
- * The order of polynomial function should be sets up in constructor like:
- *
+ * ~~~
+ * * The order of polynomial function should be sets up in constructor like:
+ * ~~~{cpp}
  *   TGo4FitModelPolynom *p1 = new TGo4FitModelPolynom("Pol1",orderx,ordery,orderz);
+ * ~~~
  *   or
+ * ~~~{cpp}
  *   TArrayD orders(5);
  *   Orders[0] = 1.; Orders[1] = 0.; ...
  *   TGo4FitModelPolynom *p2 = new TGo4FitModelPolynom("Pol2",Orders);
+ * ~~~
  *
  * According to number of parameters in constructor TGo4FitModelPolynom has set of parameters "Order0", "Order1" and so on, representing polynom orders for axis x, y and so on correspondingly.
  * By default, these parameters are fixed and not fitted in optimizations. To change this default behavior, use:
- *
+ * ~~~{cpp}
  * p1->FindPar("Order0")->SetFixed(kFALSE);
+ * ~~~
  *
  * TGo4FitModelPolynom class always has amplitude parameter, named "Ampl". It can be accessed by its name, for instance:
- *
+ * ~~~{cpp}
  * p1->FindPar("Ampl")->SetValue(1000.);
- *
+ * ~~~
  * or
- *
+ * ~~~{cpp}
  * p1->GetAmplitudePar("Ampl")->SetValue(1000.);
+ * ~~~
  *
  * GetAmplitudePar() method can be used in other models classes only if they create amplitude parameters, otherwise method returns 0.
+ *
+ * @ingroup go4_fit
  */
 class TGo4FitModelPolynom : public TGo4FitModel {
    public:
