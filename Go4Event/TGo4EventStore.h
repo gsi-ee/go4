@@ -28,7 +28,7 @@ class TTree;
  * Raw events are delivered from the raw event source, may be stored in a raw event store, and are processed
  * (unpacked) by a subelement factory to construct the user event (the
  * user detector data, respectively)
- * @interface TGo4EventStore
+ * @ingroup go4_major_classes
  * @author J. Adamczewski
  * @since 12/2000; added some Store() methods 10/2003 */
 

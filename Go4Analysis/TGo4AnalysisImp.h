@@ -70,6 +70,7 @@ class TGo4Ratemeter;
  * or may be aggregated by analysis client for threaded online control. User
  * has to derive his/her own analysis from this base class and override the
  * virtual user event function and set event factory methods.
+ * @ingroup go4_major_classes
  * @author J. Adamczewski
  * @since 19-jan-2001
  */
