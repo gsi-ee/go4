@@ -23,6 +23,8 @@ class TGo4FitDataIter;
 
 /**
  * Internal class, used for assignment of model component to data
+ *
+ * @ingroup go4_fit
  */
 class TGo4FitAssignment : public TNamed {
     public:

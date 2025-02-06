@@ -45,6 +45,8 @@ class TGo4FitMinuitResult;
  * NPARX - the highest (external) parameter number defined by user;
  * ISTAT - a status integer indicating how good is the covariance matrix.
  * Several result commands can be present in Minuit command list and the same number of TGo4FitMinuitResult object will be present in TGo4FitMinuit object after minimization is finished. Results can be accessed via index, using GetNumResults() and GetResult() methods or via result name, using FindResult() method. The results objects always owned by TGo4FitMinuit object and stored together with it. Thus, if TGo4FitMinuit object will be saved together with fitter, the TGo4FitMinuitResult objects also will be stored and can be accessed later, then fitter will be loaded.
+ *
+ * @ingroup go4_fit
  */
 class TGo4FitMinuit : public TGo4FitterAction {
    public:

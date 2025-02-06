@@ -27,6 +27,8 @@ class TGraph;
  * TGraph object may owned, or may not owned by data object.
  * TGo4FitDataGraph gets Y values as bins containment. If no calibration object is sets up, X can be used as axis values.
  * If TGraphErrors object is assigned, the error values of Y can be used as sigmas in chi-square calculations (fit-function type should be ff_chi_square).
+ *
+ * @ingroup go4_fit
  */
 class TGo4FitDataGraph : public TGo4FitData {
    public:

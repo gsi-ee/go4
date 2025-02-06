@@ -25,6 +25,7 @@ class TCutG;
 
 /**
  * Basic abstract class, combining common properties of data and model.
+ * @ingroup go4_fit
  */
 class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
    public:

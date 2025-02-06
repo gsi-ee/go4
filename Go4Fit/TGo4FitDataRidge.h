@@ -27,6 +27,8 @@
  * Another way is usage of TGo4FitDataRidge object. It selects one of histogram coordinate and use histogram as a set of measured points y(x) with different statistical weights, reverse proportinal to bin content of histogram at (x,y). Then this set of points can be again approximate of any kind of functional dependency from one coordinate. This simplest case can be extend to N-dimensions. In this case one of coordinate is a functions of the rest. This means, that this corrdinate can be approximate by function with N-1 coordinates.
  *
  * To obtain data, TGo4FitDataRidge object internally uses another TGo4FitData, which should provide histogram. Currently only TGo4FitDataHistogram object can be used for this purposes.
+ *
+ * @ingroup go4_fit
  */
 class TGo4FitDataRidge : public TGo4FitData {
    public:

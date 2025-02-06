@@ -18,6 +18,7 @@
 
 /**
  * Base class for axis transformation objects
+ * @ingroup go4_fit
  */
 
 class TGo4FitAxisTrans : public TGo4FitParsList {

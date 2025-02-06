@@ -29,6 +29,8 @@ class TArrayC;
  * Covariation (error) matrix
  * Contour plot.
  * Name of variables corresponds to Minuit documentation.
+ *
+ * @ingroup go4_fit
  */
 class TGo4FitMinuitResult : public TNamed {
    public:

@@ -28,6 +28,8 @@ class TFormula;
  * Fort instance, equation with 3 parameters and amplitude:
  *
  *   auto f = new TGo4FitModelFormula("Form","(x-Par0)*(y-Par1)*(z-Par2)", 3, kTRUE);
+ *
+ * @ingroup go4_fit
  */
 class TGo4FitModelFormula : public TGo4FitModel {
    public:

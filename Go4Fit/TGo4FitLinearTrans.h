@@ -32,6 +32,8 @@
  * SetCalibrationByRange() - coefficients defines from range and number of points in this range;
  *
  * SetCalibrationByPoints() - coefficients calculates from coordinates of two points, where first coordinate is channel number and second - axis value.
+ *
+ * @ingroup go4_fit
  */
 class TGo4FitLinearTrans : public TGo4FitAxisTrans {
    public:

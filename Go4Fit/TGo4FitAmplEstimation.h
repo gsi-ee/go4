@@ -21,6 +21,7 @@ class TGo4Fitter;
 /**
  * Amplitude estimation action
  * In additional to general minimization routine very useful amplitude estimation algorithm can be used. If rest of models parameters have good initial estimation, the amplitude parameter can be defined by solving of system of linear equations, as described in theoretical preface part of tutorial. This algorithm is provided by TGo4FitAmplEstimation class. This action can be added by AddAmplEstimation() routine of fitter. Typically, this action should be added before minimization routine.
+ * @ingroup go4_fit
  */
 class TGo4FitAmplEstimation : public TGo4FitterAction {
    public:

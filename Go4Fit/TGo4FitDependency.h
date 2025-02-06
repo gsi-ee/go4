@@ -24,6 +24,8 @@ class TFormula;
  * It used in dependencies calculations, in parameters initialization and in result calculation.
  * Value can be calculated via expression or be just a double constant.
  * The result parameter is sets via it's index in fitter parameters list.
+ *
+ * @ingroup go4_fit
  */
 class TGo4FitDependency : public TObject {
    public:

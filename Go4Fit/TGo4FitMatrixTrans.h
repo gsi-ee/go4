@@ -24,6 +24,8 @@
  *   scale' = Matrix x scale
  *
  * Each matrix element can be changed individually
+ *
+ * @ingroup go4_fit
  */
 
 class TGo4FitMatrixTrans : public TGo4FitAxisTrans {
