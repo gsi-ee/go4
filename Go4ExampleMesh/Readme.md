@@ -24,7 +24,7 @@ example)
 The step structure of the example mesh is as sketched in this figure
 (top to down dataflow):
 
-```
+~~~
 ________________________________________________________
                      Unpack
                        |
@@ -42,7 +42,7 @@ Output1Provider     Output2Provider   Output3Provider
 
               Final (combines all output provider events)
 _________________________________________________________
-```
+~~~
 
 ## Execution steps
 

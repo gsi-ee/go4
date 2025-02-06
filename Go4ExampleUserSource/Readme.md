@@ -1,22 +1,25 @@
 # The Go4 template package
 
+\ingroup go4_examples
+
 This package contains a running 1 step Go4 analysis.
 
 There is one name string used for all classes and files: YYY
-You should replace this by your own name by
-
-$GO4SYS/build/rename.sh "YYY" "myname"
+You should replace this by your own name by `$GO4SYS/build/rename.sh "YYY" "myname"`
 Example:
-> $GO4SYS/build/rename.sh "YYY" "Ship"
-
+~~~
+   $GO4SYS/build/rename.sh "YYY" "Ship"
+~~~
 
 Note that "myname" will be part of all filenames! Do not use
 a string which is already in the filenames.
 
 Then rebuild the package by
 
+~~~
 make clean
 make all
+~~~
 
 ## Description:
 

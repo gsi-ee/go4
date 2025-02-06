@@ -8,7 +8,7 @@ You should replace this by your own name by `$GO4SYS/build/rename.sh "XXX" "myna
 
 Example:
 ~~~
-   shell> $GO4SYS/build/rename.sh "XXX" "Ship"
+   $GO4SYS/build/rename.sh "XXX" "Ship"
 ~~~
 
 
@@ -18,8 +18,8 @@ a string which is already in the filenames.
 Then rebuild the package by
 
 ~~~
-   shell> make clean
-   shell> make all
+   make clean
+   make all
 ~~~
 
 A test file is $GO4SYS/data/test.lmd
@@ -88,12 +88,12 @@ From GUI, objects are loaded from autosave file when Submit button is pressed.
 ## Run analysis.
 The analysis can be started from the Go4 GUI or by command line:
 ~~~
-    shell> go4analysis -file inputfile
+    go4analysis -file inputfile
 ~~~
 
 When starting from command line, user-specific arguments can be specified:
 ~~~
-    shell> go4analysis -args customname
+    go4analysis -args customname
 ~~~
 
 All arguments, placed after "-args" string will be delivered to TXXXAnalysis

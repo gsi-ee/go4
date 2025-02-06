@@ -1,14 +1,17 @@
 # The Go4 template package
 
+\ingroup go4_examples
+
 This package contains a simple running 1 step Go4 analysis with custom store.
 
 A test file is $GO4SYS/data/test.lmd
 
 ## Rebuild the package by
 
+~~~
 make clean
 make all
-
+~~~
 
 ## Analysis class
 
@@ -54,15 +57,14 @@ bt calling "step->SetStoreEnabled(kFALSE)".
 ## Run analysis.
 Analysis can be started from the Go4 GUI or by command line:
 ~~~
-   shell> go4analysis -random -number 1000 -userstore test.root
+   go4analysis -random -number 1000 -userstore test.root
 ~~~
 Here "-number 1000" parameter specifies number of processed events,
 "-userstore test.root" configure name of output file.
 
 ## Creating a new class
 Provide the definition and implementation files (.h and .cxx)
-Add class in Makefile and XXXLinkDef.h
-Then make all.
+Add class in Makefile and XXXLinkDef.h, then `make all`.
 
 ## Adopt the example
 Change TXXXEvent to represent your event data.

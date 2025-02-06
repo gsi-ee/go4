@@ -7,8 +7,8 @@ This package demonstrate usage of DABC functionality in go4 analysis
 Rebuild the package by
 
 ~~~
-   shell> make clean
-   shell> make all
+   make clean
+   make all
 ~~~
 
 Description of the package
@@ -29,9 +29,9 @@ Then the histograms are filled, the 2d one with polygon conditions.
 
 Analysis can be started from the Go4 GUI or by command line:
 ~~~
-   shell> go4analysis -file $GO4SYS/data/test.lmd
-   shell> go4analysis -random
-   shell> go4analysis -stream r3f-12
+   go4analysis -file $GO4SYS/data/test.lmd
+   go4analysis -random
+   go4analysis -stream r3f-12
 ~~~
 The events can be read from standard GSI lmd files or MBS or event servers.
 For each event the user event processor TXXXProc is called.
@@ -41,7 +41,9 @@ The histograms can be stored in autosave file.
 ## Adopt the example
 First of all, it is good idea to rename all classes.
 For this, go4 rename.sh script can be used:
-   shell> $GO4SYS/build/rename.sh "XXX" "Myname"
+~~~
+   $GO4SYS/build/rename.sh "XXX" "Myname"
+~~~
 Most probably you will change TXXXParam to keep useful parameters.
 Definitely you will change TXXXProc to create your histograms, conditions,
 pictures, and finally write your analysis function BuildEvent.
