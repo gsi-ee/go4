@@ -16,8 +16,8 @@
 
 #include "TNamed.h"
 
-/** The abstract interface class for the raw event source.
- * Raw events are delivered from the raw event source, may be stored in a raw event store, and are processed
+/** @brief The abstract interface class for the raw event source.
+ * @details Raw events are delivered from the raw event source, may be stored in a raw event store, and are processed
  * (unpacked) by a subelement factory to construct the user event (the
  * user detector data, respectively)
  * @ingroup go4_major_classes

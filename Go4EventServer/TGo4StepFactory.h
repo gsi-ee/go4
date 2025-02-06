@@ -16,7 +16,7 @@
 
 #include "TGo4EventServerFactory.h"
 
-/** Step factory
+/** @brief Step factory
  * @ingroup go4_major_classes
  * @ingroup go4_event
  */

@@ -20,8 +20,10 @@ class TGo4EventSource;
 class TBranch;
 class TTree;
 
-/** The abstract base class for the data elements of which the
+/**
+ * @brief The abstract base class for the data elements of which the
  * unpacked events (or detector structure data, resp) are composed.
+ * @details
  * Any event structure consists of eventelements that are linked back to
  * their parent element.
  * The user event class is the top parent level event element;

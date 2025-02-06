@@ -40,7 +40,8 @@ class TGo4EventStore;
 #include "TGo4EventProcessor.h"
 
 /**
- * Contains a single step of the analysis. Each analysis step
+ * @brief Contains a single step of the analysis.
+ * @details Each analysis step
  * has an event source, an input event structure,
  * an output event structure (both from event element class),
  * and an event store. Input event is converted to output event using

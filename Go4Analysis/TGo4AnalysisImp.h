@@ -65,7 +65,8 @@ class TGo4Sniffer;
 class TGo4Ratemeter;
 
 /**
- * The mother of all go4 analysis. Provides services to organize
+ * @brief The mother of all go4 analysis.
+ * @details  Provides services to organize
  * events, histogram data, and everything. May run standalone in batch mode,
  * or may be aggregated by analysis client for threaded online control. User
  * has to derive his/her own analysis from this base class and override the

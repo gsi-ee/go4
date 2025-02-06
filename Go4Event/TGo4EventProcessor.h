@@ -54,12 +54,8 @@ class TGo4MbsEvent;
 class TGo4EventElement;
 class TGo4EventCalibration;
 
-/** Abstract Factory used by the top level user event to unpack
- * the raw event into subevents or detector information.
- * Factory method implementations are user specific; there
- * might be more than one factory method in this class, each
- * dedicated for one special subevent. Default factory method is
- * CreateSubElement
+/** @brief Abstract event processor
+ * @details Also provides number of methods to create histograms and conditions
  * @ingroup go4_major_classes
  * @ingroup go4_event
  * @author J. Adamczewski

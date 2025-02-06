@@ -25,7 +25,8 @@ class TGo4EventStoreParameter;
 class TGo4EventSourceParameter;
 
 /**
- * Abstract factory for the event related classes. A concrete subclass of this
+ * @brief Abstract factory for the event related classes.
+ * @details A concrete subclass of this
  * base class is used by the actual analysis to build the experiment specialized
  * classes and structures in the initialization phase. For example, raw event,
  * raw event storage class, raw event source,....
