@@ -6,9 +6,9 @@ This package contains a simple running 1 step Go4 analysis.
 
 ## Rebuild the package by
 
-~~~
-   shell> make clean
-   shell> make all
+~~~{.sh}
+   make clean
+   make all
 ~~~
 
 A test file is $GO4SYS/data/test.lmd
@@ -57,10 +57,10 @@ One can inspect the content of the auto save file with the Go4 GUI.
 
 ## Run analysis.
 Analysis can be started from the Go4 GUI or by command line:
-~~~
-   shell> go4analysis -file $GO4SYS/data/test.lmd
-   shell> go4analysis -random
-   shell> go4analysis -stream r3f-12
+~~~{.sh}
+   go4analysis -file $GO4SYS/data/test.lmd
+   go4analysis -random
+   go4analysis -stream r3f-12
 ~~~
 The events can be read from standard GSI lmd files or MBS or event servers.
 For each event the user event processor TXXXProc is
