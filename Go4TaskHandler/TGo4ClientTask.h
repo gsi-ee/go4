@@ -29,6 +29,7 @@ class TGo4TaskHandler;
  * by another server task via transport channels which are held by a task handler object.
  * Apart from the transport threads, the application class which inherits from client task
  * may provide working threads to serve the data queues and do the actual work
+ * @ingroup go4_taskhandler
  */
 class TGo4ClientTask : public TGo4Task {
 

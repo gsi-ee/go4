@@ -16,6 +16,10 @@
 
 #include "TGo4MbsSourceParameter.h"
 
+/** MBS random parameter
+ * @ingroup go4_event
+ */
+
 class TGo4MbsRandomParameter : public TGo4MbsSourceParameter {
 
   public:

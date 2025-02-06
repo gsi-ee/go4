@@ -18,6 +18,9 @@
 
 #include "TString.h"
 
+/** User store parameter
+ * @ingroup go4_event
+ */
 
 class TGo4EventElement;
 

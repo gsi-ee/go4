@@ -21,6 +21,7 @@
 /**
  * Standard GSI (goosy, mbs) event header implementation.
  * For Little Endian machines (linux)
+ * @ingroup go4_event
  * @since 25-jan-2001
  * @author J. Adamczewski
  * @author M. Hemberger*/

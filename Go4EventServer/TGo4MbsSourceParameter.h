@@ -16,6 +16,10 @@
 
 #include "TGo4EventSourceParameter.h"
 
+/** MBS source parameter
+ * @ingroup go4_event
+ */
+
 class TGo4MbsSourceParameter : public TGo4EventSourceParameter {
   public:
      TGo4MbsSourceParameter();

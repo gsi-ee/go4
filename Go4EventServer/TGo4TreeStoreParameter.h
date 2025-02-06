@@ -17,6 +17,9 @@
 #include "TGo4EventStoreParameter.h"
 #include "TString.h"
 
+/** Tree store parameter
+ * @ingroup go4_event
+ */
 class TGo4TreeStoreParameter : public TGo4EventStoreParameter {
   friend class TGo4TreeStore;
 

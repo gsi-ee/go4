@@ -16,6 +16,9 @@
 
 #include "TGo4EventSourceParameter.h"
 
+/** User source parameter
+ * @ingroup go4_event
+ */
 class TGo4UserSourceParameter : public TGo4EventSourceParameter {
 
   public:

@@ -22,6 +22,9 @@ class TGo4MbsEvent;
 class TGo4MbsSubEvent;
 class TGo4CompositeEvent;
 
+/** Composite processor
+ * @ingroup go4_event
+ */
 class TGo4CompositeProcessor : public TGo4EventProcessor {
    public:
 

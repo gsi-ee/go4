@@ -16,6 +16,11 @@
 
 #include "TGo4EventStoreParameter.h"
 
+/**
+ * Backstore parameter
+ * @ingroup go4_event
+ */
+
 class TGo4BackStoreParameter : public TGo4EventStoreParameter {
 
    public:

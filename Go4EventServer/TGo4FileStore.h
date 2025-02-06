@@ -30,6 +30,7 @@ class TGo4FileStoreParameter;
  * events. Disadvantage: difficult to correlate to input
  * events; advantage: one entry of this tree may be composed
  * from several subsequent input event entries...
+ * @ingroup go4_event
  * @author J. Adamczewski
  * @since 1/2001
  */

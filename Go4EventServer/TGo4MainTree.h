@@ -26,6 +26,7 @@ class TFile;
  * and treestore instances are managing just one branch of
  * this tree for each of their subevents. Branches of this
  * tree might be saved into different root files.
+ * @ingroup go4_event
  * @author J. Adamczewski
  * @since 16-feb-2001
  */

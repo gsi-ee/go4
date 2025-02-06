@@ -20,7 +20,7 @@
  * Is used by event processor to get external parameters
  * during runtime without re-creating the event processor
  * each time.
- * @interface TGo4EventCalibration */
+ * @ingroup go4_event */
 class TGo4EventCalibration : public TGo4Parameter {
    public:
 

@@ -33,6 +33,7 @@ class TGo4TreeStoreParameter;
  * with this tree store may be written to the main tree file,
  * or be located in another file which is specified by the
  * filename parameter of ctor.
+ * @ingroup go4_event
  * @author J. Adamczewski
  * @since 1/2001
  */

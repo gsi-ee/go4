@@ -22,6 +22,7 @@
  * factory methods are checked by class name; the known event sources /event stores
  * are created, unknown parameter objects let return 0 and can be handled by
  * the user factory.
+ * @ingroup go4_event
  */
 class TGo4EventServerFactory : public TGo4EventFactory {
    public:

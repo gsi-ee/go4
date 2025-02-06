@@ -16,6 +16,9 @@
 
 #include "TGo4MbsSourceParameter.h"
 
+/** Rev serv parameter
+ * @ingroup go4_event
+ */
 class TGo4RevServParameter : public TGo4MbsSourceParameter {
    public:
       TGo4RevServParameter();

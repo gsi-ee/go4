@@ -16,6 +16,10 @@
 
 #include "TGo4EventServerFactory.h"
 
+/** Step factory
+ * @ingroup go4_major_classes
+ * @ingroup go4_event
+ */
 class TGo4StepFactory : public TGo4EventServerFactory {
   public:
       TGo4StepFactory();

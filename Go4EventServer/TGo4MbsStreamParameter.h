@@ -16,6 +16,10 @@
 
 #include "TGo4MbsSourceParameter.h"
 
+/** Stream parameter
+ * @ingroup go4_event
+ */
+
 class TGo4MbsStreamParameter : public TGo4MbsSourceParameter {
   public:
     TGo4MbsStreamParameter();

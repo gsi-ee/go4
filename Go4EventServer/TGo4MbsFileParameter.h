@@ -19,6 +19,10 @@
 #include "TString.h"
 #include "TObjArray.h"
 
+/** MBS file parameter
+ * @ingroup go4_event
+ */
+
 class TGo4MbsFileParameter : public TGo4MbsSourceParameter {
   public:
     TGo4MbsFileParameter();

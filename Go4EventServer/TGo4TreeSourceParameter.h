@@ -16,6 +16,9 @@
 
 #include "TGo4EventSourceParameter.h"
 
+/** Tree source parameter
+ * @ingroup go4_event
+ */
 class TGo4TreeSourceParameter : public TGo4EventSourceParameter {
   public:
      TGo4TreeSourceParameter();

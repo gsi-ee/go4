@@ -19,6 +19,7 @@
 /**
  * Standard GSI event/subevent header structure. Little Endian
  * representation (intel linux).
+ * @ingroup go4_event
  */
 class TGo4GSIEventHeader : public TObject {
   public:

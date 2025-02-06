@@ -52,6 +52,7 @@ class TGo4EventStore;
  * external event source, e.g. a file; the last step writes the
  * output event into its external event store. Starting and ending
  * point within the chain of analysis steps may be changed on the fly.
+ * @ingroup go4_major_classes
  * @author J. Adamczewski
  * @since 11-Jan-2001
  */

@@ -20,7 +20,9 @@
 
 class TGo4MbsEvent;
 
-/** Subevent class for gsi mbs data. */
+/** Subevent class for gsi mbs data.
+ * @ingroup go4_event
+*/
 class TGo4MbsSubEvent : public TGo4EventElement {
 
    friend class TGo4MbsSource;

@@ -16,6 +16,9 @@
 
 #include "TGo4MbsSourceParameter.h"
 
+/** MBS transport parameter
+ * @ingroup go4_event
+ */
 class TGo4MbsTransportParameter : public TGo4MbsSourceParameter {
   public:
     TGo4MbsTransportParameter();

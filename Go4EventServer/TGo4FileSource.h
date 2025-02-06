@@ -30,6 +30,7 @@ class TGo4EventElement;
  * reference to event structure class which must match the structure of the tree entry
  * New since 10/2004: Name of event element defines tree subbranch
  * to be activated as partial input
+ * @ingroup go4_event
  * @author J. Adamczewski
  * @since 1/2001
  */

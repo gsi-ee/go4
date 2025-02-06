@@ -37,7 +37,9 @@ class TGo4MbsEvent;
 class TGo4MbsSubEvent;
 class TGo4MbsSourceParameter;
 
-/** data structure to keep parameters for f_evt_type (SetPrintEvent) */
+/** data structure to keep parameters for f_evt_type (SetPrintEvent)
+ * @ingroup go4_event
+*/
 class TGo4MbsSourcePrintPar : public TObject {
 
   public:
@@ -56,6 +58,9 @@ class TGo4MbsSourcePrintPar : public TObject {
   ClassDefOverride(TGo4MbsSourcePrintPar, 1)
 };
 
+/** MBS source
+ * @ingroup go4_event
+*/
 
 class TGo4MbsSource : public TGo4EventSource {
   public:

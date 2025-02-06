@@ -22,6 +22,7 @@ class TGo4MbsEventServerParameter;
  * Implements the gsi mbs event server into the
  * go4 classes. This is an alias for the MbsSource
  * Class with parameter GETEVT__EVENT
+ * @ingroup go4_event
  * @author J. Adamczewski
  * @since 1/2001
  */

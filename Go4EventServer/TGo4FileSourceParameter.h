@@ -16,6 +16,10 @@
 
 #include "TGo4EventSourceParameter.h"
 
+/** File source parameter
+ * @ingroup go4_event
+ */
+
 class TGo4FileSourceParameter : public TGo4EventSourceParameter {
 
    public:

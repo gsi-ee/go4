@@ -19,7 +19,9 @@
 class TObjArray;
 class TTree;
 
-/** Base type for object composition */
+/** Base type for object composition
+ * @ingroup go4_event
+*/
 class TGo4CompositeEvent : public TGo4EventElement {
   protected:
 
