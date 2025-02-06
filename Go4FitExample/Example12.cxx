@@ -11,7 +11,12 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-// Go4Fit Example N12
+/**
+ * Go4Fit Example12
+ * @brief Fitting of TGraph
+ * @file Example12.cxx
+ * @ingroup go4_fit
+ */
 
 #ifndef __CINT__
 

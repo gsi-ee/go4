@@ -11,10 +11,13 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-/* Go4Fit Example N4
-   Same as small Example1, but for gaussian modelling new model component was constructed
-   First way is to define user function and assign it to in TGo4FitModelFunction class
-   In TModelTemplate class UserFunction method was redefined
+/** Go4Fit Example4
+  * @brief Custom module class
+  * @details Same as small Example1, but for gaussian modelling new model component was constructed
+  * First way is to define user function and assign it to in TGo4FitModelFunction class
+  * In TModelTemplate class UserFunction method was redefined
+  * @file Example4.cxx
+  * @ingroup go4_fit
 */
 
 #ifndef __CINT__

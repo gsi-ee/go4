@@ -11,10 +11,12 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-/* Go4Fit Examples
-   This is small examples how to fit part of histogram
-   with two gaussian and polynom function
-*/
+/**
+ * Go4Fit Example1
+ * @brief Fit part of histogram with two gaussian and polynom function
+ * @file Example1.cxx
+ * @ingroup go4_fit
+ */
 
 #ifndef __CINT__
 

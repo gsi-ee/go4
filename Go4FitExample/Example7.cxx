@@ -11,9 +11,12 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-/* Go4Fit Example N7
-   Simultaneous fit of two histogram
-*/
+/**
+ * Go4Fit Example7
+ * @brief Store fitter in the file
+ * @file Example7.cxx
+ * @ingroup go4_fit
+ */
 
 #ifndef __CINT__
 

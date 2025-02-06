@@ -11,9 +11,12 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-/* Go4Fit Example N5
-   This is example how to fit one histogram and then apply fitter for another histogram
-*/
+/**
+ * Go4Fit Example5
+ * @brief Fit one histogram and then apply fitter for another histogram
+ * @file Example5.cxx
+ * @ingroup go4_fit
+ */
 
 #ifndef __CINT__
 

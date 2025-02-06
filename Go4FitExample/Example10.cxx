@@ -11,9 +11,13 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-/* Go4Fit Example N10
-   This is examples of using histogram as model component for another histogram
-*/
+/**
+ * Go4Fit Example10
+ * @brief Using histogram as model component for another histogram
+ * @file Example10.cxx
+ * @ingroup go4_fit
+ */
+
 
 #ifndef __CINT__
 
