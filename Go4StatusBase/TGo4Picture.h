@@ -34,6 +34,9 @@ class TPaveStats;
 class TPaveText;
 class TList;
 
+/** @brief Picture cconfiguration in Go4
+ * @ingroup go4_major_classes
+ */
 class TGo4Picture : public TNamed {
    public:
       enum Indexes { UndefIndex = -2, PictureIndex = -1 };

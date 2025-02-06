@@ -19,6 +19,11 @@
 class TH1;
 class TH2;
 
+/**
+ * @brief Polygon condition
+ * @ingroup go4_major_classes
+ */
+
 class TGo4PolyCond : public TGo4Condition {
    public:
       TGo4PolyCond();

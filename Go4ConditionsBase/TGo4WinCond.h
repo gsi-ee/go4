@@ -18,6 +18,11 @@
 
 class TH1;
 
+/**
+ * @brief Window condition
+ * @ingroup go4_major_classes
+ */
+
 class TGo4WinCond : public TGo4Condition {
    public:
       TGo4WinCond();

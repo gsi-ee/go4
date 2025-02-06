@@ -22,8 +22,7 @@
  * Developed from TRemiWhitelistCond class by Sven Augustin
  * */
 
-class TGo4ListCond: public TGo4Condition
-{
+class TGo4ListCond : public TGo4Condition {
 public:
   TGo4ListCond();
   TGo4ListCond(const char *name, const char *title = "Go4 list condition");

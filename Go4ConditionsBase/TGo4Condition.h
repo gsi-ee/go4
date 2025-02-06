@@ -33,6 +33,7 @@ enum ConditionsKind {
    kGO4CONDPOLYGON = 2
 };
 
+/** @brief Go4 condition class */
 class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
 
   friend class TGo4CondArray;

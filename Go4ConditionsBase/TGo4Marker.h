@@ -22,8 +22,8 @@ class TH1;
 class TVirtualPad;
 
 /**
- * Extended graphical marker class for go4 condition editor and
- * viewpanel. Offers coordinate label updated from pad. Scans
+ * @brief Extended graphical marker class for go4 condition editor and viewpanel.
+ * @details Offers coordinate label updated from pad. Scans
  * work histogram for bin numbers and contents.
  * @author Joern Adamczewski
  * @since 06/2004

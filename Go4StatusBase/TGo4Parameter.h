@@ -20,8 +20,9 @@ class TObjArray;
 class TDataMember;
 class TGo4ParameterStatus;
 
-/** Base class for all parameter aggregations,
+/** @brief Base class for all parameter aggregations,
   * e.g. calibration data.
+  * @ingroup go4_major_classes
   * @author J. Adamczewski / S. Linev
   * @since Jun-2002 */
 

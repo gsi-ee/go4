@@ -30,12 +30,16 @@ enum Go4CondShape_t
   Go4Cond_Shape_Ellipse = 3,
   Go4Cond_Shape_Box = 4
 };
-/*
+/**
+ * @brief Shaped condition
+ * @details
  * JAM Jan-2015
  * New : specialized polygon condition for circular/elliptical shaped cuts.
  * Benefit is setter methods with dedicated radius/ point parameters
  *
- * */
+ * @ingroup go4_major_classes
+ */
+
 
 class TGo4ShapedCond : public TGo4PolyCond {
    public:

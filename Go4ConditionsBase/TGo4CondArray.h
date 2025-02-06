@@ -20,6 +20,10 @@ class TObjArray;
 class TGo4PolyCond;
 class TGo4WinCond;
 
+/**
+ * @brief Array of conditions
+ */
+
 class TGo4CondArray : public TGo4Condition {
   public:
     TGo4CondArray();
