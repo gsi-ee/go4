@@ -1,4 +1,4 @@
-This is README file of Go4Fit package.
+# Go4Fit package
 
 This document describes how to obtain and install Go4Fit package.
 
@@ -6,7 +6,9 @@ Package (in tar.gz format) can be obtained from Go4 web site (http://go4.gsi.de)
 
 Copy Go4Fit.tar.gz to destination directory and unpack it by command:
 
+~~~
     tar -xvzf Go4Fit.tar.gz
+~~~
 
 This creates two directory Go4Fit/ and Go4FitExample/
 
@@ -28,22 +30,21 @@ Example3 is only compiled, when f77 and libg2c.so installed in the system.
 All examples (except 3-rd one) also can be used in CINT directly, without any modification. To use them in CINT,
 just run root, load Go4Fit library:
 
+~~~
   [root] gSystem->Load("libGo4Fit.so");
+~~~
 
 and then run any of them:
 
+~~~
   [root] .x Example1.cxx
+~~~
 
 For the forth example appropriate library should be loaded first:
 
+~~~
   [root] gSystem->Load("libExample4.so");
-
-Another possibility to automatically load required libraries
-in ROOT CINT is to create .rootmap file. After compilation type:
-
-   > make map
-
-This works starting from ROOT 4.00/08.
+~~~
 
 Detailed description of Go4Fit package
 can be found on Go4 web site (http://go4.gsi.de)
