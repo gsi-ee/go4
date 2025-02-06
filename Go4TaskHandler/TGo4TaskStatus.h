@@ -18,6 +18,9 @@
 
 class TGo4TaskHandlerStatus;
 
+/** Task status
+ * @ingroup go4_taskhandler
+ */
 class TGo4TaskStatus : public TGo4Status {
    friend class TGo4Task;
    friend class TGo4Slave;

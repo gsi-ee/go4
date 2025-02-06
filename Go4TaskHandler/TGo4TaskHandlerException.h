@@ -20,6 +20,9 @@ class TGo4TaskHandler;
 class TGo4TaskHandlerRunnable;
 class TGo4ThreadManager;
 
+/** Task handler exception
+ * @ingroup go4_taskhandler
+ */
 class TGo4TaskHandlerException : public TGo4ControlException {
    public:
      TGo4TaskHandlerException() = delete;

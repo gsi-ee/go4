@@ -32,6 +32,10 @@ class TGo4Command;
 class TGo4Status;
 class TGo4TaskStatus;
 
+/** Go4 Task
+ * @ingroup go4_taskhandler
+ */
+
 class TGo4Task : public TGo4ThreadManager, public TGo4CommandReceiver {
 
 public:

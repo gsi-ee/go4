@@ -17,6 +17,9 @@
 #include "TGo4TaskStatus.h"
 #include "TString.h"
 
+/** Client status
+ * @ingroup go4_taskhandler
+ */
 
 class TGo4ClientStatus : public TGo4TaskStatus {
    friend class TGo4ClientTask;

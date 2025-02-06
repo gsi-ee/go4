@@ -22,7 +22,7 @@
 /**
  * runnable performing the main action of example client task:
  * getting commands out of command queue, sending objects into data queue
- * @stereotype thread
+ *
  */
 
 class TGo4MainRunnable : public TGo4Runnable {

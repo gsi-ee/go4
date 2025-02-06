@@ -22,7 +22,7 @@ class TGo4ExampleServer;
 /**
  * runnable performing the main action of example client task:
  * getting commands out of command queue, sending objects into data queue
- * @stereotype thread
+ * @ingroup go4_taskhandler
  */
 class TGo4ControllerRunnable : public TGo4Runnable {
 

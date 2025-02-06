@@ -22,7 +22,6 @@ class TGo4AnalysisClient;
 /**
  * runnable performing control watcher functions of analysis client task:
  * status of analysis is send to status queue
- * @stereotype thread
  * @author J. Adamczewski
  * @since 11-Jan-2001
  */

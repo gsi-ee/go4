@@ -25,6 +25,9 @@ class TGo4Socket;
 class TGo4Status;
 class TGo4TaskConnectorTimer;
 
+/** Server task
+ * @ingroup go4_taskhandler
+ */
 class TGo4ServerTask : public TGo4Task {
    public:
 

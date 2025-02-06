@@ -21,6 +21,7 @@ class TGo4ServerTask;
 /**
  * timer aggregated to the servertask which is responsible to
  * open and handle the negotiation requests of the clients
+ * @ingroup go4_taskhandler
  */
 
 class TGo4TaskConnectorTimer : public TTimer {

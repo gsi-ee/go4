@@ -19,6 +19,9 @@
 class TGo4TaskHandler;
 class TGo4TaskHandlerRunnable;
 
+/** Abort exception
+ * @ingroup go4_taskhandler
+ */
 class TGo4TaskHandlerAbortException : public TGo4TaskHandlerException {
 
   public:

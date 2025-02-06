@@ -24,7 +24,7 @@ class TGo4TaskHandler;
  *   In receiver mode, data objects are received from transport and passed to the queue
  *  in non receiver mode, runnables waits for the queue and sends all data objects from the queue
  *  over the transport
- * @stereotype thread
+ * @ingroup go4_taskhandler
  */
 
 class TGo4DataRunnable : public TGo4TaskHandlerRunnable {

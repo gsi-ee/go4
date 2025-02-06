@@ -21,6 +21,9 @@
 class TGo4Command;
 class TGo4TaskHandlerCommandList;
 
+/** Master
+ * @ingroup go4_taskhandler
+ */
 class TGo4Master :  public TGo4TaskOwner {
   public:
     TGo4Master();

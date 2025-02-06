@@ -20,7 +20,6 @@ class TGo4HistogramServer;
 
 /**
  * Runnable that serves an object request for object client
- * @stereotype thread
  */
 class TGo4ObjConnectorRunnable : public TGo4Runnable {
 public:

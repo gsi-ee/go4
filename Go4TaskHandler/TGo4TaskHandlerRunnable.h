@@ -25,7 +25,7 @@ class TGo4BufferQueue;
 /**
  * This is the abstract interface for all runnables associated
  * with the taskhandler class
- * @stereotype interface
+ * @ingroup go4_taskhandler
  */
 
 class TGo4TaskHandlerRunnable : public TGo4Runnable {

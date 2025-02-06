@@ -24,6 +24,10 @@ class TGo4Socket;
 class TGo4TaskHandler;
 class TIterator;
 
+/** Task manager
+ * @ingroup go4_taskhandler
+ */
+
 class TGo4TaskManager : public TNamed {
    public:
 

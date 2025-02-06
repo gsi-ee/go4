@@ -26,7 +26,7 @@ class TGo4Task;
  * to current client (remote command), or put it into the local queue.
  * Note that local commands would also be possible on the client side now,
  * since local command queue and this thread is owned by TGo4Task baseclass
- * @stereotype thread
+ * @ingroup go4_taskhandler
  */
 
 class TGo4LocalCommandRunnable : public TGo4Runnable {

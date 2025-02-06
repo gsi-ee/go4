@@ -31,7 +31,6 @@ class TGo4EventSourceParameter;
  * raw event storage class, raw event source,....
  * Parameter objects of the factory methods may be used to switch between different
  * plug-ins on the fly; definition is left to the user.
- * @stereotype abstractfactory
  * @ingroup go4_major_classes
  * @author J. Adamczewski
  * @since 1/2001

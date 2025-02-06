@@ -24,7 +24,6 @@ class TGo4Analysis;
  * command queue and processes them, then acts on the
  * analysis framework MainCycle method to process the analysis.
  * @since 11-Jan-2001
- * @stereotype thread
  * @author J. Adamczewski
  */
 class TGo4AnalysisMainRunnable : public TGo4Runnable {

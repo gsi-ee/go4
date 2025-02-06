@@ -38,6 +38,7 @@ class TGo4CommandRunnable;
  *   but receives data and status objects)
  * task handler is named such that it can be found in a list (i.e. task manager) by the server task
  * which may serve more than one client tasks
+ * @ingroup go4_taskhandler
  */
 class TGo4TaskHandler : public TNamed {
 

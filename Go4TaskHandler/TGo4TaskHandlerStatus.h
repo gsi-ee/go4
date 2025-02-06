@@ -17,8 +17,11 @@
 #include "TGo4Status.h"
 #include "TString.h"
 
+/** Task handler status
+ * @ingroup go4_taskhandler
+ */
 class TGo4TaskHandlerStatus : public TGo4Status {
-    friend class TGo4TaskHandler;
+     friend class TGo4TaskHandler;
    public:
 
       TGo4TaskHandlerStatus(); // default ctor for streamer

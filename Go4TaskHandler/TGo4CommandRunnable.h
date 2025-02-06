@@ -27,7 +27,7 @@ class TGo4CommandInvoker;
  *  directly, async commands are passed to the queue
  * in not receiver mode, runnables waits for the queue and sends all commands from the queue
  * over the transport
- * @stereotype thread
+ * @ingroup go4_taskhandler
  */
 
 class TGo4CommandRunnable : public TGo4TaskHandlerRunnable {

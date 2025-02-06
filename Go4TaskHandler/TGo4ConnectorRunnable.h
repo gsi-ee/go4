@@ -28,7 +28,7 @@ class TGo4ServerTask;
  * task handler in server mode, adds it to the task manager  and invokes
  * the server task handler's  Connect. Then the three transport channels with
  * the correct port numbers should be established...
- * @stereotype thread
+ * @ingroup go4_taskhandler
  */
 
 class TGo4ConnectorRunnable : public TGo4Runnable {

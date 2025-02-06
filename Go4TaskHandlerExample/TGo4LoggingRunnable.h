@@ -22,8 +22,7 @@ class TGo4ExampleServer;
 /**
  * runnable performing control watcher functions of example client task:
  *  status of application is send to status queue
- * @stereotype thread
- */
+  */
 
 class TGo4LoggingRunnable : public TGo4Runnable {
   public:

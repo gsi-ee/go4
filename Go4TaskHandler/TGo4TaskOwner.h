@@ -21,7 +21,9 @@ class TMutex;
 class TGo4Task;
 class TGo4ServerTask;
 
-/** Baseclass for all instances that can own a TGo4Task. Bridge between client/server functionality and master/slave.
+/** Baseclass for all instances that can own a TGo4Task.
+ * Bridge between client/server functionality and master/slave.
+ * @ingroup go4_taskhandler
  * @since 17-03-2005
  * @author Joern Adamczewski  */
 

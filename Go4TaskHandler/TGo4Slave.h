@@ -25,7 +25,10 @@ class TObject;
 class TString;
 
 /**
- * Baseclass for all slave process entities. A Slave receives commands and may send data and status objects via the TGo4Task connection. This can run either as server or client task.
+ * Baseclass for all slave process entities.
+ * A Slave receives commands and may send data and status objects via the TGo4Task connection.
+ * This can run either as server or client task.
+ * @ingroup go4_taskhandler
  */
 class TGo4Slave : public TGo4TaskOwner {
    private:
