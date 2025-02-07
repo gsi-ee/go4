@@ -179,7 +179,7 @@ echo $LIBNAME.$SOSUFFIX done
 
 if [[ "x$LINKDEF" != "x" ]]; then
    if [[ "x$DICTIONARY" != "x" && "x$HEADERS" != "x" ]]; then
-      $ROOTEXEPATH/bin/rootcling -r $DICTIONARY -rml $LIBNAME.$SOSUFFIX -rmf $LIBDIR/$LIBNAME.rootmap -s $LIBDIR/$LIBNAME.$SOSUFFIX $CXXOPTIONS $HEADERS $LINKDEF
+      $ROOTEXEPATH/bin/rootcling -v2 -rml $LIBNAME.$SOSUFFIX -rmf $LIBDIR/$LIBNAME.rootmap -s $LIBDIR/$LIBNAME.$SOSUFFIX $CXXOPTIONS $HEADERS $LINKDEF
       echo $LIBNAME.rootmap done
    else
       echo "Not enough information to produce $LIBNAME.rootmap file"
