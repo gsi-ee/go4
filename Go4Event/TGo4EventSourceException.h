@@ -19,7 +19,7 @@
 
 class TGo4EventSource;
 
-/** Event source exception
+/** @brief Event source exception
  * @ingroup go4_event
  */
 class TGo4EventSourceException : public TGo4RuntimeException {

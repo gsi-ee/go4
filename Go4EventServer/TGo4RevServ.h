@@ -19,8 +19,8 @@
 class TGo4RevServParameter;
 
 /**
- * Implements the gsi root remote event server into the
- * go4 classes. May be a simple wrapper for the mrevlib or liblea stuff.
+ * @brief Implements the gsi root remote event server into the go4 classes.
+ * @details May be a simple wrapper for the mrevlib or liblea stuff.
  * @ingroup go4_event
  * @author J. Adamczewski
  * @since 1/2001

@@ -19,7 +19,7 @@
 #include "TString.h"
 #include "TObjArray.h"
 
-/** MBS file parameter
+/** @brief MBS file parameter
  * @ingroup go4_event
  */
 

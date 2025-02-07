@@ -17,9 +17,9 @@
 #include "TGo4Parameter.h"
 
 /**
- * Basic type for all classes containing information
- * to parametrize the event store. For use in the
- * event factory; factory method gets (possibly subclassed)
+ * @brief Basic type for all classes containing information
+ * to parametrize the event store.
+ * @details For use in the event factory; factory method gets (possibly subclassed)
  * parameter object which is suited to the concrete user
  * factory. Name string can be used as filename, e.g.
  * @ingroup go4_event

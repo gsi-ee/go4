@@ -20,9 +20,8 @@ class TGo4MbsFileParameter;
 class TList;
 
 /**
- * Implements the gsi mbs stream server into the
- * go4 classes. This is an alias for the MbsSource
- * Class with parameter GETEVT__FILE
+ * @brief Implements the gsi mbs lmd file source
+ * @details This is an alias for the TGo4MbsSource class with parameter GETEVT__FILE
  * @ingroup go4_event
  * @author J. Adamczewski
  * @since 1/2001

@@ -19,8 +19,8 @@
 class TGo4MbsTransportParameter;
 
 /**
- * Implements the gsi mbs stream server into the
- * go4 classes. This is an alias for the MbsSource
+ * @brief Implements the gsi mbs transport server into the go4 classes.
+ * @details This is an alias for the MbsSource
  * Class with parameter GETEVT__TRANS
  * @ingroup go4_event
  * @author J. Adamczewski

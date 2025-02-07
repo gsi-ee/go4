@@ -29,8 +29,7 @@ class TGo4MbsSource;
 class TGo4MbsSubEvent;
 
 /**
- * Wrapper for the standard gsi event structure as
- * delivered from mbs.
+ * @brief Wrapper for the standard gsi event structure as delivered from mbs.
  * @ingroup go4_event
  */
 class TGo4MbsEvent : public TGo4EventElement {

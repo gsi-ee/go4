@@ -16,7 +16,7 @@
 
 #include "TGo4EventSourceParameter.h"
 
-/** File source parameter
+/** @brief File source parameter
  * @ingroup go4_event
  */
 

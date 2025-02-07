@@ -23,8 +23,8 @@ class TBranch;
 class TTree;
 
 /**
- * Raw event source which reads entries from a root TTree.
- * We use one single tree for all generations of events,
+ * @brief Raw event source which reads entries from a root TTree.
+ * @details We use one single tree for all generations of events,
  * which is kept by the go4 maintree class.
  * @ingroup go4_event
  * @author J. Adamczewski

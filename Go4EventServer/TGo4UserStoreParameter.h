@@ -18,7 +18,7 @@
 
 #include "TString.h"
 
-/** User store parameter
+/** @brief User store parameter
  * @ingroup go4_event
  */
 

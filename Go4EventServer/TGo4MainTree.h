@@ -20,8 +20,8 @@ class TTree;
 class TFile;
 
 /**
- * Singleton containing and managing the main tree
- * of the go4 analysis. All analysis steps may get and
+ * @brief Singleton containing and managing the main tree of the go4 analysis.
+ * @details All analysis steps may get and
  * save their events as branches of this tree. The treesource
  * and treestore instances are managing just one branch of
  * this tree for each of their subevents. Branches of this

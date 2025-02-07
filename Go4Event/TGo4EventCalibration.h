@@ -16,8 +16,8 @@
 
 #include "TGo4Parameter.h"
 
-/** Data object for calibration of the input event.
- * Is used by event processor to get external parameters
+/** @brief Data object for calibration of the input event.
+ * @details Is used by event processor to get external parameters
  * during runtime without re-creating the event processor
  * each time.
  * @ingroup go4_event */

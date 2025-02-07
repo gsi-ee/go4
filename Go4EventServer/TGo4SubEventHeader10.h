@@ -21,8 +21,8 @@
 #include "typedefs.h"
 
 /**
- * Standard GSI subevent header implementation.
- * For Little Endian machines (linux)
+ * @brief Standard GSI subevent header implementation.
+ * @details For Little Endian machines (linux)
  * @ingroup go4_event
  * @author J. Adamczewski
  * @author M. Hemberger

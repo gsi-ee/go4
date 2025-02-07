@@ -21,8 +21,8 @@
 class TGo4MbsRandomParameter;
 
 /**
- * Implements a random generator as source for mbs events.
- * Produces events with 2 subevents containing gaussian spectra
+ * @brief Implements a random generator as source for mbs events.
+ * @details Produces events with 2 subevents containing gaussian spectra
  * @ingroup go4_event
  * @author J. Adamczewski, N.Kurz
  * @since 5/2003

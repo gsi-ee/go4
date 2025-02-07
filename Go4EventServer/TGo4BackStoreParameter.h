@@ -17,7 +17,7 @@
 #include "TGo4EventStoreParameter.h"
 
 /**
- * Backstore parameter
+ * @brief Backstore parameter
  * @ingroup go4_event
  */
 

@@ -19,8 +19,8 @@
 #include "TGo4GSIEventHeader.h"
 
 /**
- * Standard GSI (goosy, mbs) event header implementation.
- * For Little Endian machines (linux)
+ * @brief Standard GSI (goosy, mbs) event header implementation.
+ * @details For Little Endian machines (linux)
  * @ingroup go4_event
  * @since 25-jan-2001
  * @author J. Adamczewski

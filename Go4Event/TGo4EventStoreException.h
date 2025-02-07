@@ -19,7 +19,7 @@
 
 class TGo4EventStore;
 
-/** Event store exception
+/** @brief Event store exception
  * @ingroup go4_event
  */
 

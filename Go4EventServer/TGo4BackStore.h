@@ -21,8 +21,8 @@ class TGo4EventElement;
 class TGo4BackStoreParameter;
 
 /**
- * Event store to keep the last n events in a TTree which is _not_ saved to a file. Allows to
- * view the event structure from the tree and to perform TTree::Draw actions on the last events
+ * @brief Event store to keep the last n events in a TTree which is _not_ saved to a file.
+ * @details Allows to view the event structure from the tree and to perform TTree::Draw actions on the last events
  * by means of dynamic list. May contain ring buffer functionality.
  * @ingroup go4_event
  * @author J. Adamczewski

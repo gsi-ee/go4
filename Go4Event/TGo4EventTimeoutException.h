@@ -17,7 +17,7 @@
 #include "TGo4EventSourceException.h"
 
   /**
-    * Exception to throw on event source timeout.
+    * @brief Exception to throw on event source timeout.
     * (e.g. blocked mbs socket)
     * @ingroup go4_event
     */

@@ -17,8 +17,8 @@
 #include "TObject.h"
 
 /**
- * Standard GSI event/subevent header structure. Little Endian
- * representation (intel linux).
+ * @brief Standard GSI event/subevent header structure.
+ * @details Little Endian representation (intel linux).
  * @ingroup go4_event
  */
 class TGo4GSIEventHeader : public TObject {

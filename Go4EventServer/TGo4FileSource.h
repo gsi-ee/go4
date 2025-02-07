@@ -25,8 +25,8 @@ class TGo4FileSourceParameter;
 class TGo4EventElement;
 
 /**
- * Raw event source which reads entries from a root TTree in a TFile.
- * File is opened by ctor; method BuildEvent() iterates over tree. Needs pointer to external
+ * @brief Raw event source which reads entries from a root TTree in a TFile.
+ * @details File is opened by ctor; method BuildEvent() iterates over tree. Needs pointer to external
  * reference to event structure class which must match the structure of the tree entry
  * New since 10/2004: Name of event element defines tree subbranch
  * to be activated as partial input

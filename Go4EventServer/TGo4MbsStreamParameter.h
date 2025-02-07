@@ -16,7 +16,7 @@
 
 #include "TGo4MbsSourceParameter.h"
 
-/** Stream parameter
+/** @brief MBS stream parameter
  * @ingroup go4_event
  */
 

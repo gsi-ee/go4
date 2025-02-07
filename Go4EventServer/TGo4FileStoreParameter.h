@@ -16,7 +16,7 @@
 
 #include "TGo4EventStoreParameter.h"
 
-/** File store parameter
+/** @brief File store parameter
  * @ingroup go4_event
  */
 class TGo4FileStoreParameter : public TGo4EventStoreParameter {

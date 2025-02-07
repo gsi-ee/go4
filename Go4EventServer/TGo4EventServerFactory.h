@@ -17,8 +17,8 @@
 #include "TGo4EventFactory.h"
 
 /**
- * Event factory providing all go4 event service classes. User factory
- * should be a subclass of this class. Parameter objects of
+ * @brief Event factory providing all go4 event service classes.
+ * @details User factory should be a subclass of this class. Parameter objects of
  * factory methods are checked by class name; the known event sources /event stores
  * are created, unknown parameter objects let return 0 and can be handled by
  * the user factory.

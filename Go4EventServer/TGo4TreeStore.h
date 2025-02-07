@@ -26,7 +26,8 @@ class TGo4EventCalibration;
 class TGo4TreeStoreParameter;
 
 /**
- * Storage instance using the central main go4 tree which
+ * @brief Go4 TTree storage
+ * @details Storage instance using the central main go4 tree which
  * is accessible as singleton. Each treestore instance
  * adds at least one new branch to that tree and fills
  * it with the data at the event pointer. Branch associated

@@ -24,7 +24,8 @@ class TGo4EventElement;
 class TGo4FileStoreParameter;
 
 /**
- * Event store which fills entries to an own root TTree in a TFile. In contrast to TreeStore, we do not use the main
+ * @brief Event store which fills entries to an own root TTree in a TFile.
+ * @details In contrast to TreeStore, we do not use the main
  * go4 tree, but an independent one which need not
  * correspond with the entry indices of all previous
  * events. Disadvantage: difficult to correlate to input
