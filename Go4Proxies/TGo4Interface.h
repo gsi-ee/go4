@@ -174,7 +174,7 @@ class TGo4Interface : public TGo4AbstractInterface {
       Int_t                 fWaitCounter{0};        //!
 
 
-   ClassDefOverride(TGo4Interface, 1);
+   ClassDefOverride(TGo4Interface, 0);
 };
 
 #endif

@@ -29,10 +29,12 @@ class TGo4Picture;
 
 typedef void *ViewPanelHandle;
 
+enum EGo4ViewPanelMode { Go4_hidden = -1, Go4_minimized = 0, Go4_normal = 1, Go4_maximized = 2 };
 
-/** Generic interface to GUI functionality.
+
+/** @brief Generic interface to GUI functionality.
   *
-  * Provide methods like open file, request object from analysis and so on.
+  * @details Provide methods like open file, request object from analysis and so on.
   *
   * Methods of that class can be used in arbitrary ROOT script inside/outside Go4 GUI.
   * To access these methods, one should use "go4" variable, which is exported
@@ -41,17 +43,20 @@ typedef void *ViewPanelHandle;
   * also via TGo4AbstractInterface::Instance() static method.
   *
   * There are two implementations of TGo4AbstractInterface class:
-  *   TGo4Script - used together with Go4 GUI, created automatically when GUI started
-  *   TGo4Interface - can be used in non GUI mode, must be created once by user
+  *  - TGo4Script - used together with Go4 GUI, created automatically when GUI started
+  *  - TGo4Interface - can be used in non GUI mode, must be created once by user
   * As long as these are two implementation of the same interface, macro, which
   * uses internally only go4 instance, should work similarly in both GUI and non GUI mode.
   *
   * Typically one should use interface, provided by that class, in macro,
   * executed inside GUI. Simple example of such macro:
+  * ~~~{cpp}
   * {
   *    go4->OpenFile("example.root");
   *    go4->DrawItem("example.root/hist1");
   * }
+  * ~~~
+  *
   * Here one open file from disk and displays one histogram from that file.
   *
   * Most of the action with objects are going via object manager, where each
@@ -59,10 +64,12 @@ typedef void *ViewPanelHandle;
   * objects structures. In our example item name is "example.root/hist1".
   * To locate object of known name in objects structure, one can use
   * FindItem() method. In that case example will look like:
+  * ~~~{cpp}
   * {
   *    go4->OpenFile("example.root");
   *    go4->DrawItem(go4->FindItem("hist1"));
   * }
+  * ~~~
   *
   * There are several examples of GUI macros, which can be found in
   * $GO4SYS/macros directory. Description of each method can be
@@ -71,10 +78,7 @@ typedef void *ViewPanelHandle;
   * and take some generated code from it directly. For instance,
   * displaying of complex viewpanels or starting and configuring of analysis.
   *
-  **/
-
-enum EGo4ViewPanelMode { Go4_hidden = -1, Go4_minimized = 0, Go4_normal = 1, Go4_maximized = 2 };
-
+  */
 
 class TGo4AbstractInterface : public TObject {
    private:
@@ -217,42 +221,42 @@ class TGo4AbstractInterface : public TObject {
                                 const char *filename,
                                 const char *filetitle = nullptr);
 
-      /** Export browser item to different file formats.
-        * One, probably, should use FetchItem() before calling this method.
+      /** @brief Export browser item to different file formats.
+        * @details One, probably, should use FetchItem() before calling this method.
         * If item is folder and contains sub-items, they also will be exported.
-        * Parameters:
-        *    itemname - name of browser, which should be exported,
-        *    dirpath  - directory on disk, where files should be created.
-        *    format   - export file format, can be
-                   "ASCII" - text format
-                   "Radware" - Radware format (Origin)
-                   "ROOT" - binary ROOT format
-                   "ROOT XML"  - xml ROOT format
-        *    filetitle - title of create file (only for ROOT formats) */
+        * @param itemname - name of browser, which should be exported,
+        * @param dirpath  - directory on disk, where files should be created.
+        * @param format   - export file format, can be:
+                  - "ASCII" - text format
+                  - "Radware" - Radware format (Origin)
+                  - "ROOT" - binary ROOT format
+                  - "ROOT XML"  - xml ROOT format
+        * @param filetitle - title of create file (only for ROOT formats) */
       virtual Bool_t ExportToFile(const char *itemname,
                                   const char *dirpath,
                                   const char *format,
                                   const char *filetitle = nullptr);
 
-      /** Connect to GSI histogram server.
-        * Creates appropriate entry in browser and provides access to histogram.
-        * Parameters:
-        *    servername - IP server name
-        *    portnumber - socket port number
-        *    basename - histogram server base name
-        *    userpass - password to access histogram server
-        *    filter   - filter for historgams names
-        * Several connections to different histogram servers are allowed */
+      /** @brief Connect to GSI histogram server.
+        * @details Creates appropriate entry in browser and provides access to histogram.
+        * Several connections to different histogram servers are allowed
+        *   @param  servername - IP server name
+        *   @param  portnumber - socket port number
+        *   @param  basename - histogram server base name
+        *   @param  userpass - password to access histogram server
+        *   @param  filter   - filter for histograms names */
       virtual void ConnectHServer(const char *servername,
                                   Int_t portnumber,
                                   const char *basename,
                                   const char *userpass,
                                   const char *filter);
 
-      /** Connect to DABC server. Address like dabc://host:port */
+      /** @brief Connect to DABC server.
+       * @details Address like dabc://host:port */
       virtual void ConnectDabc(const char *servername);
 
-      /** Connect to HTTP server. Address like http://host:port/subfolder/
+      /** @brief Connect to HTTP server.
+       * @details Address like http://host:port/subfolder/
        * authentication may be specified by username account and password pass*/
       virtual TGo4ServerProxy *ConnectHttp(const char *servername, const char *account = nullptr, const char *pass = nullptr) { return nullptr; }
 
@@ -577,7 +581,7 @@ class TGo4AbstractInterface : public TObject {
 
       virtual void StartFitPanel() {}
 
-   ClassDefOverride(TGo4AbstractInterface, 1);
+   ClassDefOverride(TGo4AbstractInterface, 0);
 };
 
 
