@@ -17,11 +17,11 @@
 /** Lockguard class to be used with go4 threads.
   * Usage: create a local instance of the lockguard in a certain scope
   * (e.g. at the begin of a function):
-  * TGo4Lockguard mylockguard(fxMymutex);
+  * TGo4LockGuard mylockguard(fxMymutex);
   * Here fxMymutex is a user mutex which should be applied with this lock. If
-  * TGo4Lockguard ctor is called without external mutex, it uses global Go4
+  * TGo4LockGuard ctor is called without external mutex, it uses global Go4
   * mutex fxMainMutex.
-  * Mutex is locked on creation of the TGo4Lockgurard, and unlocked on
+  * Mutex is locked on creation of the TGo4LockGuard, and unlocked on
   * deletion, i.e. whenever the scope is left (dtor will be called
   * automatically). This makes sure that mutex is released in any cases,
   * even on exception.
@@ -71,7 +71,7 @@ class TGo4LockGuard {
       /** Counts the numbers of locks of the recursive main mutex. **/
       static Int_t fgiLockCount;     //!
 
-   ClassDef(TGo4LockGuard,1)
+   ClassDef(TGo4LockGuard, 0)
 };
 
 #endif
