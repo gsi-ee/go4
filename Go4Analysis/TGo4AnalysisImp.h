@@ -587,7 +587,7 @@ public:
     * 2: local terminal and warning message in gui log panel (if gui mode)
     * 3: local terminal and error message in gui log panel (if gui mode) */
    void Message(Int_t prio, const char *text, ...)
-   #if defined(__GNUC__) && !defined(__CINT__)
+   #if defined(__GNUC__) && !defined(__CLING__)
    __attribute__((format(printf, 3, 4)))
    #endif
    ;
