@@ -109,79 +109,78 @@ class TGo4AbstractInterface : public TObject {
 
    public:
 
-      /** method to set initial list of shared libraries,
+      /** @brief method to set initial list of shared libraries,
        * which than will not be included in hotstart file */
       static void SetInitSharedLibs(const char *libs = nullptr);
 
       /** destructor */
       virtual ~TGo4AbstractInterface();
 
-      /** Return pointer on instance of implementation of TGo4AbstractInterface class
-        * Normally, inside CINT script one should use "go4" variable,
+      /** @brief Return pointer on instance of implementation of TGo4AbstractInterface class
+        * @details Normally, inside CINT script one should use "go4" variable,
         * which contains TGo4AbstractInterface::Instance() value. */
       static TGo4AbstractInterface *Instance();
 
-      /** Delete instance of interface class */
+      /** @brief Delete instance of interface class */
       static void DeleteInstance();
 
-      /** Returns default hotstart file extension */
+      /** @brief Returns default hotstart file extension */
       static const char *FileExtension();
 
-      /** Default delay during hotstart file extension */
+      /** @brief Default delay during hotstart file extension */
       static Int_t DelayMillisec();
 
-      /** Returns pointer on object manager.
-        * TGo4ObjectManager class should only be used when standard interface
+      /** @brief Returns pointer on object manager.
+        * @details TGo4ObjectManager class should only be used when standard interface
         * does not provide required functionality. Can be accessed directly via "om" variable. */
       TGo4ObjectManager *OM() const { return fOM; }
 
-      /** Returns pointer on browser proxy.
-        * TGo4BrowserProxy class provides complete interface to Go4 browser functionality.
+      /** @brief Returns pointer on browser proxy.
+        * @details TGo4BrowserProxy class provides complete interface to Go4 browser functionality.
         * Should only be used when interface does not provide required functionality.
         * Can be accessed directly via "br" variable. */
       TGo4BrowserProxy *Browser() const { return fBrowser; }
 
-      /** Returns pointer on analysis proxy.
-        * TGo4AnalysisProxy class provide access to analysis controlling instance in program.
+      /** @brief Returns pointer on analysis proxy.
+        * @details TGo4AnalysisProxy class provide access to analysis controlling instance in program.
         * Normally should not be used in GUI script. */
       TGo4AnalysisProxy *Analysis();
 
-      /** Returns pointer on more generic server proxy
-        * TGo4ServerProxy class provide access to analysis controlling instance in program.
+      /** @brief Returns pointer on more generic server proxy
+        * @details TGo4ServerProxy class provide access to analysis controlling instance in program.
         * Normally should not be used in GUI script. */
       TGo4ServerProxy *Server();
 
-      /** Executes hotstart file, generated in go4 GUI.
-        * Hot start files can not be executed as normal CINT scripts,
+      /** @brief Executes hotstart file, generated in go4 GUI.
+        * @details Hot start files can not be executed as normal CINT scripts,
         * therefore one should use this method to activate them */
-
       virtual void HotStart(const char *filename) = 0;
 
       // general purpose
 
-      /** Load specified ROOT library */
+      /** @brief Load specified ROOT library */
       virtual void LoadLibrary(const char *fname);
 
-      /** Open specified file in read-only mode*
-        * File and its structure should appear in browser. */
+      /** @brief Open specified file in read-only mode
+        * @details File and its structure should appear in browser. */
       virtual void OpenFile(const char *fname);
 
-      /** Find item with given object name.
-        * Item name includes object name and name of all parent folders.
+      /** @brief Find item with given object name.
+        * @details Item name includes object name and name of all parent folders.
         * For instance histogram of name "His1" in analysis will have
         * item name "Analysis/Histograms/His1". */
       virtual TString FindItem(const char *objname);
 
-      /** Copy item to workspace.
-        * If there is subfolders with items, they also will be copied. */
+      /** @brief Copy item to workspace.
+        * @details If there is subfolders with items, they also will be copied. */
       virtual Bool_t CopyItem(const char *itemname);
 
-      /** Delete item (if allowed).
-        * Can be used to close file, delete memory object, close histogram server connection. */
+      /** @brief Delete item (if allowed).
+        * @details Can be used to close file, delete memory object, close histogram server connection. */
       virtual Bool_t DeleteItem(const char *itemname);
 
-      /** Fetch item from data source.
-        * Request item from data source, to which item corresponds to.
+      /** @brief Fetch item from data source.
+        * @details Request item from data source, to which item corresponds to.
         * If this is file or histogram server, object will be returned immediately.
         * If this is an item from analysis, first request will be send and
         * then interface will wait "wait_time" milliseconds that object is arrived.
@@ -189,8 +188,8 @@ class TGo4AbstractInterface : public TObject {
         * be assigned to that item several seconds after method is return */
       virtual void FetchItem(const char *itemname, Int_t wait_time = 2000);
 
-      /** Returns object, assigned to specified browser item.
-        * Parameter updatelevel specifies, how object will be requested from
+      /** @brief Returns object, assigned to specified browser item.
+        * @details Parameter updatelevel specifies, how object will be requested from
         * data source, to which item correspond to.
         * Possible values for updatelevel parameter:
         *    0 - no request will be done, return last requested object
@@ -200,19 +199,18 @@ class TGo4AbstractInterface : public TObject {
         * Waiting required, when object requested from the analysis */
       virtual TObject *GetObject(const char *itemname, Int_t updatelevel = 1);
 
-      /** Save object in browser workspace.
-        * Object of any type can be saved in browser. It will appear in browser folder
+      /** @brief Save object in browser workspace.
+        * @details Object of any type can be saved in browser. It will appear in browser folder
         * "Workspace", where local memory objects are placed.
-        * Parameters:
-        *   path  - subpath in "Workspace" folder, where object should be placed
-        *   obj   - pointer ob object
-        *   ownership - is browser becomes owner of that object
         * If item of that name exists in browser, it will be overwritten by new object
-        * Returns path to stored object in browser workspace */
+        * Returns path to stored object in browser workspace.
+        * @param  path  - subpath in "Workspace" folder, where object should be placed
+        * @param  obj   - pointer ob object
+        * @param  ownership - is browser becomes owner of that object */
       virtual TString SaveToMemory(const char *path, TObject *obj, Bool_t ownership = kFALSE);
 
-      /** Save specified browser item to file.
-        * Only object, which are already fetched from the data source, will be saved.
+      /** @brief Save specified browser item to file.
+        * @details Only object, which are already fetched from the data source, will be saved.
         * Therefore, before one call this method, one probably should use
         * FetchItem() method to get objects from file/analysis/histogram server before save them.
         * If item is folder and contains sub-items, they also will be saved.
@@ -260,28 +258,29 @@ class TGo4AbstractInterface : public TObject {
        * authentication may be specified by username account and password pass*/
       virtual TGo4ServerProxy *ConnectHttp(const char *servername, const char *account = nullptr, const char *pass = nullptr) { return nullptr; }
 
-      /** Wait specified number of seconds.
-        * Suppress macro execution, but keeps GUI functional, therefore
+      /** @brief Wait specified number of seconds.
+        * @details Suppress macro execution, but keeps GUI functional, therefore
         * it is different from gSystem->Sleep() call. */
       virtual void Wait(double tm_sec) {}
 
-      /** Display message in GUI status line */
+      /** @brief Display message in GUI status line */
       virtual void Message(const char *msg) {}
 
       // analysis start and configuration
 
-      /** Launch analysis in client mode, using default configuration.
-        * Can only work in standard GUI mode */
+      /** @brief Launch analysis in client mode, using default configuration.
+        * @details Can only work in standard GUI mode */
       virtual void LaunchAnalysis() {}
 
-      /** Launch analysis in client mode.
-        * Parameters:
-        *    ClientName - arbitrary name of analysis, used for display
-        *    ClientDir  - directory, where analysis should be started
-        *    ClientExec - main analysis executable
-        *    ClientNode - node name, where analysis should be started
-        *    ShellMode  - shell, used to launch analysis: 1 - rsh, 2 - ssh [default]
-        *    TermMode   - terminal program: 1 - internal Qt window, 2 - xterm, 3 - KDE konsole */
+      /** @brief Launch analysis in client mode.
+        * @param ClientName - arbitrary name of analysis, used for display
+        * @param ClientDir  - directory, where analysis should be started
+        * @param ClientExec - main analysis executable
+        * @param ClientNode - node name, where analysis should be started
+        * @param ShellMode  - shell, used to launch analysis: 1 - rsh, 2 - ssh [default]
+        * @param TermMode   - terminal program: 1 - internal Qt window, 2 - xterm, 3 - KDE konsole
+        * @param ExeMode    - execution mode: 0 - exe, 1 - library
+        * @param UserArgs   - extra arguments for user analysis */
       virtual void LaunchAnalysis(const char *ClientName,
                           const char *ClientDir,
                           const char *ClientExec,
@@ -291,48 +290,47 @@ class TGo4AbstractInterface : public TObject {
                           Int_t ExeMode = 0,        //   0 = exe,  1 = lib
                           const char *UserArgs = nullptr) {}
 
-      /** Connect to running analysis server.
-        * Parameters:
-        *    ServerNode - node to connect to,
-        *    ServerPort - connection port number,
-        *    UserMode   - mode of user operation : 0 - observer, 1 - controller, 2 - administrator
-        *    password   - access password, which should correspond to specified UserMode */
+      /** @brief Connect to running analysis server.
+        * @param ServerNode - node to connect to,
+        * @param ServerPort - connection port number,
+        * @param UserMode   - mode of user operation : 0 - observer, 1 - controller, 2 - administrator
+        * @param password   - access password, which should correspond to specified UserMode */
       virtual void ConnectAnalysis(const char *ServerNode,
                                    Int_t ServerPort,
                                    Int_t UserMode,  // 0 - observer, 1- controller, 2 - administrator
                                    const char *password = nullptr)  {}
 
-      /** Waits, until connection to analysis is established.
-        * Method must be called before any other action like configuration,
+      /** @brief Waits, until connection to analysis is established.
+        * @details Method must be called before any other action like configuration,
         * start/stop can be done. If analysis is connected,
         * IsAnalysisConnected() return kTRUE. delay_sec specifies, how long
         * one should wait until analysis is connected */
       virtual void WaitAnalysis(Int_t delay_sec) {}
 
-      /** Indicate, if analysis was successfully connected */
+      /** @brief Indicate, if analysis was successfully connected */
       virtual Bool_t IsAnalysisConnected();
 
-      /** Disconnects from running analysis.
-        * If analysis is running in client mode, analysis will be shutdown. */
+      /** @brief Disconnects from running analysis.
+        * @details If analysis is running in client mode, analysis will be shutdown. */
       virtual void DisconnectAnalysis() {}
 
-      /** Shutdown running analysis.
-        * If analysis is running in server mode,
+      /** @brief Shutdown running analysis.
+        * @details If analysis is running in server mode,
         * only user with administrator privileges can do this */
       virtual void ShutdownAnalysis() {}
 
-      /** Execute one macro line on analysis side.
-        * This allows to call any action on analysis, including
+      /** @brief Execute one macro line on analysis side.
+        * @details This allows to call any action on analysis, including
         * execution scripts with ".x userscript.C". One should not mix
         * scripts, written for analysis and scripts, written for GUI. */
       virtual void ExecuteLine(const char *remotecmd);
 
-      /** Requests current analysis configuration */
+      /** @brief Requests current analysis configuration */
       virtual void RequestAnalysisConfig();
 
-      /** Submit configuration to analysis.
+      /** @brief Submit configuration to analysis.
         *
-        * Configurations can be changed with following methods:
+        * @details Configurations can be changed with following methods:
         *    - AnalysisAutoSave();
         *    - AnalysisConfigName();
         *    - ConfigStep();
@@ -354,62 +352,66 @@ class TGo4AbstractInterface : public TObject {
         * will be required to get response from analysis that operation was completed. */
       virtual void SubmitAnalysisConfig(int tmout = 20) {}
 
-      /** Starts (resume) analysis execution */
+      /** @brief Starts (resume) analysis execution */
       virtual void StartAnalysis() {}
 
-      /** Stop (suspend) analysis execution */
+      /** @brief Stop (suspend) analysis execution */
       virtual void StopAnalysis() {}
 
-      /** Sends new request to the analysis and waits for new names list */
+      /** @brief Sends new request to the analysis and waits for new names list */
       virtual void RefreshNamesList(int tmout = 10) {}
 
-      /** Set analysis terminal window mode.
-        * Parameters mode indicate that terminal window:
-        *    -1 - closed, 0 - minimized, 1 - normal state */
+      /** @brief Set analysis terminal window mode.
+        * @param mode indicate that terminal window:
+        *   - -1 - closed,
+        *   - 0 - minimized,
+        *   - 1 - normal state */
       virtual void SetAnalysisTerminalMode(int mode) {}
 
-      /** Set analysis configuration window mode.
-        * Parameters mode indicate that configuration window:
-        *    -1 - closed, 0 - minimized, 1 - normal state */
+      /** @brief Set analysis configuration window mode.
+        * @param mode indicate that configuration window:
+        *    - -1 - closed,
+        *    - 0 - minimized,
+        *    - 1 - normal state */
       virtual void SetAnalysisConfigMode(int mode) {}
 
-      /** Enable/disable monitoring of browser item.
-        * In monitoring mode item regularly will be requested from analysis
+      /** @brief Enable/disable monitoring of browser item.
+        * @details In monitoring mode item regularly will be requested from analysis
         * and viewpanels, where item is drawn, will be updated */
       virtual void MonitorItem(const char *itemname, Bool_t on = kTRUE);
 
-      /** Start monitoring mode.
-        * Parameter "period" specifies how often (in seconds) each
+      /** @brief Start monitoring mode.
+        * @details Parameter "period" specifies how often (in seconds) each
         * monitored item will be updated. */
       virtual void StartMonitoring(Int_t period = 10);
 
-      /** Stop monitoring mode. */
+      /** @brief Stop monitoring mode. */
       virtual void StopMonitoring();
 
-      /** Configure autosave properties of analysis */
+      /** @brief Configure autosave properties of analysis */
       virtual void AnalysisAutoSave(const char *filename,
                                     Int_t interval,
                                     Int_t compression,
                                     Bool_t enabled,
                                     Bool_t overwrite) {}
 
-      /** Configure name of file, where analysis configuration will be saved */
+      /** @brief Configure name of file, where analysis configuration will be saved */
       virtual void AnalysisConfigName(const char *filename) {}
 
       // steps configuration
 
-      /** Set basic step property */
+      /** @brief Set basic step properties */
       virtual void ConfigStep(const char *stepname,
                               Bool_t enableprocess,
                               Bool_t enablesource,
                               Bool_t enablestore) {}
 
-      /** Set file source as step data source */
+      /** @brief Set file source as step data source */
       virtual void StepFileSource(const char *stepname,
                                   const char *sourcename,
                                   int timeout) {}
 
-      /** Set MBS file source as step data source */
+      /** @brief Set MBS file source as step data source */
       virtual void StepMbsFileSource(const char *stepname,
                                      const char *sourcename,
                                      int timeout,
@@ -418,7 +420,7 @@ class TGo4AbstractInterface : public TObject {
                                      int stop = 0,
                                      int interval = 0) {}
 
-      /** Set MBS stream server as step data source */
+      /** @brief Set MBS stream server as step data source */
       virtual void StepMbsStreamSource(const char *stepname,
                                        const char *sourcename,
                                        int timeout,
@@ -426,7 +428,7 @@ class TGo4AbstractInterface : public TObject {
                                        int stop = 0,
                                        int interval = 0) {}
 
-      /** Set MBS transport server as step data source */
+      /** @brief Set MBS transport server as step data source */
       virtual void StepMbsTransportSource(const char *stepname,
                                           const char *sourcename,
                                           int timeout,
@@ -434,7 +436,7 @@ class TGo4AbstractInterface : public TObject {
                                           int stop = 0,
                                           int interval = 0) {}
 
-      /** Set MBS event server as step data source */
+      /** @brief Set MBS event server as step data source */
       virtual void StepMbsEventServerSource(const char *stepname,
                                     const char *sourcename,
                                     int timeout,
@@ -442,7 +444,7 @@ class TGo4AbstractInterface : public TObject {
                                     int stop = 0,
                                     int interval = 0) {}
 
-      /** Set MBS remote event server as step data source */
+      /** @brief Set MBS remote event server as step data source */
       virtual void StepMbsRevServSource(const char *stepname,
                                 const char *sourcename,
                                 int timeout,
@@ -451,38 +453,38 @@ class TGo4AbstractInterface : public TObject {
                                 int stop = 0,
                                 int interval = 0) {}
 
-      /** Set event selection for MBS source */
+      /** @brief Set event selection for MBS source */
       virtual void StepMbsSelection(const char *stepname,
                                     int start,
                                     int stop,
                                     int interval) {}
 
-      /** Set random generator as step data source */
+      /** @brief Set random generator as step data source */
       virtual void StepRandomSource(const char *stepname,
                             const char *sourcename,
                             int timeout) {}
 
-      /** Set custom port number for MBS source like stream or transport server */
+      /** @brief Set custom port number for MBS source like stream or transport server */
       virtual void StepMbsPort(const char *stepname,
                               int port) {}
 
-      /** Set retry number for MBS source like stream or transport server */
+      /** @brief Set retry number for MBS source like stream or transport server */
       virtual void StepMbsRetryCnt(const char *stepname,
                                    int cnt) {}
 
-      /** Set user data source as step data source */
+      /** @brief Set user data source as step data source */
       virtual void StepUserSource(const char *stepname,
                           const char *sourcename,
                           int timeout,
                           int port,
                           const char *expr) {}
 
-      /** Set hdf5 data source as step data source */
+      /** @brief Set hdf5 data source as step data source */
       virtual void StepHDF5Source(const char *stepname,
                                   const char *sourcename,
                                   int timeout) {}
 
-      /** Set file as step data storage */
+      /** @brief Set file as step data storage */
       virtual void StepFileStore(const char *stepname,
                          const char *storename,
                          bool overwrite,
@@ -491,94 +493,97 @@ class TGo4AbstractInterface : public TObject {
                          int compression,
                          int autosaveperiod = 0) {}
 
-      /** Set back store as step data storage */
+      /** @brief Set back store as step data storage */
       virtual void StepBackStore(const char *stepname,
                          const char *storename,
                          int bufsize,
                          int splitlevel) {}
 
-      /** Set user store as step data storage */
+      /** @brief Set user store as step data storage */
       virtual void StepUserStore(const char *stepname,
                          const char *storename) {}
 
-      /** Set hdf5 data source as step data storage*/
+      /** @brief Set hdf5 data source as step data storage*/
       virtual void StepHDF5Store(const char *stepname,
                                   const char *storename,
                                   int flags) {}
 
       // windows management
 
-      /** Set state of all tool boxes in main window */
+      /** @brief Set state of all tool boxes in main window */
       virtual void SetMainWindowState(int qtversion, const char *val) {}
 
-      /** Set geometry of main window */
+      /** @brief Set geometry of main window */
       virtual void SetMainWindowGeometry(int qtversion, const char *val) {}
 
-      /** Create new view panel.
-        * Handle, returned by this method, must be used for other operation,
+      /** @brief Create new view panel.
+        * @details Handle, returned by this method, must be used for other operation,
         * like DivideViewPanel() or SelectPad() */
       virtual ViewPanelHandle StartViewPanel() { return nullptr; }
 
-      /** Create new viewpanel with specified parameters.
-        * Returns handle of newly created viewpanel. Parameters:
-        *    x,y - left top corner coordinate of view panel;
-        *    width, height - panel size;
-        *    mode  - display mode for view panel (0 - minimized, 1 - normal, 2 - maximized);
-        *    pic - TGo4Picture object, which includes configuration of viewpanel.
+      /** @brief Create new viewpanel with specified parameters.
+        * @details Returns handle of newly created viewpanel.
         * To understand usage of this method together with TGo4Picture class,
         * one can create and configure viewpanel and then create hotstart file.
         * This file will include complete TGo4Picture configuration, which
-        * contains attributes like colors, ranges, pad divisions and so on. */
+        * contains attributes like colors, ranges, pad divisions and so on.
+        * @param x - X coordinate of view panel;
+        * @param y - Y coordinate of view panel;
+        * @param width - panel width;
+        * @param height - panel height;
+        * @param mode  - display mode for view panel (0 - minimized, 1 - normal, 2 - maximized);
+        * @param pic - TGo4Picture object, which includes configuration of viewpanel. */
       virtual ViewPanelHandle StartViewPanel(int x, int y, int width, int height, int mode = 1, TGo4Picture *pic = nullptr) { return nullptr; }
 
-      /** Return name of viewpanel. */
+      /** @brief Return name of viewpanel. */
       virtual TString GetViewPanelName(ViewPanelHandle panel) { return TString(); }
 
-      /** Return handle on viewpanel with specified name. */
+      /** @brief Return handle on viewpanel with specified name. */
       virtual ViewPanelHandle FindViewPanel(const char *name) { return nullptr; }
 
-      /** Change name of viewpanel. */
+      /** @brief Change name of viewpanel. */
       virtual Bool_t SetViewPanelName(ViewPanelHandle panel, const char *newname) { return kFALSE; }
-      /** Return handle of last active viewpanel. */
+
+      /** @brief Return handle of last active viewpanel. */
       virtual ViewPanelHandle GetActiveViewPanel() { return nullptr; }
 
-      /** Forces of panel redraw. */
+      /** @brief Forces of panel redraw. */
       virtual void RedrawPanel(ViewPanelHandle panel) {}
 
-      /** Divide viewpanel on subpads. */
+      /** @brief Divide viewpanel on subpads. */
       virtual void DivideViewPanel(ViewPanelHandle panel, Int_t numX, Int_t numY) {}
 
-      /** Set active pad on viewpanel.
-        * If number == 0, main pad (canvas) will be set as active,
+      /** @brief Set active pad on viewpanel.
+        * @details If number == 0, main pad (canvas) will be set as active,
         * otherwise one of subpads will be activated.
         * Most of methods, working with viewpanel, acting with active pad of this panel. */
       virtual TPad *SelectPad(ViewPanelHandle panel, Int_t number = 0) { return nullptr; }
 
-      /** Returns pad options for pad with specified number */
+      /** @brief Returns pad options for pad with specified number */
       virtual TGo4Picture *GetPadOptions(ViewPanelHandle panel, Int_t padnumber = 0) { return nullptr; }
 
-      /** Set superimpose flag for active pad of viewpanel. */
+      /** @brief Set superimpose flag for active pad of viewpanel. */
       virtual void SetSuperimpose(ViewPanelHandle panel, Bool_t on = kTRUE) {}
 
-      /** Set apply to all flag for active pad of viewpanel. */
+      /** @brief Set apply to all flag for active pad of viewpanel. */
       virtual void SetApplyToAll(ViewPanelHandle panel, Bool_t on = kTRUE) {}
 
-      /** Draw browser item on specified viewpanel.
-        * Parameters:
-        *    itemname - browser item name,
-        *    panel    - viewpanel, if panel == nullptr, new viewpanel will be created.
-        *    drawopt  - draw options, used in obj->Draw() operation */
+      /** @brief Draw browser item on specified viewpanel.
+        * @param itemname - browser item name,
+        * @param panel    - viewpanel, if panel == nullptr, new viewpanel will be created.
+        * @param drawopt  - draw options, used in obj->Draw() operation */
       virtual Bool_t DrawItem(const char *itemname, ViewPanelHandle panel = nullptr, const char *drawopt = nullptr) { return kFALSE; }
 
-      /** Redraw item of given name on all viewpanels/editors.
-        * Useful for the case, when content of object (histogram, for example)
+      /** @brief Redraw item of given name on all viewpanels/editors.
+        * @details Useful for the case, when content of object (histogram, for example)
         * changed directly in script and after that should be updated in viewpanel. */
       virtual void RedrawItem(const char *itemname);
 
-      /** Provide item name, drawn in the view panel.
-       *  Optional cnt parameter could specify sequence number in panel, including all subpads */
+      /** @brief Provide item name, drawn in the view panel.
+       *  @details Optional cnt parameter could specify sequence number in panel, including all subpads */
       virtual const char *GetDrawnItemName(ViewPanelHandle panel, int cnt = 0) { return nullptr; }
 
+      /** @brief Starts fit panel */
       virtual void StartFitPanel() {}
 
    ClassDefOverride(TGo4AbstractInterface, 0);
