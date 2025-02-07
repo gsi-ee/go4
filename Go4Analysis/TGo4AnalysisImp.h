@@ -136,64 +136,68 @@ public:
 
    void SetAnalysisName(const char *name) { fAnalysisName = name; }
 
-   /** The main analysis event cycle. This method is called by the
+   /** @brief The main analysis event cycle.
+    * @details This method is called by the
     * main runnable, or by RunImplicitLoop(). Processes the analysis steps
     * first, then the user event function. Finally, the dynamic list is updated. */
    Int_t MainCycle();
 
-   /** Method executed once before the main analysis event loop. This method is called by the thread prerun, or at the beginning of
+   /** @brief Method executed once before the main analysis event loop. This method is called by the thread prerun, or at the beginning of
     * RunImplicitLoop(). Calls virtual user preloop function. */
    Int_t PreLoop();
 
-   /** Method executed once after the main analysis event loop. This method is called by the thread postrun, or at the end of
+   /** @brief Method executed once after the main analysis event loop.
+    * @details  This method is called by the thread postrun, or at the end of
     * RunImplicitLoop(). Calls virtual user postloop function. */
    Int_t PostLoop();
 
-   /** This method is meant to be called from a go4 cintserver macro
-    * in an explicit event loop. It executes any queued commands and calls MainCycle() once, protected
+   /** @brief This method is meant to be called from a go4 cintserver macro
+    * in an explicit event loop.
+    * @details It executes any queued commands and calls MainCycle() once, protected
     * by main go4 lockguard. Returns 0 if analysis has IsRunning() state true;
     * returns negative value if IsRunning() is false. */
    Int_t Process();
 
-   /** User defined function which processes the actual analysis.
-    * May be called explicitly from analysis client thread, or may run
+   /** @brief User defined function which processes the actual analysis.
+    * @details May be called explicitly from analysis client thread, or may run
     * in an implicit loop provided by method RunImplicit, if
     * analysis works in a non threaded standalone mode. To be overridden
     * in the user analysis class. */
    virtual Int_t UserEventFunc();
 
-   /** User defined function called once before processing the main
+   /** @brief User defined function called once before processing the main
     * event loop. Optionally. */
    virtual Int_t UserPreLoop();
 
-   /** User defined function called once after processing the main
+   /** @brief User defined function called once after processing the main
     * event loop. Optionally. */
    virtual Int_t UserPostLoop();
 
-   /** Processes the UserEventFunc in an implicit loop for "times" times.
-    * For non-threaded usage of the analysis class.
-    * \param times specified how many events should be processed, 0 - all
-    * \param showrate identifies if ratemeter should be shown
-    * \param process_event_interval allows regularly process ROOT system events
-    * \param iswebserver specifies if loop shall be suspended at end of event source, or returns from batch  */
+   /** @brief Processes the UserEventFunc in an implicit loop for "times" times.
+    * @details For non-threaded usage of the analysis class.
+    * @param times specified how many events should be processed, 0 - all
+    * @param showrate identifies if ratemeter should be shown
+    * @param process_event_interval allows regularly process ROOT system events
+    * @param iswebserver specifies if loop shall be suspended at end of event source, or returns from batch  */
    Int_t RunImplicitLoop(Int_t times, Bool_t showrate = kFALSE,
                          Double_t process_event_interval = -1., Bool_t iswebserver = kFALSE);
 
-   /** Finish the analysis run and close all event sources/storages.
-    * The analysis instance and the setup of the analysis steps is not deleted. */
+   /** @brief Finish the analysis run and close all event sources/storages.
+    * @details The analysis instance and the setup of the analysis steps is not deleted. */
    virtual void CloseAnalysis();
 
-   /** Initialization of the event class plugins which are delivered from
-    * the user defined event factory. The virtual standard base class method may be changed
+   /** @brief Initialization of the event class plugins which are delivered from
+    * the user defined event factory.
+    * @details The virtual standard base class method may be changed
     * by overriding; normally, this is not necessary. */
    virtual Bool_t InitEventClasses();
 
-   /** Returns pointer on analysis object manager */
+   /** @brief Returns pointer on analysis object manager */
    TGo4AnalysisObjectManager *ObjectManager() const { return fxObjectManager; }
 
-   /** Add (create) new dynamic histogram entry which connects an existing
+   /** @brief Add (create) new dynamic histogram entry which connects an existing
     * histogram with existing condition and data.
-    * Dynamic entry is specified by name. Histogram histo will be searched in
+    * @details Dynamic entry is specified by name. Histogram histo will be searched in
     * registered histograms folder, condition in conditions folder. If
     * condition is true or not existing (condition == nullptr), histogram will be filled
     * from the values that are found in registered eventstructure classes of
@@ -209,50 +213,52 @@ public:
                               const char *cevx = nullptr, const char *cmemx = nullptr,
                               const char *cevy = nullptr, const char *cmemy = nullptr);
 
-   /** Set dynamic entry of name "name" to the values specified by external
-    * dynamic entry status "state". If no dynamic entry of that name exists, a
+   /** @brief Set dynamic entry of name "name" to the values specified by external
+    * dynamic entry status "state".
+    * @details If no dynamic entry of that name exists, a
     * new entry is created with the properties of the state, and
     * added to the current dynamic list. */
    Bool_t AddDynamicEntry(TGo4DynamicEntry *entry);
 
-   /** Remove entry of that name from dynamic list of listname.
-    * The referred objects (histograms, conditions..) are still on heap, since
+   /** @brief Remove entry of that name from dynamic list of listname.
+    * @details The referred objects (histograms, conditions..) are still on heap, since
     * they are owned by their special folders. */
    Bool_t RemoveDynamicEntry(const char *entryname, const char *listname = nullptr);
 
-   /** Add any external object to the user object folder.
-    * Object is owned by go4 afterwards and will be saved automatically.
+   /** @brief Add any external object to the user object folder.
+    * @details Object is owned by go4 afterwards and will be saved automatically.
     * Object is accessible by name from the go4 display and from the
     * analysis itself. Subfolder of UserObjects may be specified.
     * If replace is true, old object of same name will be deleted and
     * replaced by the added one. */
    Bool_t AddObject(TNamed *anything, const char *subfolder = nullptr, Bool_t replace = kTRUE);
 
-   /** Searches for object by name in all directories. Returns
-    * pointer to object. If
+   /** @brief Searches for object by name in all directories.
+    * @details Returns pointer to object. If
     * object of that name does not exist, null is returned.
     * Optionally, folder may be specified to search in. */
    TNamed *GetObject(const char *name, const char *folder = nullptr);
 
-   /** Removes object from user object folder by name. Returns kFALSE if no
-    * such histogram. Object is deleted on heap only if del is true.
+   /** @brief Removes object from user object folder by name.
+    * @details Returns kFALSE if no such histogram.
+    * Object is deleted on heap only if del is true.
     * Otherwise, user owns the object afterwards. */
    Bool_t RemoveObject(const char *name, Bool_t del = kTRUE);
 
-   /** Delete object of name, or all objects in folder name, respectively.
-    * Objects are only deleted if delete protection is false. Usually,
+   /** @brief Delete object of name, or all objects in folder name, respectively.
+    * @details Objects are only deleted if delete protection is false. Usually,
     * Objects registered from user code are delete protected by default.
     * Objects created dynamically from gui are not delete protected. */
    Bool_t DeleteObjects(const char *name);
 
-   /** Clear (reset) the specified objects. Method will first
-    * clear all objects in any folder if it is matching the name string.
+   /** @brief Clear (reset) the specified objects.
+    * @details  Method will first clear all objects in any folder if it is matching the name string.
     * If no such folder exists, object of name is searched and cleared.
     * Returns kFALSE in case of not found objects. */
    Bool_t ClearObjects(const char *name);
 
-   /** Change protection properties of object name as specified.
-    * If object is a folder, change properties of all objects in this folder recursively.
+   /** @brief Change protection properties of object name as specified.
+    * @details If object is a folder, change properties of all objects in this folder recursively.
     * Flags may contain key letters like:
     * "+C"/"-C" to enable/disable protection against Clear()(histogram zeroing etc).
     * "+D"/"-D" to enable/disable protection against object deletion
@@ -260,13 +266,15 @@ public:
     * Properties not appearing in flags are not changed.  */
    Bool_t ProtectObjects(const char *name, const Option_t *flags);
 
-   /** Clear previous events of backstore tree. For reset of dynamic tree histogram
+   /** @brief Clear previous events of backstore tree.
+    * @details For reset of dynamic tree histogram
     * If called with clearflag=true, do not reset tree, but only clear
     * the backstore reset bit (done after processing of complete dynamic list)*/
    Bool_t ResetBackStores(Bool_t clearflag = kFALSE);
 
-   /** Delivers pointer to next object of the Go4 folder structure
-    * with a name matching the expression expr. If reset is true,
+   /** @brief Delivers pointer to next object of the Go4 folder structure
+    * with a name matching the expression expr.
+    * @details If reset is true,
     * The list of matching objects will be created anew by comparing
     * all names with expr. If reset is false, the next object of a
     * previously created matching list is returned. Optionally the
@@ -275,145 +283,155 @@ public:
                                const char *folder = nullptr,
                                Bool_t reset = kFALSE);
 
-   /** Create a tree structure for a certain tree by name */
+   /** @brief Create a tree structure for a certain tree by name */
    TGo4TreeStructure *CreateTreeStructure(const char *treename);
 
-   /** Add external histogram to go4 histogram directory. Histogram will be owned
+   /** @brief Add external histogram to go4 histogram directory.
+    * @details Histogram will be owned
     * and streamed by go4 histogram list afterwards. */
    Bool_t AddHistogram(TH1 *his, const char *subfolder = nullptr, Bool_t replace = kTRUE);
 
-   /** Add reference to a tree in the go4 folder structure.
-    * If name of subfolder is given, tree will be assigned
+   /** @brief Add reference to a tree in the go4 folder structure.
+    * @details If name of subfolder is given, tree will be assigned
     * to subfolder (e.g. subfolder with analysis step name).
     * If subfolder name is zero,
     * the tree will be put into general tree folder. */
    Bool_t AddTree(TTree *tree, const char *subfolder = nullptr);
 
-   /** Remove reference to a tree in the go4 folder structure.
-    * If name of analysis step is given, tree will be assigned
+   /** @brief Remove reference to a tree in the go4 folder structure.
+    * @details If name of analysis step is given, tree will be assigned
     * to folder dedicated to that step. In stepname is zero,
     * the tree will be put into general tree folder. */
    Bool_t RemoveTree(TTree *tree, const char *stepname = nullptr);
 
-   /** Add Histogram into the dynamic list which is linked to a tree.
-    * If Histogram of hisname already exists, this histogram will taken.
+   /** @brief Add Histogram into the dynamic list which is linked to a tree.
+    * @details If Histogram of hisname already exists, this histogram will taken.
     * if not, the histogram will be created on first TTree::Draw.
     * Strings varexp and selection are used for applying cuts and variables to plot. */
    Bool_t AddTreeHistogram(const char *hisname, const char *treename, const char *varexp, const char *cutexp);
 
-   /** Search histogram in histogram list (directory). */
+   /** @brief Search histogram in histogram list (directory). */
    TH1 *GetHistogram(const char *name);
 
-   /** Search tree in tree folder. */
+   /** @brief Search tree in tree folder. */
    TTree *GetTree(const char *name);
 
-   /** Removes histogram from histogram dir by name. Returns kFALSE if no
+   /** @brief Removes histogram from histogram dir by name.
+    * @details Returns kFALSE if no
     * such index. Histogram object is deleted on heap.
     * Dynamic list entry for that histogram object is also removed. */
    Bool_t RemoveHistogram(const char *name, Bool_t del = kTRUE);
 
-   /** Puts a new analysis condition object in corresponding list.
-    * Object is owned by list afterwards. Returns false if object
+   /** @brief Puts a new analysis condition object in corresponding list.
+    * @details Object is owned by list afterwards. Returns false if object
     * of that name already exists in list. */
    Bool_t AddAnalysisCondition(TGo4Condition *con, const char *subfolder = nullptr);
 
-   /** Set existing analysis condition of name to the values
-    * of external condition object con. Used to set condition by command
+   /** @brief Set existing analysis condition of name to the values
+    * of external condition object con.
+    * @details Used to set condition by command
     * from gui, or to update the precompiled condition from the values
     * that were saved to the autosave file. */
    Bool_t SetAnalysisCondition(const char *name, TGo4Condition *con, Bool_t counter = kTRUE);
 
-   /** Retrieves an analysis condition  from list by name.
-    * Optionally, condition could be checked if it inherits from specified class.
+   /** @brief Retrieves an analysis condition  from list by name.
+    * @details Optionally, condition could be checked if it inherits from specified class.
     * Returns 0 if no such condition found. */
    TGo4Condition *GetAnalysisCondition(const char *name, const char *cond_cl = nullptr);
 
-   /** Removes analysis condition from list by name. Returns 0 if no
-    * such condition. Condition object is deleted on heap. */
+   /** @brief Removes analysis condition from list by name.
+    * @details Returns 0 if no such condition. Condition object is deleted on heap. */
    Bool_t RemoveAnalysisCondition(const char *name);
 
-   /** Puts a new parameter object in corresponding folder.
-    * Object is owned by folder afterwards. Returns false if object
+   /** @brief Puts a new parameter object in corresponding folder.
+    * @details Object is owned by folder afterwards. Returns false if object
     * of that name already exists in list. */
    Bool_t AddParameter(TGo4Parameter *par, const char *subfolder = nullptr);
 
-   /** Set existing parameter of name to the values
-    * of external parameter object par. Used to set parameter by command
+   /** @brief Set existing parameter of name to the values
+    * of external parameter object par.
+    * @details Used to set parameter by command
     * from gui, or to update the precompiled parameter from the values
     * that were saved to the autosave file. */
    Bool_t SetParameter(const char *name, TGo4Parameter *par);
 
-   /** Set existing parameter of name to the values
-    * of external parameter status object. Used to set parameter by command
+   /** @brief Set existing parameter of name to the values
+    * of external parameter status object.
+    * @details Used to set parameter by command
     * from gui, or to update the precompiled parameter from the values
     * that were saved to the autosave file. */
    Bool_t SetParameterStatus(const char *name, TGo4ParameterStatus *par);
 
-   /** Retrieves a parameter object by name from the object folder.
-    * Optionally expected class of parameter object could be specified.
+   /** @brief Retrieves a parameter object by name from the object folder.
+    * @details Optionally expected class of parameter object could be specified.
     * Returns 0 if no such parameter found (or class not match). */
    TGo4Parameter *GetParameter(const char *name, const char *parameter_class = nullptr);
 
-   /** Removes parameter by name. Returns 0 if no
+   /** @brief Removes parameter by name.
+    * @details Returns 0 if no
     * such parameter. Parameter object is deleted on heap. */
    Bool_t RemoveParameter(const char *name);
 
-   /** Puts a new picture object in corresponding folder.
-    * Object is owned by folder afterwards. Returns false if object
+   /** @brief Puts a new picture object in corresponding folder.
+    * @details Object is owned by folder afterwards. Returns false if object
     * of that name already exists in list. */
    Bool_t AddPicture(TGo4Picture *pic, const char *subfolder = nullptr);
 
-   /** Set existing picture of name to the values
-    * of external picture object pic. Used to set picture by command
+   /** @brief Set existing picture of name to the values
+    * of external picture object pic.
+    * @details Used to set picture by command
     * from gui, or to update the precompiled picture from the values
     * that were saved to the autosave file. */
    Bool_t SetPicture(const char *name, TGo4Picture *pic);
 
-   /** Retrieves a picture object by name from the object folder.
-    * Returns 0 if no such picture. */
+   /** @brief Retrieves a picture object by name from the object folder.
+    * @details Returns 0 if no such picture. */
    TGo4Picture *GetPicture(const char *name);
 
-   /** Removes picture by name. Returns 0 if no
-    * such picture. Picture object is deleted on heap. */
+   /** @brief Removes picture by name.
+    * @details Returns kFALSE if no such picture. Picture object is deleted on heap. */
    Bool_t RemovePicture(const char *name);
 
-   /** Puts a new TCanvas in corresponding folder.
-    * Object is owned by folder afterwards. Returns false if object
+   /** @brief Puts a new TCanvas in corresponding folder.
+    * @details Object is owned by folder afterwards. Returns false if object
     * of that name already exist. */
    Bool_t AddCanvas(TCanvas *can, const char *subfolder = nullptr);
 
-   /** Retrieves a TCanvas by name from the Canvases folder.
-    * Returns 0 if no such object. */
+   /** @brief Retrieves a TCanvas by name from the Canvases folder.
+    * @details Returns nullptr if no such object. */
    TCanvas *GetCanvas(const char *name);
 
-   /** Removes TCanvas by name. Returns 0 if no
-    * such canvas. TCanvas object is deleted on heap. */
+   /** @brief Removes TCanvas by name.
+    * @details Returns kFALSE if no such canvas. TCanvas object is deleted on heap. */
    Bool_t RemoveCanvas(const char *name);
 
-   /** Create a copy of the analysis internal state.
-    * To be sent to the Display. */
+   /** @brief Create a copy of the analysis internal state.
+    * @details To be sent to the Display. */
    TGo4AnalysisStatus *CreateStatus();
 
-   /** Create a copy of the analysis internal state.
-    * To be sent to the Web interface. */
+   /** @brief Create a copy of the analysis internal state.
+    * @details To be sent to the Web interface. */
    TGo4AnalysisWebStatus *CreateWebStatus();
 
-   /** Find Object of name in the folder structure
+   /** @brief Find Object of name in the folder structure
     * and create a complete status object of it.
-    * Used by GUI command to get updated information on certain object. */
+    * @details Used by GUI command to get updated information on certain object. */
    TGo4ObjectStatus *CreateObjectStatus(const char *name, const char *folder = nullptr);
 
-   /** Creates a list of names (keys) of all objects in analysis directories. */
+   /** @brief Creates a list of names (keys) of all objects in analysis directories. */
    TGo4AnalysisObjectNames *CreateNamesList();
 
-   /** Access to top level go4 folder. For histogram server. */
+   /** @brief Access to top level go4 folder.
+    * @details For histogram server. */
    TFolder *GetObjectFolder();
 
-   /** Create a copy of the analysis internal state. To be sent to the Display. */
+   /** @brief Create a copy of the analysis internal state.
+    * @details To be sent to the Display. */
    void UpdateStatus(TGo4AnalysisStatus *state);
 
-   /** Set all analysis parameters to that of given
-    * status object. Analysis will be stopped,
+   /** @brief Set all analysis parameters to that of given
+    * status object.
+    * @details Analysis will be stopped,
     * all steps are closed (deleted). Then analysis
     * steps are created due to list of analysis step
     * status objects encapsulated in the analysis status
@@ -422,11 +440,12 @@ public:
     * to InitEventClasses. */
    void SetStatus(TGo4AnalysisStatus *state);
 
-   /** Load Analysis Status from file and set analysis
+   /** @brief Load Analysis Status from file and set analysis
     * to these settings. */
    Bool_t LoadStatus(const char *filename = nullptr);
 
-   /** Load analysis objects from file. File is the autosave file by
+   /** @brief Load analysis objects from file.
+    * @details File is the autosave file by
     * default, but may be specified by name. */
    Bool_t LoadObjects(const char *filename = nullptr);
 
@@ -699,80 +718,80 @@ public:
      * kFALSE when object was retrieved from autosavefile */
    Bool_t IsObjMade() const { return fbObjMade; }
 
-   /** Create one dimensional histogram of specified type.
-    * \param type can be:
-    * 'I', 'i' for TH1I - Int_t as bin content (default)
-    * 'F', 'f' for TH1F - Float_t as bin content
-    * 'D', 'd' for TH1D - Double_t as bin content
-    * 'S', 's' for TH1S - Short_t as bin content
-    * 'C', 'c' for TH1C - Char_t as bin content
-    * 'L', 'l' for TH1L - Long64_t as bin content
-    * \param fullname specifies name of histogram (optionally with subfolder name)
-    * \param title - histogram title
-    * \param nbinsx - number of bins for X axis
-    * \param xlow - minium for X axis
-    * \param xup - maximum for X axis
-    * \param xtitle - title for X axis of histogram
-    * \param ytitle - title for Y axis of histogram
-    * If histogram exactly with same name and type already exists in  autosave file,
-    * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave. */
+   /** @brief Create one dimensional histogram of specified type.
+    * @details If histogram exactly with same name and type already exists in  autosave file,
+    * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
+    * @param type can be:
+    * - 'I', 'i' for TH1I - Int_t as bin content (default)
+    * - 'F', 'f' for TH1F - Float_t as bin content
+    * - 'D', 'd' for TH1D - Double_t as bin content
+    * - 'S', 's' for TH1S - Short_t as bin content
+    * - 'C', 'c' for TH1C - Char_t as bin content
+    * - 'L', 'l' for TH1L - Long64_t as bin content
+    * @param fullname specifies name of histogram (optionally with subfolder name)
+    * @param title - histogram title
+    * @param nbinsx - number of bins for X axis
+    * @param xlow - minium for X axis
+    * @param xup - maximum for X axis
+    * @param xtitle - title for X axis of histogram
+    * @param ytitle - title for Y axis of histogram */
    TH1 *MakeTH1(char type, const char *fullname, const char *title,
                 Int_t nbinsx, Double_t xlow, Double_t xup,
                 const char *xtitle = nullptr, const char *ytitle = nullptr);
 
-   /** Create two dimensional histogram of specified type.
-    * \param type can be:
-    * 'I', 'i' for TH2I - Int_t as bin content (default)
-    * 'F', 'f' for TH2F - Float_t as bin content
-    * 'D', 'd' for TH2D - Double_t as bin content
-    * 'S', 's' for TH2S - Short_t as bin content
-    * 'C', 'c' for TH1C - Char_t as bin content
-    * 'L', 'l' for TH2L - Long64_t as bin content
-    * \param fullname specifies name of histogram (optionally with subfolder name)
-    * \param title - histogram title
-    * \param nbinsx - number of bins for X axis
-    * \param xlow - minium for X axis
-    * \param xup - maximum for X axis
-    * \param nbinsy - number of bins for X axis
-    * \param ylow - minium for X axis
-    * \param yup - maximum for X axis
-    * \param xtitle - title for X axis of histogram
-    * \param ytitle - title for Y axis of histogram
-    * \param ztitle - title for Z axis of histogram
-    * If histogram exactly with same name and type already exists in  autosave file,
-    * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave. */
+   /** @brief Create two dimensional histogram of specified type.
+    * @details If histogram exactly with same name and type already exists in  autosave file,
+    * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
+    * @param type can be:
+    * - 'I', 'i' for TH2I - Int_t as bin content (default)
+    * - 'F', 'f' for TH2F - Float_t as bin content
+    * - 'D', 'd' for TH2D - Double_t as bin content
+    * - 'S', 's' for TH2S - Short_t as bin content
+    * - 'C', 'c' for TH1C - Char_t as bin content
+    * - 'L', 'l' for TH2L - Long64_t as bin content
+    * @param fullname specifies name of histogram (optionally with subfolder name)
+    * @param title - histogram title
+    * @param nbinsx - number of bins for X axis
+    * @param xlow - minium for X axis
+    * @param xup - maximum for X axis
+    * @param nbinsy - number of bins for X axis
+    * @param ylow - minium for X axis
+    * @param yup - maximum for X axis
+    * @param xtitle - title for X axis of histogram
+    * @param ytitle - title for Y axis of histogram
+    * @param ztitle - title for Z axis of histogram */
    TH2 *MakeTH2(char type, const char *fullname, const char *title,
                 Int_t nbinsx, Double_t xlow, Double_t xup,
                 Int_t nbinsy, Double_t ylow, Double_t yup,
                 const char *xtitle = nullptr, const char *ytitle = nullptr, const char *ztitle = nullptr);
 
    /** Create 1D window condition.
-    * \param fullname specifies name of condition (optionally with subfolder name)
-    * \param xmin - X min condition range
-    * \param xmax - X max condition range
-    * \param HistoName - name of histogram, to which condition is assigned */
+    * @param fullname specifies name of condition (optionally with subfolder name)
+    * @param xmin - X min condition range
+    * @param xmax - X max condition range
+    * @param HistoName - name of histogram, to which condition is assigned */
    TGo4WinCond *MakeWinCond(const char *fullname,
                             Double_t xmin, Double_t xmax,
                             const char *HistoName = nullptr);
 
    /** Create 2D window condition.
-    * \param fullname specifies name of condition (optionally with subfolder name)
-    * \param xmin - X min condition range
-    * \param xmax - X max condition range
-    * \param ymin - Y min condition range
-    * \param ymax - Y max condition range
-    * \param HistoName - name of histogram, to which condition is assigned */
+    * @param fullname specifies name of condition (optionally with subfolder name)
+    * @param xmin - X min condition range
+    * @param xmax - X max condition range
+    * @param ymin - Y min condition range
+    * @param ymax - Y max condition range
+    * @param HistoName - name of histogram, to which condition is assigned */
    TGo4WinCond *MakeWinCond(const char *fullname,
                             Double_t xmin, Double_t xmax,
                             Double_t ymin, Double_t ymax,
                             const char *HistoName = nullptr);
 
    /** Create polygon condition.
-    * \param fullname specifies name of condition (optionally with subfolder name)
-    * \param npoints - number of points in polygon condition
-    * \param points - (X,Y) points
-    * \param HistoName - name of histogram, to which condition is assigned
-    * \param shapedcond - create a freestyle TGo4ShapedCond
+    * @param fullname specifies name of condition (optionally with subfolder name)
+    * @param npoints - number of points in polygon condition
+    * @param points - (X,Y) points
+    * @param HistoName - name of histogram, to which condition is assigned
+    * @param shapedcond - create a freestyle TGo4ShapedCond
     * To use method, array should be declared as following:
     * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
     * cond = MakePolyCond("Folder/CondName", 4, points); */
@@ -783,38 +802,38 @@ public:
                               Bool_t shapedcond = kFALSE);
 
    /** Create ellipse shaped polygon condition.
-    * \param fullname specifies name of condition (optionally with subfolder name)
-    * \param npoints - number of points in ellipse condition, 0 for default resolution
-    * \param cx - center X coordinate of ellipse
-    * \param cy - center Y coordinate of ellipse
-    * \param a1 - width of ellipse X half axes
-    * \param a2 - width of ellipse Y half axes
-    * \param theta - ellipse tilt angle
-    * \param HistoName - name of histogram, to which condition is assigned  */
+    * @param fullname specifies name of condition (optionally with subfolder name)
+    * @param npoints - number of points in ellipse condition, 0 for default resolution
+    * @param cx - center X coordinate of ellipse
+    * @param cy - center Y coordinate of ellipse
+    * @param a1 - width of ellipse X half axes
+    * @param a2 - width of ellipse Y half axes
+    * @param theta - ellipse tilt angle
+    * @param HistoName - name of histogram, to which condition is assigned  */
    TGo4ShapedCond *MakeEllipseCond(const char *fullname,
                                    Int_t npoints,
                                    Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta = 0.,
                                    const char *HistoName = nullptr);
 
    /** Create circular shaped polygon condition.
-    * \param fullname specifies name of condition (optionally with subfolder name)
-    * \param npoints - number of points in shaped condition, 0 for default resolution
-    * \param cx - circle center X coordinate
-    * \param cy - circle center Y coordinate
-    * \param r  - circle radius
-    * \param HistoName - name of histogram, to which condition is assigned */
+    * @param fullname specifies name of condition (optionally with subfolder name)
+    * @param npoints - number of points in shaped condition, 0 for default resolution
+    * @param cx - circle center X coordinate
+    * @param cy - circle center Y coordinate
+    * @param r  - circle radius
+    * @param HistoName - name of histogram, to which condition is assigned */
    TGo4ShapedCond *MakeCircleCond(const char *fullname,
                                   Int_t npoints, Double_t cx, Double_t cy, Double_t r,
                                   const char *HistoName = nullptr);
 
    /** Create tilted rectangular box shaped polygon condition.
-    *  \param fullname specifies name of condition (optionally with subfolder name)
-    *  \param cx - center X coordinates of box
-    *  \param cy - center Y coordinates of box
-    *  \param a1 - width of box half axes
-    *  \param a2 - height of box half axes
-    *  \param theta - tilt angle
-    *  \param HistoName - name of histogram, to which condition is assigned */
+    *  @param fullname specifies name of condition (optionally with subfolder name)
+    *  @param cx - center X coordinates of box
+    *  @param cy - center Y coordinates of box
+    *  @param a1 - width of box half axes
+    *  @param a2 - height of box half axes
+    *  @param theta - tilt angle
+    *  @param HistoName - name of histogram, to which condition is assigned */
    TGo4ShapedCond *MakeBoxCond(const char *fullname, Double_t cx, Double_t cy,
                                Double_t a1, Double_t a2, Double_t theta,
                                const char *HistoName = nullptr);
@@ -822,10 +841,10 @@ public:
    /** Create free shaped (polygon) condition.
     * in contrast to plain TGo4PolyCond, this one can be converted later
     * to different dedicated shape types (ellipse, box, etc.)
-    * \param fullname specifies name of condition (optionally with subfolder name)
-    * \param npoints - number of points in polygon condition
-    * \param points - (X,Y) points
-    * \param HistoName - name of histogram, to which condition is assigned
+    * @param fullname specifies name of condition (optionally with subfolder name)
+    * @param npoints - number of points in polygon condition
+    * @param points - (X,Y) points
+    * @param HistoName - name of histogram, to which condition is assigned
     * To use method, array should be declared as following:
     * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
     * cond = MakePolyCond("Folder/CondName", 4, points); */
@@ -834,20 +853,20 @@ public:
 
    /** Create "whitlelist" condition with separate values to test against
     * condition is true if any of the values matches
-    * \param fullname specifies name of condition (optionally with subfolder name)
-    * \param num - number of values in array
-    * \param values - 1d array with values
-    * \param HistoName - name of histogram, to which condition is assigned */
+    * @param fullname specifies name of condition (optionally with subfolder name)
+    * @param num - number of values in array
+    * @param values - 1d array with values
+    * @param HistoName - name of histogram, to which condition is assigned */
    TGo4ListCond *MakeListCond(const char *fullname, const Int_t num,
                               const Int_t *values, const char *HistoName = nullptr);
 
    /** Create "whitlelist" condition with separate values to test against
     * condition is true if any of the values matches
-    * \param fullname specifies name of condition (optionally with subfolder name)
-    * \param start - first value in list
-    * \param stop - last value in list
-    * \param step - distance between list entries
-    * \param HistoName - name of histogram, to which condition is assigned */
+    * @param fullname specifies name of condition (optionally with subfolder name)
+    * @param start - first value in list
+    * @param stop - last value in list
+    * @param step - distance between list entries
+    * @param HistoName - name of histogram, to which condition is assigned */
    TGo4ListCond *MakeListCond(const char *fullname, const Int_t start,
                               const Int_t stop, const Int_t step = 1, const char *HistoName = nullptr);
 
@@ -877,9 +896,9 @@ public:
    TGo4RollingGraph *MakeRollingGraph(const char *fullname, const char *title, Int_t points = 0, Int_t average = 1);
 
    /** Create parameter of specified class,
-    * \param fullname specifies name of condition (optionally with subfolder name)
-    * \param classname - name of required parameter class, it should be known to ROOT.
-    * \param cmd - optional argument, can be used for two purposes:
+    * @param fullname specifies name of condition (optionally with subfolder name)
+    * @param classname - name of required parameter class, it should be known to ROOT.
+    * @param cmd - optional argument, can be used for two purposes:
     *    1) as new command to create parameter like "new UserParameter(%s, 1000, 2000)",
     *       where %s is place for parameter name.  Should be specified, if parameter
     *       constructor contains more parameters as only parameter name. Such argument
