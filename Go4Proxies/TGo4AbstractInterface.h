@@ -78,6 +78,7 @@ enum EGo4ViewPanelMode { Go4_hidden = -1, Go4_minimized = 0, Go4_normal = 1, Go4
   * and take some generated code from it directly. For instance,
   * displaying of complex viewpanels or starting and configuring of analysis.
   *
+  * @ingroup go4_gui
   */
 
 class TGo4AbstractInterface : public TObject {

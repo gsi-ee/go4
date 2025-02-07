@@ -9,6 +9,9 @@
 @ref go4_examples
 <br>
 <br>
+@ref go4_gui
+<br>
+<br>
 @ref go4_fit
 <br>
 <br>
@@ -27,6 +30,9 @@
 
 
 \defgroup go4_examples GO4 examples
+
+
+\defgroup go4_gui GO4 gui
 
 
 \defgroup go4_fit GO4 fit
