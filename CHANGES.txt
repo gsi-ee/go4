@@ -25,7 +25,7 @@ Changes in Go4 v6.4
 1. Support ES6 modules, requires ROOT 6.34
 2. Use web graphics on Wayland by default, can be disabled with --x11 command-line argument
 3. GUI: Add histogram import functionality for ASCII (go4 exported) and Ortec MCA formats
-4. Bugfix: display and update result functions of ROOT fitter together with original histogram in GU
+4. Bugfix: display and update result functions of ROOT fitter together with original histogram in GUI
 5. Support TH1L and TH2L classes in MakeTH1/MakeTH2 methods
 
 
