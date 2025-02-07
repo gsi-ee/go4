@@ -164,7 +164,7 @@ public:
      * If no receiver is defined, all connected masters will receive message (default).
      */
     void SendStatusMessage(Int_t level, Bool_t printout, const char *text, ...)
-    #if defined(__GNUC__) && !defined(__CINT__)
+    #if defined(__GNUC__) && !defined(__CLING__)
        __attribute__((format(printf, 4, 5)))
     #endif
     ;

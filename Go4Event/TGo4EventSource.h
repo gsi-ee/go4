@@ -81,14 +81,14 @@ class TGo4EventSource : public TNamed {
 
       /** Exception thrower. */
       void ThrowError(Int_t creastat, Int_t errstat, const char *message,...)
-      #if defined(__GNUC__) && !defined(__CINT__)
+      #if defined(__GNUC__) && !defined(__CLING__)
         __attribute__((format(printf, 4, 5)))
       #endif
       ;
 
       /** EOF thrower. */
       void ThrowEOF(Int_t creastat, Int_t errstat, const char *message,...)
-      #if defined(__GNUC__) && !defined(__CINT__)
+      #if defined(__GNUC__) && !defined(__CLING__)
          __attribute__((format(printf, 4, 5)))
       #endif
       ;

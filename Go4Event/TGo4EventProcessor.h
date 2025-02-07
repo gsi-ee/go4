@@ -188,7 +188,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * 3: local terminal and error message in gui log panel (if gui mode)
        */
       void Message(Int_t prio, const char *text, ...)
-       #if defined(__GNUC__) && !defined(__CINT__)
+       #if defined(__GNUC__) && !defined(__CLING__)
          __attribute__((format(printf, 3, 4)))
        #endif
       ;

@@ -30,7 +30,7 @@ class TLogTimer;
 #define GO4WARN(X) TGo4Log::Warn X ;
 #define GO4ERROR(X) TGo4Log::Error X ;
 
-#if defined(__GNUC__) && !defined(__CINT__)
+#if defined(__GNUC__) && !defined(__CLING__)
 #define GO4_PRINTF_ARGS   __attribute__((format(printf, 1, 2)))
 #define GO4_PRINTF2_ARGS   __attribute__((format(printf, 2, 3)))
 #else

@@ -48,7 +48,7 @@ class TGo4Status : public TNamed {
        * buflen shall contain buffer size, it will be decremented by the size of
        * printed text.  */
       static Text_t *PrintBuffer(char *buffer, Int_t &buflen, const char *text, ...)
-      #if defined(__GNUC__) && !defined(__CINT__)
+      #if defined(__GNUC__) && !defined(__CLING__)
         __attribute__((format(printf, 3, 4)))
       #endif
       ;
@@ -56,7 +56,7 @@ class TGo4Status : public TNamed {
       /**
        * Print single line of debug output with appropriate indent */
       static void PrintLine(const char *text, ...)
-      #if defined(__GNUC__) && !defined(__CINT__)
+      #if defined(__GNUC__) && !defined(__CLING__)
         __attribute__((format(printf, 1, 2)))
       #endif
       ;
