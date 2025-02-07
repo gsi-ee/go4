@@ -449,27 +449,30 @@ public:
     * default, but may be specified by name. */
    Bool_t LoadObjects(const char *filename = nullptr);
 
-   /** Save current analysis settings into file of given name. */
+   /** @brief Save current analysis settings into file of given name. */
    Bool_t SaveStatus(const char *filename = nullptr);
 
-   /** Enable or disable check of subsequent analysis step
-    * for io consistency. Default is on, disable for non
-    * serial type analyses. */
+   /** @brief Enable or disable check of subsequent analysis step
+    * for io consistency.
+    * @details Default is on, disable for none-serial type analyses. */
    void SetStepChecking(Bool_t on = kTRUE);
 
-   /** Sets analysis step name as first one to be processed in
-    * the chain of steps. First step will read input event from its
+   /** @brief Sets analysis step name as first one to be processed in
+    * the chain of steps.
+    * @details First step will read input event from its
     * event source. If name is nullptr, takes first step in steplist. */
    Bool_t SetFirstStep(const char *name);
 
-   /** Sets analysis step name as last one to be processed in
-    * the chain of steps. Last step will write output event into its
+   /** @brief Sets analysis step name as last one to be processed in
+    * the chain of steps.
+    * @details Last step will write output event into its
     * event store by default, its output event is accessible in the user
     * analysis. If name is nullptr, takes last step in steplist. */
    Bool_t SetLastStep(const char *name);
 
-   /** Enables analysis step of name to write its output event into
-    * its event store. By default only the last analysis step
+   /** @brief Enables analysis step of name to write its output event into
+    * its event store.
+    * @details By default only the last analysis step
     * will keep the output event in the store, the intermediate
     * steps will only pass the output to the subsequent step.
     * This method lets also any intermediate step write the
@@ -480,110 +483,116 @@ public:
     * final user event function. */
    Bool_t SetStepStorage(const char *name, Bool_t on);
 
-   /** Shuts down the old analysis step storage and creates a new
-    * one specified by parameter par. To be used in online mode to
-    * switch output files. */
+   /** @brief Shuts down the old analysis step storage and creates a new
+    * one specified by parameter par.
+    * @details To be used in online mode to switch output files. */
    Bool_t NewStepStore(const char *name, TGo4EventStoreParameter *par);
 
-   /** Shuts down the old analysis step event source and creates a new
-    * one specified by parameter par. To be used in online mode to
-    * switch input. */
+   /** @brief Shuts down the old analysis step event source and creates a new
+    * one specified by parameter par.
+    * @details To be used in online mode to switch input. */
    Bool_t NewStepSource(const char *name, TGo4EventSourceParameter *par);
 
-   /** Shuts down the old analysis step processor and creates a new
-    * one specified by parameter par. To be used in online mode to
-    * switch event processing. */
+   /** @brief Shuts down the old analysis step processor and creates a new
+    * one specified by parameter par.
+    * @details To be used in online mode to switch event processing. */
    Bool_t NewStepProcessor(const char *name, TGo4EventProcessorParameter *par);
 
-   /** Set time interval (in s) for autosave action. */
+   /** @brief Set time interval (in s) for autosave action. */
    void SetAutoSaveInterval(Int_t interval = 0) { fiAutoSaveInterval = interval; }
 
-   /** Set file for autosave action. */
+   /** @brief Set file for autosave action. */
    void SetAutoSaveFile(const char *filename = nullptr,
                         Bool_t overwrite = kFALSE,
                         Int_t compression = 5);
 
-   /** Return kTRUE, if autosave file name set. */
+   /** @brief Return kTRUE, if autosave file name set. */
    Bool_t IsAutoSaveFileName() const;
 
-   /** Lock the autosave mutex. For usage in analysis client */
+   /** @brief Lock the autosave mutex. For usage in analysis client */
    Int_t LockAutoSave();
 
-   /** UnLock the autosave mutex. For usage in analysis client */
+   /** @brief UnLock the autosave mutex. For usage in analysis client */
    Int_t UnLockAutoSave();
 
-   /**  enable/disable functionality of AutoSave method */
+   /** @brief Enable/disable functionality of AutoSave method */
    void SetAutoSave(Bool_t on = kTRUE) { fbAutoSaveOn = on; }
 
-   /** True if autosaving is enabled */
+   /** @brief True if autosaving is enabled */
    Bool_t IsAutoSaveOn() const { return fbAutoSaveOn; }
 
-   /**  Set analysis in mode where autosave file switches for each new input file*/
+   /** @brief  Set analysis in mode where autosave file switches for each new input file*/
    void SetAutoSaveFileChange(Bool_t on = kTRUE) { fbAutoSaveFileChange = on; }
 
-   /** True if autosave file is changed according to the current input file
+   /** @brief True if autosave file is changed according to the current input file
      * of lmd file list. */
    Bool_t IsAutoSaveFileChange() const { return fbAutoSaveFileChange; }
 
-   /** True if the analysis steps are initialized */
+   /** @brief True if the analysis steps are initialized */
    Bool_t IsInitDone() const { return fbInitIsDone; }
 
-   /** True if the analysis as controlled by slave process is running.
-     * if no slave task (analysis client) is available, always true
+   /** @brief True if the analysis as controlled by slave process is running.
+     * @details If no slave task (analysis client) is available, always true
      * (plain batch mode never stops)
      * Test: read by reference than copy value, faster?*/
    Bool_t IsRunning() const;
 
-   /** Switch slave process into running state. To be used
-    * from analysis macro to start/stop the go4 loop on certain
+   /** @brief Switch slave process into running state.
+    * @details To be used from analysis macro to start/stop the go4 loop on certain
     * conditions. */
    void SetRunning(Bool_t on = kTRUE);
 
-   /** Poll on the IsRunning state with sleep delay, returns number
-    * of wait cycles. For slave server controlled cint macros to
+   /** @brief Poll on the IsRunning state with sleep delay, returns number
+    * of wait cycles.
+    * @details For slave server controlled cint macros to
     * start/stop execution of explicit user loop. */
    Int_t WaitForStart();
 
-   /** True if current analysis step allows stop on error */
+   /** @brief True if current analysis step allows stop on error */
    Int_t IsErrorStopEnabled() const;
 
-   /** Set flag that input file has changed */
+   /** @brief Set flag that input file has changed */
    void SetNewInputFile(Bool_t on = kTRUE) { fbNewInputFile = on; }
 
-   /** True if input filelist has changed to a new lmd file. */
+   /** @brief True if input filelist has changed to a new lmd file. */
    Bool_t IsNewInputFile() const { return fbNewInputFile; }
 
-   /** Set current input file name */
+   /** @brief Set current input file name */
    void SetInputFileName(const char *fname) { fxCurrentInputFileName = fname; }
 
-   /** Returns current input file name */
+   /** @brief Returns current input file name */
    const char *GetInputFileName() const { return fxCurrentInputFileName.Data(); }
 
-   /** Returns default lmd test file name (in GO4SYS installation directory) */
+   /** @brief Returns default lmd test file name (in GO4SYS installation directory) */
    const char *GetDefaultTestFileName() const { return fxDefaultTestFileName.Data(); }
 
+   /** @brief Set current dynamic list interval */
    void SetDynListInterval(Int_t val);
 
+   /** @brief Returns current dynamic list interval */
    Int_t GetDynListInterval() const;
 
-   /** Returns the input event structure of analysis step. Argument indicates
-    * the step by name. For internal usage in the user defined event function
+   /** @brief Returns the input event structure of analysis step.
+    * @details Argument indicates the step by name.
+    * For internal usage in the user defined event function
     * UserEventFunc, and is used by analysis steps to get result of previous steps. */
    TGo4EventElement *GetInputEvent(const char *stepname) const;
 
-   /** Returns the input event structure of analysis step. Argument number indicates
+   /** @brief Returns the input event structure of analysis step.
+    * @details Argument number indicates
     * the step from 0 (first) to n (last) in subsequent order.
     * For internal usage in the user defined event function
     * UserEventFunc, and is used by analysis steps to access event sources of previous steps. */
    TGo4EventElement *GetInputEvent(Int_t stepindex) const;
 
-   /** Returns the output event (detector) structure of analysis step. Argument indicates
-    * the step by name.
+   /** @brief Returns the output event (detector) structure of analysis step.
+    * @details Argument indicates the step by name.
     * For internal usage in the user defined event function
     * UserEventFunc, and is used by analysis steps to get result of previous steps. */
    TGo4EventElement *GetOutputEvent(const char *stepname) const;
 
-   /** Returns the output event (detector) structure of analysis step. Argument number indicates
+   /** @brief Returns the output event (detector) structure of analysis step.
+    * @details Argument number indicates
     * the step from 0 (first) to n (last) in subsequent
     * order. Default is the output event of the
     * currently processed step, which is set by SetEvent method.
@@ -591,106 +600,111 @@ public:
     * UserEventFunc, and is used by analysis steps to get result of previous steps. */
    TGo4EventElement *GetOutputEvent(Int_t stepindex) const;
 
-   /** Returns the output event (detector) structure of analysis step.  Is set by
-    * SetOutputEvent method. For internal usage in the user defined event function
+   /** @brief Returns the output event (detector) structure of analysis step.
+    * @details Is set by SetOutputEvent method.
+    * For internal usage in the user defined event function
     * UserEventFunc, and is used by analysis steps to get result of previous steps. */
    TGo4EventElement *GetOutputEvent() const;
 
-   /** Search reference to event structure in  folder. */
+   /** @brief Search reference to event structure in  folder. */
    TGo4EventElement *GetEventStructure(const char *name) const;
 
-   /** Display a user message. Argument pri defines message priority:
-    * <0: display text as info on local terminal and in logfile anyway, independent of ignorelevel
-    * 0: local terminal only; if debug level is enabled (TGo4Log::SetIgnorelevel(0))
-    * 1: local terminal and info message in gui log panel (if gui mode)
-    * 2: local terminal and warning message in gui log panel (if gui mode)
-    * 3: local terminal and error message in gui log panel (if gui mode) */
+   /** @brief Display a user message.
+    * @param prio defines message priority:
+    *  - <0: display text as info on local terminal and in logfile anyway, independent of ignorelevel
+    *  - 0: local terminal only; if debug level is enabled (TGo4Log::SetIgnorelevel(0))
+    *  - 1: local terminal and info message in gui log panel (if gui mode)
+    *  - 2: local terminal and warning message in gui log panel (if gui mode)
+    *  - 3: local terminal and error message in gui log panel (if gui mode)
+    * @param text is printed text with optional text formating arguments */
    void Message(Int_t prio, const char *text, ...)
    #if defined(__GNUC__) && !defined(__CLING__)
    __attribute__((format(printf, 3, 4)))
    #endif
    ;
 
-   /** User May send any named object via data channel to the gui.
-    * In batch mode, this method is disabled. */
+   /** @brief User May send any named object via data channel to the gui.
+    * @details In batch mode, this method is disabled. */
    void SendObjectToGUI(TObject *ob);
 
-   /** Start the object (histogram) server. Existing server will be stopped and replaced
+   /** @brief Start the object (histogram) server.
+    * @details Existing server will be stopped and replaced
     * by new server with different basename and password. */
    void StartObjectServer(const char *basename, const char *passwd);
 
-   /** Stop the object (histogram) server. */
+   /** @brief Stop the object (histogram) server. */
    void StopObjectServer();
 
-   /** Specify password for administrator account. For login from
-    * remote gui into analysis server*/
+   /** @brief Specify password for administrator account.
+    * @details For login from remote gui into analysis server*/
    void SetAdministratorPassword(const char *passwd);
 
-   /** Specify password for controller account. For login from
-    * remote gui into analysis server*/
+   /** @brief Specify password for controller account.
+    * @details For login from remote gui into analysis server*/
    void SetControllerPassword(const char *passwd);
 
-   /** Specify password for observer account. For login from
-    * remote gui into analysis server*/
+   /** @brief Specify password for observer account.
+    * @details For login from remote gui into analysis server*/
    void SetObserverPassword(const char *passwd);
 
-   /** Printout the analysis (step-) setup. */
+   /** @brief Printout the analysis (step-) setup. */
    void Print(Option_t *opt = "") const override;
 
-   /** Printout of all histogram statistic counters on the terminal. */
+   /** @brief Printout of all histogram statistic counters on the terminal. */
    void PrintHistograms(const char *expression = nullptr);
 
-   /** Print all condition counters to the terminal. */
+   /** @brief Print all condition counters to the terminal. */
    void PrintConditions(const char *expression = nullptr);
 
-   /** Printout of all parameters on the terminal. */
+   /** @brief Printout of all parameters on the terminal. */
    void PrintParameters(const char *expression = nullptr);
 
-   /** Print entries of current dynamic list. */
+   /** @brief Print entries of current dynamic list. */
    void PrintDynamicList();
 
-   /** Printout event content of single current event to analysis terminal
+   /** @brief Printout event content of single current event to analysis terminal
     * (using ROOT TTree::Show method).
-    * Event is searched by name of analysis step. If isoutput true, then
+    * @details Event is searched by name of analysis step. If isoutput true, then
     * output event of that step is used, otherwise input event.
     * If analysis step not found, event of stepname is searched in registered folders. */
    void ShowEvent(const char *stepname, Bool_t isoutput = kTRUE);
 
-   /** Write object obj into eventstore of the step specified by name.
-    * Current event number will be added to object name in the file.
+   /** @brief Write object obj into eventstore of the step specified by name.
+    * @details Current event number will be added to object name in the file.
     * Returns -1 in case of not active eventstore. Returns +1 in case
     * of unknown step. */
    Int_t StoreParameter(const char *name, TGo4Parameter *par);
 
-   /** Write condition con into eventstore of the step specified by name.
-    * Current event number will be added to parameter name in the file.
+   /** @brief Write condition con into eventstore of the step specified by name.
+    * @details Current event number will be added to parameter name in the file.
     * Returns -1 in case of not active eventstore. Returns +1 in case
     * of unknown step. */
    Int_t StoreCondition(const char *name, TGo4Condition *con);
 
-   /** Write fitter fit into eventstore of the step specified by name.
-    * Current event number will be added to parameter name in the file.
+   /** @brief Write fitter fit into eventstore of the step specified by name.
+    * @details Current event number will be added to parameter name in the file.
     * Returns -1 in case of not active eventstore. Returns +1 in case
     * of unknown step. */
    Int_t StoreFitter(const char *name, TGo4Fitter *fit);
 
-   /** Write folder into eventstore of the step specified by name.
-    * Current event number will be added to parameter name in the file.
+   /** @brief Write folder into eventstore of the step specified by name.
+    * @details Current event number will be added to parameter name in the file.
     * Returns -1 in case of not active eventstore. Returns +1 in case
     * of unknown step. */
    Int_t StoreFolder(const char *stepname, TFolder *folder);
 
-   /** Write registered folder of foldername to the step store of stepname.
-    * Returns -1 in case of not active eventstore. Returns +1 in case
+   /** @brief Write registered folder of foldername to the step store of stepname.
+    * @details Returns -1 in case of not active eventstore. Returns +1 in case
     * of unknown step, +2 in case of unknown folder*/
    Int_t StoreFolder(const char *stepname, const char *foldername);
 
-   /** Perform autosave of all active stores, save existing calibration objects,
+   /** @brief Perform autosave of all active stores, save existing calibration objects,
     * write known objects into user file. */
    void AutoSave();
 
-   /** Method for user analysis constructor to setup the list
-    * of analysis steps. Each call of this method will add a new
+   /** @brief Method for user analysis constructor to setup the list
+    * of analysis steps.
+    * @details Each call of this method will add a new
     * analysis step at the end of the list. Caution: user has to take
     * care that output and input event types of subsequent steps
     * are matching! Analysis steps cannot be removed, since the
@@ -698,23 +712,23 @@ public:
     * Analysis steps are owned by the steplist once they have been added. */
    Bool_t AddAnalysisStep(TGo4AnalysisStep *next);
 
-   /** Access to certain analysis step by name. If name == nullptr,
+   /** @brief Access to certain analysis step by name. If name == nullptr,
     * this will return the first active step. */
    TGo4AnalysisStep *GetAnalysisStep(const char *name);
 
-   /** Access to certain analysis step by number. */
+   /** @brief Access to certain analysis step by number. */
    TGo4AnalysisStep *GetAnalysisStepNum(Int_t number);
 
-   /** Define passwords, which should be used for analysis access when analysis runs in server mode */
+   /** @brief Define passwords, which should be used for analysis access when analysis runs in server mode */
    void DefineServerPasswords(const char *admin, const char *controller, const char *observer);
 
-   /** Set number of event loop count, executed in batch mode */
+   /** @brief Set number of event loop count, executed in batch mode */
    void SetBatchLoopCount(Int_t cnt = -1) { fBatchLoopCount = cnt; }
 
-   /** Set flag to use data from autosave file in Make... methods (default true) */
+   /** @brief Set flag to use data from autosave file in Make... methods (default true) */
    void SetMakeWithAutosave(Bool_t on = kTRUE) { fbMakeWithAutosave = on; }
 
-   /** Returns kTRUE if object in last Make... call was created,
+   /** @brief Returns kTRUE if object in last Make... call was created,
      * kFALSE when object was retrieved from autosavefile */
    Bool_t IsObjMade() const { return fbObjMade; }
 
@@ -765,7 +779,7 @@ public:
                 Int_t nbinsy, Double_t ylow, Double_t yup,
                 const char *xtitle = nullptr, const char *ytitle = nullptr, const char *ztitle = nullptr);
 
-   /** Create 1D window condition.
+   /** @brief Create 1D window condition.
     * @param fullname specifies name of condition (optionally with subfolder name)
     * @param xmin - X min condition range
     * @param xmax - X max condition range
@@ -774,7 +788,7 @@ public:
                             Double_t xmin, Double_t xmax,
                             const char *HistoName = nullptr);
 
-   /** Create 2D window condition.
+   /** @brief Create 2D window condition.
     * @param fullname specifies name of condition (optionally with subfolder name)
     * @param xmin - X min condition range
     * @param xmax - X max condition range
@@ -786,22 +800,24 @@ public:
                             Double_t ymin, Double_t ymax,
                             const char *HistoName = nullptr);
 
-   /** Create polygon condition.
+   /** @brief Create polygon condition.
+    * @details To use method, array should be declared as following:
+    * ~~~{cpp}
+    * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
+    * auto cond = MakePolyCond("Folder/CondName", 4, points);
+    * ~~~
     * @param fullname specifies name of condition (optionally with subfolder name)
     * @param npoints - number of points in polygon condition
     * @param points - (X,Y) points
     * @param HistoName - name of histogram, to which condition is assigned
-    * @param shapedcond - create a freestyle TGo4ShapedCond
-    * To use method, array should be declared as following:
-    * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
-    * cond = MakePolyCond("Folder/CondName", 4, points); */
+    * @param shapedcond - create a freestyle TGo4ShapedCond */
    TGo4PolyCond *MakePolyCond(const char *fullname,
                               Int_t npoints,
                               Double_t (*points) [2],
                               const char *HistoName = nullptr,
                               Bool_t shapedcond = kFALSE);
 
-   /** Create ellipse shaped polygon condition.
+   /** @brief Create ellipse shaped polygon condition.
     * @param fullname specifies name of condition (optionally with subfolder name)
     * @param npoints - number of points in ellipse condition, 0 for default resolution
     * @param cx - center X coordinate of ellipse
@@ -815,7 +831,7 @@ public:
                                    Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta = 0.,
                                    const char *HistoName = nullptr);
 
-   /** Create circular shaped polygon condition.
+   /** @brief Create circular shaped polygon condition.
     * @param fullname specifies name of condition (optionally with subfolder name)
     * @param npoints - number of points in shaped condition, 0 for default resolution
     * @param cx - circle center X coordinate
@@ -826,7 +842,7 @@ public:
                                   Int_t npoints, Double_t cx, Double_t cy, Double_t r,
                                   const char *HistoName = nullptr);
 
-   /** Create tilted rectangular box shaped polygon condition.
+   /** @brief Create tilted rectangular box shaped polygon condition.
     *  @param fullname specifies name of condition (optionally with subfolder name)
     *  @param cx - center X coordinates of box
     *  @param cy - center Y coordinates of box
@@ -838,20 +854,22 @@ public:
                                Double_t a1, Double_t a2, Double_t theta,
                                const char *HistoName = nullptr);
 
-   /** Create free shaped (polygon) condition.
-    * in contrast to plain TGo4PolyCond, this one can be converted later
+   /** @brief Create free shaped (polygon) condition.
+    * @details In contrast to plain TGo4PolyCond, this one can be converted later
     * to different dedicated shape types (ellipse, box, etc.)
+    * To use method, array should be declared as following:
+    * ~~~{cpp}
+    * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
+    * auto cond = MakePolyCond("Folder/CondName", 4, points);
+    * ~~~
     * @param fullname specifies name of condition (optionally with subfolder name)
     * @param npoints - number of points in polygon condition
     * @param points - (X,Y) points
-    * @param HistoName - name of histogram, to which condition is assigned
-    * To use method, array should be declared as following:
-    * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
-    * cond = MakePolyCond("Folder/CondName", 4, points); */
+    * @param HistoName - name of histogram, to which condition is assigned */
    TGo4ShapedCond *MakeFreeShapeCond(const char *fullname, Int_t npoints,
                                      Double_t (*points)[2], const char *HistoName = nullptr);
 
-   /** Create "whitlelist" condition with separate values to test against
+   /** @brief Create "whitlelist" condition with separate values to test against
     * condition is true if any of the values matches
     * @param fullname specifies name of condition (optionally with subfolder name)
     * @param num - number of values in array
@@ -860,7 +878,7 @@ public:
    TGo4ListCond *MakeListCond(const char *fullname, const Int_t num,
                               const Int_t *values, const char *HistoName = nullptr);
 
-   /** Create "whitlelist" condition with separate values to test against
+   /** @brief Create "whitlelist" condition with separate values to test against
     * condition is true if any of the values matches
     * @param fullname specifies name of condition (optionally with subfolder name)
     * @param start - first value in list
@@ -870,86 +888,87 @@ public:
    TGo4ListCond *MakeListCond(const char *fullname, const Int_t start,
                               const Int_t stop, const Int_t step = 1, const char *HistoName = nullptr);
 
-   /** Create "whitlelist" condition with separate values to tes against
+   /** @brief Create "whitlelist" condition with separate values to tes against
     * condition is true if any of the values matches
-    * This method creates empty list condition of specified name and title to be set by the user,
+    * @details This method creates empty list condition of specified name and title to be set by the user,
     * or already defined condition from previous autosave*/
    TGo4ListCond *MakeListCond(const char *fullname, const char *title,
                               const char *HistoName = nullptr);
 
-   /** Create a TGraph with initial values as specified by points, xvalues and yvalues.
-    * If theses parameters are missing, an empty graph is created to be specified by the user.
+   /** @brief Create a TGraph with initial values as specified by points, xvalues and yvalues.
+    * @details If theses parameters are missing, an empty graph is created to be specified by the user.
     * If a graph of this name already exists in the autosave file,
     * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
    TGraph *MakeGraph(const char *fullname, const char *title, Int_t points = 0,
                      Double_t *xvalues = nullptr, Double_t *yvalues = nullptr);
 
-   /** Create a TGraph with values initialized by a function object TF1l.
-    * If a graph of this name already exists in the autosave file,
+   /** @brief Create a TGraph with values initialized by a function object TF1l.
+    * @details If a graph of this name already exists in the autosave file,
     * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
    TGraph *MakeGraph(const char *fullname, const char *title, TF1 *function);
 
-   /** Create a go4 rolling graph (generic trending plot) with properties points and average.
-    * If theses parameters are missing, an empty graph is created to be specified by the user.
+   /** @brief Create a go4 rolling graph (generic trending plot) with properties points and average.
+    * @details If theses parameters are missing, an empty graph is created to be specified by the user.
     * If a rolling graph of this name already exists in the autosave file,
     * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
    TGo4RollingGraph *MakeRollingGraph(const char *fullname, const char *title, Int_t points = 0, Int_t average = 1);
 
-   /** Create parameter of specified class,
+   /** @brief Create parameter of specified class,
     * @param fullname specifies name of condition (optionally with subfolder name)
     * @param classname - name of required parameter class, it should be known to ROOT.
     * @param cmd - optional argument, can be used for two purposes:
-    *    1) as new command to create parameter like "new UserParameter(%s, 1000, 2000)",
-    *       where %s is place for parameter name.  Should be specified, if parameter
-    *       constructor contains more parameters as only parameter name. Such argument
-    *       should be always started with 'new ' command.
-    *    2) macro name to set parameter value. Macro executed immediately after parameter
-    *       creation (or loading from auto-save file) and thus overwrites parameters value.
-    *       Macro name should be always starting with "set_" */
+    *   1. as new command to create parameter like "new UserParameter(%s, 1000, 2000)",
+    *      where %s is place for parameter name.  Should be specified, if parameter
+    *      constructor contains more parameters as only parameter name. Such argument
+    *      should be always started with 'new ' command.
+    *   2. macro name to set parameter value. Macro executed immediately after parameter
+    *      creation (or loading from auto-save file) and thus overwrites parameters value.
+    *      Macro name should be always starting with "set_" */
    TGo4Parameter *MakeParameter(const char *fullname,
                                  const char *classname,
                                  const char *cmd = nullptr);
 
-   /** Configure sorting order for newly created sub-folders */
+   /** @brief Configure sorting order for newly created sub-folders */
    void SetSortedOrder(Bool_t on = kTRUE);
 
-   /** Returns true if sub-folders will be created in sorted order */
+   /** @brief Returns true if sub-folders will be created in sorted order */
    Bool_t IsSortedOrder() const;
 
-   /** Executes ROOT script.
-    * Returns -1 when script was not found, or result of script execution */
+   /** @brief Executes ROOT script.
+    * @returns -1 when script was not found, or result of script execution */
    Long64_t ExecuteScript(const char *script_name);
 
-   /** Executes Python script in ROOT interpreter.
-    * Will bind TGo4Analysis object to python go4 Symbol
+   /** @brief Executes Python script in ROOT interpreter.
+    * @details Will bind TGo4Analysis object to python go4 Symbol
     * Errcode may be used to check ROOT interpreter error code.*/
    Long64_t ExecutePython(const char *script_name, Int_t *errcode = nullptr);
 
-   /** Process ROOT command line. Optionally provide pyroot binding:
+   /** @brief Process ROOT command line.
+    * @details Optionally provide pyroot binding:
     *  a leading '$' will try to load and execute python script.
     * Errcode may be used to check ROOT interpreter error code.
     * Return value is result of command execution*/
    Long64_t ExecuteLine(const char *command, Int_t *errcode = nullptr);
 
-   /** Method called from Ctrl-C handler */
+   /** @brief Method called from Ctrl-C handler */
    void ProcessCrtlCSignal();
 
-   /** Set pointer on sniffer object */
+   /** @brief Set pointer on sniffer object */
    void SetSniffer(TGo4AnalysisSniffer *sniff) { fSniffer = sniff; }
 
-   /** Returns pointer on current sniffer */
+   /** @brief Returns pointer on current sniffer */
    TGo4AnalysisSniffer *GetSniffer() const { return fSniffer; }
 
-   /** Returns pointer on analysis client */
+   /** @brief Returns pointer on analysis client */
    TGo4AnalysisClient *GetAnalysisClient() const { return fxAnalysisSlave; }
 
-   /** Stop analysis event loop, works in both batch and gui-controlled mode */
+   /** @brief Stop analysis event loop, works in both batch and gui-controlled mode */
    void StopAnalysis();
 
-   /** (Re)Start analysis event loop, works in both batch and gui-controlled mode */
+   /** @brief (Re)Start analysis event loop, works in both batch and gui-controlled mode */
    void StartAnalysis();
 
-   /** Method should be called to process extra events in the analysis thread context */
+   /** @brief Method should be called to process extra events in the analysis thread context */
    void ProcessEvents();
 
 protected:
@@ -962,16 +981,17 @@ protected:
     * If false, calling AutoSave() will have no effect. */
    Bool_t fbAutoSaveOn{kFALSE};
 
-   /** Protected constructor for singleton instance. */
+   /** @brief Protected constructor for singleton instance. */
    TGo4Analysis(const char *name = nullptr);
 
-   /** Another variant for analysis constructor. */
+   /** @brief Another variant for analysis constructor. */
    TGo4Analysis(int argc, char **argv);
 
-   /** Method to create all necessary object in the real constructor */
+   /** @brief Method to create all necessary object in the real constructor */
    void Constructor();
 
-   /** Uses the chain of analysis steps to process the first input
+   /** @brief Process steps
+    * @details Uses the chain of analysis steps to process the first input
     * event into an output event which then is accessible at
     * the output event member. Returns number of
     * steps run. For internal usage in the MainCycle and
@@ -980,83 +1000,83 @@ protected:
 
 private:
 
-   /** Helper function to figure out object name and folder path from full path.
-    * Returns false if something is wrong with given fullname*/
+   /** @brief Helper function to figure out object name and folder path from full path.
+    * @details Returns false if something is wrong with given fullname*/
    Bool_t EvaluateFolderpath(const char *fullname, TString &object, TString &folder);
 
-   /** Create a tree that is filled with one single event sample.
-    * Event is taken from analysis step of name. If isoutput
+   /** @brief Create a tree that is filled with one single event sample.
+    * @details Event is taken from analysis step of name. If isoutput
     * is kTRUE, the output event is used, otherwise the input event.
     * If no analysis step of that name exists, the event is
     * searched by object name in the eventstructure folder
     * of the object manager. */
    TTree *CreateSingleEventTree(const char *name, Bool_t isoutput = kTRUE);
 
-   /** Create a tree that is filled with one single event sample. To be sent to the gui. */
+   /** @brief Create a tree that is filled with one single event sample. To be sent to the gui. */
    TTree *CreateSingleEventTree(TGo4EventElement *event);
 
-   /** Update the internal list of object names. To be used internally and by analysis client. */
+   /** @brief Update the internal list of object names. To be used internally and by analysis client. */
    void UpdateNamesList();
 
-   /** Returns the nameslist of the go4 object directory structure. Is used
-    * by analysis client to send the current object names to the gui. */
+   /** @brief Returns the nameslist of the go4 object directory structure.
+    * @details Is used by analysis client to send the current object names to the gui. */
    TGo4AnalysisObjectNames *GetNamesList() const { return fxObjectNames; }
 
-   /** Sets the current output event (detector) structure.
-    * For internal usage by the chain of analysis steps, since
+   /** @brief Sets the current output event (detector) structure.
+    * @details For internal usage by the chain of analysis steps, since
     * TGo4AnalysisStep is friend. */
    void SetOutputEvent(TGo4EventElement *event);
 
-   /** Add reference to event store object to Go4 Folder structure.
-    * To be used by framework only! */
+   /** @brief Add reference to event store object to Go4 Folder structure.
+    * @warning To be used by framework only! */
    Bool_t AddEventStore(TGo4EventStore *store);
 
-   /** Remove reference to event store from go4 folder structure. */
+   /** @brief Remove reference to event store from go4 folder structure. */
    Bool_t RemoveEventStore(TGo4EventStore *store);
 
-   /** Add reference to event source object to Go4 Folder structure.
-    * To be used by framework only!  */
+   /** @brief Add reference to event source object to Go4 Folder structure.
+    * @warning To be used by framework only!  */
    Bool_t AddEventSource(TGo4EventSource *source);
 
-   /** Remove reference to event source from go4 folder structure. */
+   /** @brief Remove reference to event source from go4 folder structure. */
    Bool_t RemoveEventSource(TGo4EventSource *source);
 
-   /** Add reference to event processor object to Go4 Folder structure.
-    * To be used by framework only! */
+   /** @brief Add reference to event processor object to Go4 Folder structure.
+    * @warning To be used by framework only! */
    Bool_t AddEventProcessor(TGo4EventProcessor *pro);
 
-   /** Remove reference to event processor from go4 folder structure. */
+   /** @brief Remove reference to event processor from go4 folder structure. */
    Bool_t RemoveEventProcessor(TGo4EventProcessor *pro);
 
-   /** Add reference to event structure object to Go4 Folder structure.
-    * To be used by framework only! */
+   /** @brief Add reference to event structure object to Go4 Folder structure.
+    * @warning To be used by framework only! */
    Bool_t AddEventStructure(TGo4EventElement *ev);
 
-   /** Remove reference to event structure from go4 folder structure. */
+   /** @brief Remove reference to event structure from go4 folder structure. */
    Bool_t RemoveEventStructure(TGo4EventElement *ev);
 
-   /** Register analysis client if running in gui mode. */
+   /** @brief Register analysis client if running in gui mode. */
    void SetAnalysisClient(TGo4AnalysisClient *cli) { fxAnalysisSlave = cli; }
 
-   /** Send message string in a status object to the gui.
-    * Will be displayed in status window. Level indicates info (1), warning (2) or error(3),
+   /** @brief Send message string in a status object to the gui.
+    * @details Will be displayed in status window. Level indicates info (1), warning (2) or error(3),
     * if printout is true, message will also be printed on terminal.
     * In non-GUI mode, this method is equivalent to TGo4Log::Message */
    void SendMessageToGUI(Int_t level, Bool_t printout, const char *text);
 
-   /** Open the autosave file with the current settings. */
+   /** @brief Open the autosave file with the current settings. */
    void OpenAutoSaveFile(bool for_writing = false);
 
-   /** Close the autosave file if existing. */
+   /** @brief Close the autosave file if existing. */
    void CloseAutoSaveFile();
 
-   /** Called by interrupt routine for normal exit from program (in batch mode) */
+   /** @brief Called by interrupt routine for normal exit from program (in batch mode) */
    void StopWorking() { fxDoWorkingFlag = flagStop; }
 
-   /** Returns true when event loop execution was stopped, only in batch mode */
+   /** @brief Returns true when event loop execution was stopped, only in batch mode */
    Bool_t IsStopWorking() const { return fxDoWorkingFlag == flagStop; }
 
-   /* for signal handler to shutdown analysis server, if existing*/
+   /** @brief for signal handler to shutdown analysis server, if existing*/
    void ShutdownServer();
 
    /** Static Pointer to the analysis singleton instance. */
