@@ -32,7 +32,7 @@ class TGo4WidgetProxyBase : public TGo4Proxy {
 
       virtual void PadModified() {}
 
-   ClassDefOverride(TGo4WidgetProxyBase, 1);
+   ClassDefOverride(TGo4WidgetProxyBase, 0);
 };
 
 #endif

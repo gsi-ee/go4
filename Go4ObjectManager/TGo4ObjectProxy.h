@@ -63,7 +63,7 @@ class TGo4ObjectProxy : public TGo4Proxy {
       TObject      *fObject{nullptr}; //!
       Bool_t        fOwner{kFALSE};   //!
 
-   ClassDefOverride(TGo4ObjectProxy, 1);
+   ClassDefOverride(TGo4ObjectProxy, 0);
 };
 
 #endif

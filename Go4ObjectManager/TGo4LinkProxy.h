@@ -47,7 +47,7 @@ class TGo4LinkProxy : public TGo4Proxy {
    protected:
       TGo4Slot *    fLink{nullptr};     //!
 
-   ClassDefOverride(TGo4LinkProxy, 1);
+   ClassDefOverride(TGo4LinkProxy, 0);
 };
 
 #endif

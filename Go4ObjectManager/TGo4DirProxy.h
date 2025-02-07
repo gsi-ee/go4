@@ -61,7 +61,7 @@ class TGo4DirProxy : public TGo4Proxy {
       Bool_t IsFile() const;
       const char *GetFileName() const;
 
-   ClassDefOverride(TGo4DirProxy, 1);
+   ClassDefOverride(TGo4DirProxy, 0);
 };
 
 #endif

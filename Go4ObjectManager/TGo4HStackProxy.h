@@ -52,7 +52,7 @@ class TGo4HStackProxy : public TGo4Proxy {
       THStack *fHS{nullptr};     //!
       Bool_t   fOwner{kFALSE};   //!
 
-   ClassDefOverride(TGo4HStackProxy, 1);
+   ClassDefOverride(TGo4HStackProxy, 0);
 };
 
 #endif

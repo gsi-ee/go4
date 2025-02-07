@@ -48,7 +48,7 @@ class TGo4FolderProxy : public TGo4Proxy {
       Bool_t   fOwner{kFALSE};   //!
       TString  fRootFolderName;  //!
 
-   ClassDefOverride(TGo4FolderProxy, 1);
+   ClassDefOverride(TGo4FolderProxy, 0);
 };
 
 #endif

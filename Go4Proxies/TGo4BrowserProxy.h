@@ -237,8 +237,6 @@ class TGo4BrowserProxy : public TGo4Proxy {
       /** JAM24: also preserve fit result functions contained in any TH1 */
       static void UpdateHistoListOfFunctions(TH1 *oldh, TH1 *newh);
 
-
-
       TString             fxDataPath;                 //!
       TString             fxBrowserPath;              //!
       TString             fxViewPath;                 //!
@@ -254,9 +252,9 @@ class TGo4BrowserProxy : public TGo4Proxy {
       TObjArray          *fxClipboard{nullptr};       //!
       TTimer             *fxSyncTimer{nullptr};       //!
       Bool_t              fbBlockSync{kFALSE};        //!
-      TVirtualTreePlayer *fDummyTreePlayer{nullptr}; //!  to overcome problem in ROOT
+      TVirtualTreePlayer *fDummyTreePlayer{nullptr};  //!  to overcome problem in ROOT
 
-   ClassDefOverride(TGo4BrowserProxy,1);
+   ClassDefOverride(TGo4BrowserProxy, 0);
 };
 
 #endif

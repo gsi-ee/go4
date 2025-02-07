@@ -22,12 +22,12 @@
 class TGo4ServerProxy : public TGo4Proxy {
    protected:
       TGo4Slot        *fxParentSlot{nullptr};           //!
-      Bool_t           fbAnalysisReady{kFALSE};         // true if analysis is connected and get first info
-      Bool_t           fbAnalysisSettingsReady{kFALSE}; // true when settings are specified
+      Bool_t           fbAnalysisReady{kFALSE};         //! true if analysis is connected and get first info
+      Bool_t           fbAnalysisSettingsReady{kFALSE}; //! true when settings are specified
       Int_t            fAnalysisLaunched{0};            //! 0 - not launched, 1 - external shell, 2 - in qt shell
 
-      TString          fNodeName; // name of remote node
-      TString          fInfoStr;  // contained object info
+      TString          fNodeName; //! name of remote node
+      TString          fInfoStr;  //! contained object info
    public:
       TGo4ServerProxy();
       virtual ~TGo4ServerProxy();
@@ -137,7 +137,7 @@ class TGo4ServerProxy : public TGo4Proxy {
                                     Int_t exe_kind = 0, // 0 - executable, 1 - user library
                                     const char *exeargs = nullptr);
 
-   ClassDefOverride(TGo4ServerProxy, 1);
+   ClassDefOverride(TGo4ServerProxy, 0);
 };
 
 #endif

@@ -48,7 +48,9 @@ class TGo4Iter : public TGo4AccessWrapper {
       TGo4Iter();
 
       TGo4LevelIter *currentiter() const
-       { return fStatus != 0 ? nullptr : (TGo4LevelIter*) fLevels.Last(); }
+      {
+         return fStatus != 0 ? nullptr : static_cast<TGo4LevelIter *>(fLevels.Last());
+      }
 
       TGo4Slot *fSlot{nullptr};      //!
       Bool_t    fOnlySlots{kFALSE};  //!
@@ -57,7 +59,7 @@ class TGo4Iter : public TGo4AccessWrapper {
       TString   fFullName;           //!
       Int_t     fLevelChange{0};     //!
 
-   ClassDefOverride(TGo4Iter,1);
+   ClassDefOverride(TGo4Iter,0);
 };
 
 #endif

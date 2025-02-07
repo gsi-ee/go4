@@ -53,7 +53,7 @@ class TGo4RootBrowserProxy : public TGo4Proxy {
 
       Bool_t  fLockMessage{kFALSE};  //!
 
-   ClassDefOverride(TGo4RootBrowserProxy, 1);
+   ClassDefOverride(TGo4RootBrowserProxy, 0);
 
 };
 

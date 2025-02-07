@@ -52,7 +52,7 @@ class TGo4CanvasProxy : public TGo4Proxy {
       TCanvas *fCanvas{nullptr}; //!
       Bool_t   fOwner{kFALSE};   //!
 
-   ClassDefOverride(TGo4CanvasProxy, 1);
+   ClassDefOverride(TGo4CanvasProxy, 0);
 };
 
 
