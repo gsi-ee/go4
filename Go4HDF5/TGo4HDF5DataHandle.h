@@ -19,9 +19,7 @@
 #include "TString.h"
 #include "TObject.h"
 
-#ifndef __CINT__
 #include "H5Cpp.h"
-#endif
 
 class TClass;
 class TDataMember;
@@ -30,8 +28,7 @@ class TGo4HDF5Source;
 
 class TGo4HDF5DataHandle;
 
-class TGo4HDF5DataHandleFactory
-{
+class TGo4HDF5DataHandleFactory {
 public:
 
     TGo4HDF5DataHandleFactory(){}
@@ -42,8 +39,8 @@ public:
 
 
 /**
- * The base class to access a datatype with substructures  in hdf5.
- * datahandle may contain other datahandles as direct subcomponents
+ * @brief The base class to access a datatype with substructures  in hdf5.
+ * @details datahandle may contain other datahandles as direct sub-components
  * Each datahandle represents a single hdf5 dataset in the file
  * *  * @author J. Adamczewski-Musch
  * @since 6/2019
@@ -122,8 +119,6 @@ public:
     /** identifier of the dataset*/
     TString fxTypeName;
 
-#ifndef __CINT__
-
    /** component type representing the data structure*/
    H5::CompType* fxType{nullptr}; //!
 
@@ -140,47 +135,42 @@ public:
    /** number of event entries found in file dataspace*/
    ULong_t fiEntries{0};//!
 
-#endif
+   /** pointer to begin of data in memory */
+   void *fxData{nullptr}; //!
 
-       /** pointer to begin of data in memory */
-       void *fxData{nullptr}; //!
+   /** offset of this data structure relative to top level event object*/
+   size_t fiParentOffset{0}; //!
 
-       /** offset of this data structure relative to top level event object*/
-       size_t fiParentOffset{0}; //!
+   /** size of data structure in bytes, for redefining output dataset*/
+   size_t fiDataSize{0};
 
+   /** begin of real eventdata payload after event object pointer**/
+   size_t fiReadOffset{0};
 
-       /** size of data structure in bytes, for redefining output dataset*/
-       size_t fiDataSize{0};
+   /** collect subcomponents of the referenced data object*/
+   std::vector<TGo4HDF5DataHandle *> fxSubcomponents;
 
+   /** predefined interpreter access command e.g. to operate e.g. on the variable length collection*/
+   TString fxMemberHandle;
 
-       /** begin of real eventdata payload after event object pointer**/
-       size_t fiReadOffset{0};
+   /** classname of the entry for interpreter to operate e.g. on variable length collection*/
+   TString fxMemberClass;
 
+   /** the top level event element to access the current data member from outside*/
+   TGo4EventElement *fxEvent{nullptr}; //!
 
-    /** collect subcomponents of the referenced data object*/
-    std::vector<TGo4HDF5DataHandle*> fxSubcomponents;
+   /**  the top level event element classname to access the current data member from outside**/
+   TString fxEventClass; //!
 
-    /** predefined interpreter access command e.g. to operate e.g. on the variable length collection*/
-    TString fxMemberHandle;
+   /** backpointer to parent source for exceptions*/
+   TGo4HDF5Source *fxParentSource{nullptr}; //!
 
-    /** classname of the entry for interpreter to operate e.g. on variable length collection*/
-    TString fxMemberClass;
+   /** check on the fly if this handle has already created a dataset*/
+   Bool_t fbDataSetExists{kFALSE}; //!
 
-    /** the top level event element to access the current data member from outside*/
-    TGo4EventElement *fxEvent{nullptr}; //!
-
-    /**  the top level event element classname to access the current data member from outside**/
-    TString fxEventClass; //!
-
-    /** backpointer to parent source for exceptions*/
-    TGo4HDF5Source* fxParentSource{nullptr}; //!
-
-    /** check on the fly if this handle has already created a dataset*/
-    Bool_t fbDataSetExists{kFALSE}; //!
-
-    /** we may disable this dataset temporarily from writing or reading
-     * useful for dynamic vector of vector components*/
-    Bool_t fbDataSetActive{kFALSE}; //!
+   /** we may disable this dataset temporarily from writing or reading
+    * useful for dynamic vector of vector components*/
+   Bool_t fbDataSetActive{kFALSE}; //!
 
 };
 
@@ -317,30 +307,21 @@ public:
 
 protected:
 
-
-#ifndef __CINT__
-
    /** collection type with fxType as entries*/
-
-   H5::CompType* fxCollection{nullptr}; //!
+   H5::CompType *fxCollection{nullptr}; //!
 
 
      /** handle for variable arrays*/
    TGo4HDF5VarContainer fxVarHandle; //!
 
-#endif
-
-
    /** size of the (collection element) structure*/
-       size_t fiElementSize{0};//
+   size_t fiElementSize{0};//
 
 };
 
 
-class TGo4HDF5VectorProxy
-{
+class TGo4HDF5VectorProxy {
 public:
-
   unsigned long  fx_Begin_ptr;
   unsigned long  fx_End_ptr;
   unsigned long  fx_Cap_ptr;

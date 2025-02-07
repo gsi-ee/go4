@@ -20,15 +20,13 @@
 #include "RtypesCore.h"
 #include "TString.h"
 
-#ifndef __CINT__
 #include "H5Cpp.h"
-#endif
 
 #include "TGo4HDF5DataHandle.h"
 
 
 /**
- * Adapter class for io with hdf5 formatted file
+ * @brief Adapter class for io with hdf5 formatted file
  *  * @author J. Adamczewski-Musch
  * @since 5/2019
  */
@@ -46,21 +44,19 @@ class TGo4HDF5Adapter {
     /** Standard suffix for file name */
     static const char *fgcFILESUF; //!
 
-    /** Add subhandle to handle that represents a containend collection.
-       * classname or valueclass, resp, refers to type of element in container,*/
-      static void AddSubHandle(TGo4HDF5DataHandle *handle, const char *name, const char *type, size_t size,
-          size_t memberoffset, const char *membername, const char *classname, TClass *valueclass);
+    /** Add subhandle to handle that represents a contained collection.
+     * classname or valueclass, resp, refers to type of element in container,*/
+    static void AddSubHandle(TGo4HDF5DataHandle *handle, const char *name, const char *type, size_t size,
+                             size_t memberoffset, const char *membername, const char *classname, TClass *valueclass);
 
-      /** evaluate h5 type information from root class streamer*/
-      static void FillTypeInfo(TGo4HDF5DataHandle *handle, TClass *rootclass, const char *basename = nullptr);
+    /** evaluate h5 type information from root class streamer*/
+    static void FillTypeInfo(TGo4HDF5DataHandle *handle, TClass *rootclass, const char *basename = nullptr);
 
-         /** evaluate h5 type information for basic types of memtypename*/
-      static void FillTypeInfo(TGo4HDF5DataHandle* handle,
-               const char *membername, const char *memtypename, size_t memberoffset = 0,
-               Int_t arraydim = 0, TDataMember *member = nullptr);
+    /** evaluate h5 type information for basic types of memtypename*/
+    static void FillTypeInfo(TGo4HDF5DataHandle *handle, const char *membername, const char *memtypename,
+                             size_t memberoffset = 0, Int_t arraydim = 0, TDataMember *member = nullptr);
 
-
-protected:
+ protected:
 
     /** opens the hdf5 file depending on the setup */
     virtual void OpenFile(const char *fname = nullptr) = 0;
@@ -85,8 +81,6 @@ protected:
     /** Convert common go4 filemode flags to hdf5 flags: **/
     UInt_t ConvertFileMode(Go4_H5_File_Flags flags);
 
-#ifndef __CINT__
-
     /** the currently open hdf5 file*/
     H5::H5File *fxFile{nullptr}; //!
 
@@ -96,7 +90,6 @@ protected:
     /** counter of filled events. */
     hsize_t fiFillCount{0}; //!
 
-#endif
     /** True if branch already exists. Used for automatic creation
       * of new event branch within Store method. */
     Bool_t fbDataSetExists{kFALSE};

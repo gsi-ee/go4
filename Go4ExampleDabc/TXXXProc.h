@@ -16,14 +16,14 @@
 
 #include "TGo4EventProcessor.h"
 
-#ifndef __CINT__
+#ifndef __CLING__
 #include "mbs/api.h"
 #endif
 
 class TXXXProc : public TGo4EventProcessor {
    protected:
 
-#ifndef __CINT__
+#ifndef __CLING__
    mbs::MonitorHandle  fHandle;   //!  hide from CINT
 #endif
 

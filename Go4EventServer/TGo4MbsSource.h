@@ -16,22 +16,11 @@
 
 #include "TGo4EventSource.h"
 
-#ifdef __CINT__
-
-struct s_filhe;
-struct s_bufhe;
-struct s_evt_channel;
-struct s_ve10_1;
-
-#else
-
 extern "C" {
    #include "f_evt.h"
    #include "s_filhe.h"
    #include "s_bufhe.h"
 }
-
-#endif
 
 class TGo4MbsEvent;
 class TGo4MbsSubEvent;
