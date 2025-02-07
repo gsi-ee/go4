@@ -220,7 +220,7 @@ class TGo4Log {
 
       static TLogTimer *fgTimer;  //! timer used to analyze buffer content
 
-   ClassDef(TGo4Log,1)
+   ClassDef(TGo4Log,0)
 };
 
 /* for backward compatibility in user code: */

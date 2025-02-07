@@ -52,7 +52,6 @@
 #pragma link C++ class TGo4MbsRandomParameter+;
 
 
-
 #pragma link C++ class TGo4TreeSourceParameter+;
 #pragma link C++ class TGo4TreeStoreParameter+;
 #pragma link C++ class TGo4FileSourceParameter+;
