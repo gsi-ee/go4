@@ -329,8 +329,8 @@ class TGo4AnalysisObjectManager : public TNamed {
                                   Bool_t      invert = kFALSE);
 
       /**
-       * Create polygon 2-dim condition in conditions folder.
-       * If conditions exists in autosave file, it will be taken from autosave file.
+       * @brief Create polygon 2-dim condition in conditions folder.
+       * @details If conditions exists in autosave file, it will be taken from autosave file.
        * If type of existing condition does not match, condition
        * will be removed and new will be created.
        * Points of polygon are taken from two dimensional array,
@@ -342,13 +342,12 @@ class TGo4AnalysisObjectManager : public TNamed {
        *            {40000.,    0.}};
        * If first and last points will be connected, if they did not match each other
        *
-       * Parameters are:
-       *    folderame      - name of folder, where condition should be created
-       *    conditionsname - name of condition
-       *    size           - number of points in polygon
-       *    points         - array of (x,y) coordinate of polygon
-       *    bindhistogram  - name of histogram, connected to condition [optional]
-       *    invert         - invert condition
+       * @param folderame      - name of folder, where condition should be created
+       * @param conditionsname - name of condition
+       * @param size           - number of points in polygon
+       * @param points         - array of (x,y) coordinate of polygon
+       * @param bindhistogram  - name of histogram, connected to condition [optional]
+       * @param invert         - invert condition
        */
 
       TGo4PolyCond *MakePolyCond(const char *foldername,
@@ -469,7 +468,8 @@ class TGo4AnalysisObjectManager : public TNamed {
       TFolder *GetObjectFolder();
 
       /**
-       * Add reference to event store object to Go4 Folder structure. To be used by framework only!
+       * @brief Add reference to event store object to Go4 Folder structure.
+       * @warning To be used by framework only!
        */
       Bool_t AddEventStore(TGo4EventStore *store);
 
@@ -479,7 +479,8 @@ class TGo4AnalysisObjectManager : public TNamed {
       Bool_t RemoveEventStore(TGo4EventStore *store);
 
       /**
-       * Add reference to event source object to Go4 Folder structure. To be used by framework only!
+       * @brief Add reference to event source object to Go4 Folder structure.
+       * @warning To be used by framework only!
        */
       Bool_t AddEventSource(TGo4EventSource *source);
 
@@ -489,7 +490,8 @@ class TGo4AnalysisObjectManager : public TNamed {
       Bool_t RemoveEventSource(TGo4EventSource *source);
 
       /**
-       * Add reference to event processor object to Go4 Folder structure. To be used by framework only!
+       * @brief Add reference to event processor object to Go4 Folder structure.
+       * @warning To be used by framework only!
        */
       Bool_t AddEventProcessor(TGo4EventProcessor *pro);
 
@@ -499,7 +501,8 @@ class TGo4AnalysisObjectManager : public TNamed {
       Bool_t RemoveEventProcessor(TGo4EventProcessor *pro);
 
       /**
-       * Add reference to event structure object to Go4 Folder structure. To be used by framework only!
+       * @brief Add reference to event structure object to Go4 Folder structure.
+       * @warning To be used by framework only!
        */
       Bool_t AddEventStructure(TGo4EventElement *ev);
 

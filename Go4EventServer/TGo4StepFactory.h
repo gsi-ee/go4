@@ -16,7 +16,9 @@
 
 #include "TGo4EventServerFactory.h"
 
-/** @brief Step factory
+/** @brief Ready to use step factory
+ * @details One can configure input/output events and event processors per class names
+ * Used in most go4 examples
  * @ingroup go4_major_classes
  * @ingroup go4_event
  */
