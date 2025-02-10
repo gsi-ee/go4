@@ -308,15 +308,14 @@ class TGo4AnalysisObjectManager : public TNamed {
        * If conditions exists in autosave file, it will be taken from autosave file.
        * If type of existing condition does not match, condition
        * will be removed and new will be created.
-       * Parameters are:
-       *    folderame      - name of folder, where condition should be created
-       *    conditionsname - name of condition
-       *    xlow           - lower limit on x axis
-       *    xup            - upper limit on x axis
-       *    ylow           - lower limit on y axis
-       *    yup            - upper limit on y axis
-       *    bindhistogram  - name of histogram, connected to condition [optional]
-       *    invert         - invert condition
+       * @param foldername     - name of folder, where condition should be created
+       * @param conditionname  - name of condition
+       * @param xlow           - lower limit on x axis
+       * @param xup            - upper limit on x axis
+       * @param ylow           - lower limit on y axis
+       * @param yup            - upper limit on y axis
+       * @param bindhistogram  - name of histogram, connected to condition [optional]
+       * @param invert         - invert condition
        */
 
       TGo4WinCond *MakeWindowCond(const char *foldername,
@@ -342,8 +341,8 @@ class TGo4AnalysisObjectManager : public TNamed {
        *            {40000.,    0.}};
        * If first and last points will be connected, if they did not match each other
        *
-       * @param folderame      - name of folder, where condition should be created
-       * @param conditionsname - name of condition
+       * @param foldername     - name of folder, where condition should be created
+       * @param conditionname  - name of condition
        * @param size           - number of points in polygon
        * @param points         - array of (x,y) coordinate of polygon
        * @param bindhistogram  - name of histogram, connected to condition [optional]

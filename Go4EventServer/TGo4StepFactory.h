@@ -23,31 +23,45 @@
  * @ingroup go4_event
  */
 class TGo4StepFactory : public TGo4EventServerFactory {
-  public:
-      TGo4StepFactory();
-      TGo4StepFactory(const char *name);
-      virtual ~TGo4StepFactory();
-      TGo4EventElement *CreateInputEvent() override;
-      TGo4EventElement *CreateOutputEvent() override;
-      TGo4EventProcessor *CreateEventProcessor(TGo4EventProcessorParameter *par) override;
-      TGo4EventSource *CreateEventSource(TGo4EventSourceParameter *par) override;
-      TGo4EventStore *CreateEventStore(TGo4EventStoreParameter *par) override;
-      void     DefEventProcessor(const char *Pname, const char *Pclass);
-      void     DefInputEvent(const char *Iname, const char *Iclass);
-      void     DefOutputEvent(const char *Oname, const char *Oclass);
-      void     DefUserEventSource(const char *Sclass);
-      void     DefUserEventStore(const char *Sclass);
-  private:
-      TString fnewProcessor;
-      TString fProcessorName;
-      TString fnewOutputEvent;
-      TString fOutputEventName;
-      TString fnewInputEvent;
-      TString fInputEventName;
-      TString fnewEventSource;
-      TString fnewEventStore;
+public:
+   /** @brief Default constructor */
+   TGo4StepFactory();
+   /** @brief Normal constructor */
+   TGo4StepFactory(const char *name);
+   /** @brief destructor */
+   virtual ~TGo4StepFactory();
+   /** @brief Create input event */
+   TGo4EventElement *CreateInputEvent() override;
+   /** @brief Create output event */
+   TGo4EventElement *CreateOutputEvent() override;
+   /** @brief Create event processor event */
+   TGo4EventProcessor *CreateEventProcessor(TGo4EventProcessorParameter *par) override;
+   /** @brief Create event source */
+   TGo4EventSource *CreateEventSource(TGo4EventSourceParameter *par) override;
+   /** @brief Create event store */
+   TGo4EventStore *CreateEventStore(TGo4EventStoreParameter *par) override;
+   /** @brief Configure name and class name for event processor */
+   void DefEventProcessor(const char *Pname, const char *Pclass);
+   /** @brief Configure name and class name for input event */
+   void DefInputEvent(const char *Iname, const char *Iclass);
+   /** @brief Configure name and class name for output event */
+   void DefOutputEvent(const char *Oname, const char *Oclass);
+   /** @brief Configure class name for event source */
+   void DefUserEventSource(const char *Sclass);
+   /** @brief Configure class name for event store */
+   void DefUserEventStore(const char *Sclass);
 
-  ClassDefOverride(TGo4StepFactory,3)
+private:
+   TString fnewProcessor;    /// command to create new processor
+   TString fProcessorName;   /// name for new processor
+   TString fnewOutputEvent;  /// command to create new output event
+   TString fOutputEventName; /// name for new output event
+   TString fnewInputEvent;   /// command to create new input event
+   TString fInputEventName;  /// name for new input event
+   TString fnewEventSource;  /// command to create new event source
+   TString fnewEventStore;   /// command to create new event store
+
+   ClassDefOverride(TGo4StepFactory, 3)
 };
 
 #endif // TGO4STEPFACTORY_H
