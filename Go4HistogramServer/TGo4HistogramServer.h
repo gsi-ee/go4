@@ -148,7 +148,7 @@ class TGo4HistogramServer : public TGo4CommandReceiver {
       /** port number for server socket*/
       Int_t fiServerPort{0};
 
-      /** socket for object server **/
+      /** socket for object server */
       TGo4Socket  *fxTransport{nullptr}; //!
 
       /** port number for the object server connections */

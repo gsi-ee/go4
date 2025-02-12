@@ -26,7 +26,7 @@ class TGo4LogicException : public TGo4Exception {
 
       TGo4LogicException &operator=(const TGo4LogicException &right);
 
-      /** This is a default handler function for the respective exception type **/
+      /** This is a default handler function for the respective exception type */
       Int_t Handle() override;
 };
 

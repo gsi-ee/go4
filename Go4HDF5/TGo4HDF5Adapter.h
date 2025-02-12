@@ -78,7 +78,7 @@ class TGo4HDF5Adapter {
     /** evaluate total memory size of event object regarding composite subevents*/
     size_t ScanEventSize(TGo4EventElement *event);
 
-    /** Convert common go4 filemode flags to hdf5 flags: **/
+    /** Convert common go4 filemode flags to hdf5 flags: */
     UInt_t ConvertFileMode(Go4_H5_File_Flags flags);
 
     /** the currently open hdf5 file */

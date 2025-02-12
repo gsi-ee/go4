@@ -160,14 +160,13 @@ protected:
 
    /** Painter instance to display the condition in root pad. To
      * be used in Paint() which is called on TPad::Update automatically for
-     * all TObjects appended to the pad. **/
+     * all TObjects appended to the pad. */
    TGo4MarkerPainter* fxPainter{nullptr};
 
    void SetPainted(Bool_t on) { fbIsPainted=on; }
    Bool_t IsPainted() const { return fbIsPainted; }
 
    void SetDrawPad(TVirtualPad *pad);
-
 
 private:
 

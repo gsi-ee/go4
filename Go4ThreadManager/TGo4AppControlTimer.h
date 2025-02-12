@@ -79,7 +79,7 @@ class TGo4AppControlTimer : public TTimer {
       *   of TGo4ThreadHandler is tested again, until the
       *   max number of testing cycles (fgiTERMWAITCYCLES) is
       *   reached; then Termination is done anyway
-      **/
+      */
       static UInt_t fguTERMWAIT;       //!
     /**
       *   On Termination, Notify will test fgiTERMWAITCYCLES
@@ -87,7 +87,7 @@ class TGo4AppControlTimer : public TTimer {
       *   are in TCondition wait (safe cancelling point);
       *   afterwards,
       *   threads are deleted anyway
-      **/
+      */
       static Int_t fgiTERMWAITCYCLES;     //!
 
       /**

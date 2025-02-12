@@ -15,16 +15,10 @@
 *   MainGo4EventServerExample
 *      Example of usage for the Go4 Mbs Event interface
 *--------------------------------------------------------------
-*authors: Joern Adamczewski, Marc Hemberger, Hans G. Essel
+* authors: Joern Adamczewski, Marc Hemberger, Hans G. Essel
 *                                                      1999-2001
-*    The GSI Online Offline Object Oriented (GO4) Project
-*    Experiment Data Processing at DVEE department
-*    Gesellschaft fuer SchwerIonenforschung GSI
-*    64291 Darmstadt, Germany
-*      (http://go4.gsi.de)
-*---------------------------------------------------------------
 *
-**/
+*/
 
 #include <iostream>
 

@@ -25,7 +25,7 @@
  * thus decoupling from Slave libraries
  * @author J. Adamczewski, GSI
  * @since 27-Apr-2005
- **/
+ */
 class TGo4RemoteCommand : public TGo4Command {
 
    public:

@@ -66,17 +66,17 @@ class TGo4HDF5Source : public TGo4EventSource, public TGo4HDF5Adapter {
 
   private:
 
-    /** read buffer for hdf5*/
-    Char_t *fxReadBuffer{nullptr}; //!
+    /** read buffer for hdf5 */
+    Char_t *fxReadBuffer{nullptr}; ///<!
 
-    /** begin of real eventdata payload after event object pointer**/
+    /** begin of real eventdata payload after event object pointer */
     size_t fiReadOffset{0};
 
     /** list of files names */
-    TList *fxFilesNames{nullptr}; //!
+    TList *fxFilesNames{nullptr}; ///<!
 
     /** current name of the file */
-    TString fxCurrentFileName;  //!
+    TString fxCurrentFileName;  ///<!
 
     /** Open next file from the files list. */
     Bool_t OpenNextFile();

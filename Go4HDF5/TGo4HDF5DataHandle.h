@@ -144,10 +144,10 @@ public:
    /** size of data structure in bytes, for redefining output dataset*/
    size_t fiDataSize{0};
 
-   /** begin of real eventdata payload after event object pointer**/
+   /** begin of real eventdata payload after event object pointer */
    size_t fiReadOffset{0};
 
-   /** collect subcomponents of the referenced data object*/
+   /** collect sub-components of the referenced data object*/
    std::vector<TGo4HDF5DataHandle *> fxSubcomponents;
 
    /** predefined interpreter access command e.g. to operate e.g. on the variable length collection*/
@@ -159,7 +159,7 @@ public:
    /** the top level event element to access the current data member from outside*/
    TGo4EventElement *fxEvent{nullptr}; //!
 
-   /**  the top level event element classname to access the current data member from outside**/
+   /**  the top level event element classname to access the current data member from outside */
    TString fxEventClass; //!
 
    /** backpointer to parent source for exceptions*/

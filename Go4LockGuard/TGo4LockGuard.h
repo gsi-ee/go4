@@ -68,7 +68,7 @@ class TGo4LockGuard {
         * external mutex. */
       static TMutex *fgxMainMutex;   //!
 
-      /** Counts the numbers of locks of the recursive main mutex. **/
+      /** Counts the numbers of locks of the recursive main mutex. */
       static Int_t fgiLockCount;     //!
 
    ClassDef(TGo4LockGuard, 0)
