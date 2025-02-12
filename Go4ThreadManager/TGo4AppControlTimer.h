@@ -56,7 +56,7 @@ class TGo4AppControlTimer : public TTimer {
       /**
        *   Returns handle for internal condition which is
        *   used to block the gSystem.
-       **/
+       */
       const TCondition *GetCondition() const { return fxCondition;}
 
      /**
@@ -64,12 +64,12 @@ class TGo4AppControlTimer : public TTimer {
       *   If set to kTRUE, timer will not block the root system. If set
       * to kFALSE, timer will suspend in a condition wait and therefore the
       * InnerLoop() of root is blocked.
-      **/
+      */
       void SetApplicationRun(Bool_t flag = kTRUE) { fbApplicationRun=flag; }
 
      /**
       *   Status of the application run flag. If true, root application is _not_ blocked.
-      **/
+      */
       Bool_t GetApplicationRun() const { return fbApplicationRun; }
 
   protected:

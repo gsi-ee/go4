@@ -81,7 +81,7 @@ class TGo4HDF5Adapter {
     /** Convert common go4 filemode flags to hdf5 flags: **/
     UInt_t ConvertFileMode(Go4_H5_File_Flags flags);
 
-    /** the currently open hdf5 file*/
+    /** the currently open hdf5 file */
     H5::H5File *fxFile{nullptr}; //!
 
     /** handle object to recursively treat the io of nested event components*/
@@ -97,7 +97,7 @@ class TGo4HDF5Adapter {
     /** Points to event structure to be filled into dataset. */
     TGo4EventElement *fxEvent{nullptr}; //!
 
-    /** remember file property flags?. */
+    /** remember file property flags. */
     UInt_t fiFlags{0};
 
 };

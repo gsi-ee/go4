@@ -34,16 +34,17 @@ class TGo4ThreadManager : public TNamed {
    public:
       TGo4ThreadManager(const TGo4ThreadManager &right);
 
-     /** ctor parameters:
-      *   blockingmode=true: gApplication is blocked by timer
-      *   autostart=true: all thread runnables start their work on Initialization()
-      *   autocreate=true: all threads added to handler in threadmanager ctor are created on Launch() **/
-      TGo4ThreadManager (const char *name, Bool_t blockingmode = kTRUE, Bool_t autostart = kTRUE, Bool_t autocreate = kTRUE);
+     /** Normal constructor
+      * @param name - name for the thread manager
+      * @param blockingmode - if true, gApplication is blocked by timer
+      * @param autostart - if true, all thread runnables start their work on Initialization()
+      * @param autocreate - if true, all threads added to handler in threadmanager ctor are created on Launch() */
+      TGo4ThreadManager(const char *name, Bool_t blockingmode = kTRUE, Bool_t autostart = kTRUE, Bool_t autocreate = kTRUE);
 
       virtual ~TGo4ThreadManager();
 
       /** user can exchange the standard control timer
-        * by an own derived one by this method **/
+        * by an own derived one by this method */
       void SetTimer(TGo4AppControlTimer* ctrltimer) { fxBlocker=ctrltimer; }
 
       /** Access to ThreadHandler for working threads */
@@ -69,10 +70,10 @@ class TGo4ThreadManager : public TNamed {
 
       Bool_t IsTerminateApp() const { return fbTerminateApplication; }
 
-      /** Returns true if threadmanager works in root system blocking mode **/
+      /** Returns true if threadmanager works in root system blocking mode */
       Bool_t IsAppBlocking() const { return fbAppBlocking; }
 
-      /** Returns true if threadmanager works in root system blocking mode **/
+      /** Returns true if threadmanager works in root system blocking mode */
       Bool_t IsBeingQuit() const { return fbBeingQuit; }
 
       void SetBeingQuit(Bool_t on) { fbBeingQuit = on; }
@@ -81,13 +82,12 @@ class TGo4ThreadManager : public TNamed {
         * turn on the application control timer.
         * Usually this is done at the end of the user's threadmanager constructor.
         * The idea is that no thread should be started unless the user initializations
-        * are done; therefore, its up to the user to define when to Launch. **/
+        * are done; therefore, its up to the user to define when to Launch. */
       void Launch();
 
       /** deletes the Manager instance via Control timer.
-        *   If termap is true, also
-        *   terminates the root Application **/
-      virtual void Terminate (Bool_t termapp=kTRUE);
+        * @param termap if true, also   terminates the root Application */
+      virtual void Terminate (Bool_t termap = kTRUE);
 
       /** Alternative termination in case of error */
       virtual void TerminateFast();
@@ -95,7 +95,7 @@ class TGo4ThreadManager : public TNamed {
       /** Period in ms for the application control timer */
       static const Long_t fglTIMERPERIOD;
 
-      /** Default textlength for char arrays **/
+      /** Default textlength for char arrays */
       enum { fguTEXTLENGTH = 256 };
 
    protected:

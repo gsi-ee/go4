@@ -42,7 +42,7 @@ class TGo4TestThreadManager : public TGo4ThreadManager
       /**
        *   general testfunction which can be called from any
        *   thread runnable
-       **/
+       */
       virtual Int_t TestAction();
 
       TCanvas *GetCanvas() const { return fxCanvas; }

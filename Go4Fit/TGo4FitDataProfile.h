@@ -58,7 +58,7 @@ class TGo4FitDataProfile : public TGo4FitData {
       void SetProfile(TProfile *iProfile, Bool_t iProfileOwned = kFALSE);
 
       /**
-       * Create TGo4FitDataProfileIter iterator, associated with given data object..
+       * Create TGo4FitDataProfileIter iterator, associated with given data object.
        */
       std::unique_ptr<TGo4FitDataIter> MakeIter() override;
 

@@ -62,7 +62,7 @@ class TGo4FitDataGraph : public TGo4FitData {
       void SetGraph(TGraph *iGraph, Bool_t iGraphOwned = kFALSE);
 
       /**
-       * Create TGo4FitDataGraphIter iterator, associated with given data object..
+       * Create TGo4FitDataGraphIter iterator, associated with given data object.
        */
       std::unique_ptr<TGo4FitDataIter> MakeIter() override;
 

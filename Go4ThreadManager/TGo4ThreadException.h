@@ -50,10 +50,10 @@ class TGo4ThreadException : public TGo4ControlException {
       TString fxThreadName;
 
       /** Link to the runnable connected with the thread
-        *   (exception throwing runnable might simply pass its 'this' pointer as argument) **/
+        *   (exception throwing runnable might simply pass its 'this' pointer as argument) */
       TGo4Runnable *fxRunnable{nullptr}; //!
 
-      /** Link to threadhandler associated with the runnable **/
+      /** Link to threadhandler associated with the runnable */
       TGo4ThreadHandler *fxThreadHandler{nullptr}; //!
 
 };

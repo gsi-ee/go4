@@ -82,14 +82,14 @@ class TGo4TestRunnable : public TGo4Runnable  {
       Int_t Run (void *ptr) override;
 
        /**
-         *   catch for exceptions occurring in workfunc
-        **/
+         * catch for exceptions occurring in workfunc
+        */
       void ThreadCatch(TGo4Exception &ex) override;
 
        /**
-         *          catch for all unexcpected exceptions happening in
+         * catch for all unexpected exceptions happening in
          *         workfunc
-        **/
+        */
       void UnexpectedCatch() override;
 
 

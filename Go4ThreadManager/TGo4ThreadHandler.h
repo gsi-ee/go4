@@ -48,14 +48,14 @@ class TGo4ThreadHandler : public TNamed {
 
       virtual ~TGo4ThreadHandler();
 
-      /** Adds Reference to (externally created) thread to Thread List **/
+      /** Adds Reference to (externally created) thread to Thread List */
       Bool_t AddThread (TGo4Thread *gthr);
 
       /** Remove thread by name from Thread List */
       Bool_t RemoveThread (const char *name);
 
       /** Creates new internal Go4 Thread with name and adds it to the List
-        * External runnable is passed to specify the threaded actions **/
+        * External runnable is passed to specify the threaded actions */
       Bool_t NewThread(const char *name, TGo4Runnable *runnable);
 
       /** Launch all Threads in the thread list. */
@@ -75,37 +75,37 @@ class TGo4ThreadHandler : public TNamed {
       /** Recreate all Threads in the thread list. */
       Int_t ReCreateAll();
 
-      /** ReCreate (Cancel and Create) all Threads in the thread list. **/
+      /** ReCreate (Cancel and Create) all Threads in the thread list. */
       Bool_t ReCreate(const char *thname);
 
-      /** Start work function of all Threads in the thread list. **/
+      /** Start work function of all Threads in the thread list. */
       Int_t StartAll();
 
       /** Starts work function of the Go4 Thread of name 'name'.
-        * Workfunction will run in infinite loop until Stop(). **/
+        * Workfunction will run in infinite loop until Stop(). */
       Bool_t Start(const char *thname);
 
-      /** Start work function of all Threads in the thread list. **/
+      /** Start work function of all Threads in the thread list. */
       Int_t StopAll ();
 
       /** Stops work function of the Go4 Thread of name 'name'.
         * Thread will suspend to condition wait without being killed.
-        * Workfunction will continue loop on next Sart().**/
+        * Workfunction will continue loop on next Start(). */
       Bool_t Stop(const char *thname);
 
       /**  dumps thread process information to logging output
-        *   i.e. file or anything **/
+        *   i.e. file or anything */
       Int_t DumpThreads(Int_t mode = 0);
 
       /** Access to Go4Thread by name. */
       TGo4Thread *GetThread(const char *name);
 
-      /** Number of threads in list **/
+      /** Number of threads in list */
       Int_t GetEntries() const;
 
       /** Returns true if all root threads in list are existing,
         * i.e. there is a pid and a valid thread pointer for them
-        *   in go4 thread **/
+        *   in go4 thread */
       Bool_t AllCreated();
 
       /** Returns true if all threads in list are running, i.e.
@@ -118,7 +118,7 @@ class TGo4ThreadHandler : public TNamed {
 
       /** Returns kTRUE if threadhandler performs any action that
         * requires gSystem support. Flag is checked by Manager
-        * before Blocking the System. **/
+        * before Blocking the System. */
       Bool_t IsOperating() const { return fbIsOperating; }
 
    protected:
@@ -132,7 +132,7 @@ class TGo4ThreadHandler : public TNamed {
 
       /** kTRUE, if threadhandler performs any action that
         * requires gSystem support. Flag is checked by Manager
-        * before Blocking the System using IsOperating() method **/
+        * before Blocking the System using IsOperating() method */
       Bool_t fbIsOperating{kFALSE};
 
       /** Mutex protecting thread array */

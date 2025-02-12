@@ -61,7 +61,7 @@ class TGo4FitDataHistogram : public TGo4FitData {
       void SetHistogram(TH1 *iHistogram, Bool_t iHistogramOwned = kFALSE);
 
       /**
-       * Create TGo4FitDataHistogramIter iterator, associated with given data object..
+       * Create TGo4FitDataHistogramIter iterator, associated with given data object.
        */
       std::unique_ptr<TGo4FitDataIter> MakeIter() override;
 

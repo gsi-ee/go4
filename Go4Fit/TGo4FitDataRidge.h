@@ -71,7 +71,7 @@ class TGo4FitDataRidge : public TGo4FitData {
       Int_t GetSelectedAxis() const { return fiSelectedAxis; }
 
       /**
-       * Create TGo4FitDataRidgeIter iterator, associated with given data object..
+       * Create TGo4FitDataRidgeIter iterator, associated with given data object.
        */
       std::unique_ptr<TGo4FitDataIter> MakeIter() override;
 
