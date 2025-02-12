@@ -115,25 +115,38 @@ public:
    /** default name of go4 python init script*/
    static const char *fgcPYINIT;
 
+   /** @brief return analysis instance */
    static TGo4Analysis *Instance();
 
+   /** @brief check if analysis instance exists */
    static Bool_t Exists();
 
-   /** Return kTRUE if analysis will run in batch (without connection to GUI) */
+   /** @brief is batch mode
+    * @details Return kTRUE if analysis will run in batch (without connection to GUI) */
    static Bool_t IsBatchMode();
 
-   /** Return kTRUE if analysis will run in gui mode, connected to gui as client */
+   /** @brief is client mode
+    * @details Return kTRUE if analysis will run in gui mode, connected to gui as client */
    static Bool_t IsClientMode();
 
-   /** Return kTRUE if analysis will run in server mode and gui can connect to the analysis */
+   /** @brief is server mode
+    * @details Return kTRUE if analysis will run in server mode and gui can connect to the analysis */
    static Bool_t IsServerMode();
 
+   /** @brief Set analysis running mode
+    * @param mode defines running mode
+    * - 0 - batch mode
+    * - 1 - client mode
+    * - 2 - server mode */
    static void SetRunningMode(int mode);
 
+   /** @brief destructor */
    virtual ~TGo4Analysis();
 
+   /** @brief Return analysis name */
    const char *GetName() const override { return fAnalysisName.Data(); }
 
+   /** @brief Set analysis name */
    void SetAnalysisName(const char *name) { fAnalysisName = name; }
 
    /** @brief The main analysis event cycle.

@@ -52,14 +52,14 @@ public:
    void DefUserEventStore(const char *Sclass);
 
 private:
-   TString fnewProcessor;    /// command to create new processor
-   TString fProcessorName;   /// name for new processor
-   TString fnewOutputEvent;  /// command to create new output event
-   TString fOutputEventName; /// name for new output event
-   TString fnewInputEvent;   /// command to create new input event
-   TString fInputEventName;  /// name for new input event
-   TString fnewEventSource;  /// command to create new event source
-   TString fnewEventStore;   /// command to create new event store
+   TString fnewProcessor;    ///< command to create new processor
+   TString fProcessorName;   ///< name for new processor
+   TString fnewOutputEvent;  ///< command to create new output event
+   TString fOutputEventName; ///< name for new output event
+   TString fnewInputEvent;   ///< command to create new input event
+   TString fInputEventName;  ///< name for new input event
+   TString fnewEventSource;  ///< command to create new event source
+   TString fnewEventStore;   ///< command to create new event store
 
    ClassDefOverride(TGo4StepFactory, 3)
 };
