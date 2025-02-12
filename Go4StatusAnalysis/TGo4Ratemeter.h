@@ -73,13 +73,13 @@ class TGo4Ratemeter : public TNamed {
       /** Reset counter and rate values */
       void Reset();
 
-      /** Test if update has been called since last test..
+      /** Test if update has been called since last test.
         * To be called from watch thread to check if main thread is still active.
         * If not, watch thread has to update status and rate itself. */
       Bool_t TestUpdate();
 
       /** Set update interval in seconds - default is 1 */
-      void SetUpdateInterval(double v) { if (v>0) fdUpdateInterval = v; }
+      void SetUpdateInterval(double v) { if (v > 0) fdUpdateInterval = v; }
 
       ClassDefOverride(TGo4Ratemeter, 1)
 };
