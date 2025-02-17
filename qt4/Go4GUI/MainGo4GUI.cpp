@@ -13,6 +13,7 @@
 
 #include <QDir>
 #include <QStringList>
+#include <QGuiApplication>
 #include <iostream>
 
 #include "TSystem.h"
@@ -219,8 +220,7 @@ int main(int argc, char **argv)
    go4sett = new TGo4QSettings(settfile);
 #ifdef __GO4WEB__
    if (!usex11 && !useweb) {
-      const char *kind = gSystem->Getenv("XDG_SESSION_TYPE");
-      if (kind && !strcmp(kind,"wayland")) {
+      if (QGuiApplication::platformName() == "wayland") {
          useweb = true;
          std::cout << "Use web graphics on Wayland by default, start go4 --x11 to force Wayland usage" << std::endl;
       }
