@@ -15,7 +15,7 @@
 
 #include "TGo4CommandInvoker.h"
 
-const char *TGo4RemoteCommand::fgxREMCOMEMPTYSTRING="--NOSTRING--";
+const char *TGo4RemoteCommand::fgxREMCOMEMPTYSTRING = "--NOSTRING--";
 
 TGo4RemoteCommand::TGo4RemoteCommand() :
    TGo4Command(),
