@@ -3,7 +3,7 @@ LANGUAGE	= C++
 
 QT += widgets
 
-equals(QT_MAJOR_VERSION, 5){
+equals(QT_MAJOR_VERSION, 5) {
    QT += webengine webenginewidgets
 }
 

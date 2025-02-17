@@ -1,9 +1,7 @@
 TEMPLATE	= lib
 LANGUAGE	= C++
 
-greaterThan(QT_MAJOR_VERSION, 4) {
-  QT += widgets
-}
+QT += widgets
 
 CONFIG += qt warn_off thread plugin
 
@@ -23,6 +21,6 @@ DEPENDPATH += $(GO4INCDIR)
 
 SOURCES += QUserPanel.cpp
 
-HEADERS += QUserPanel.h 
+HEADERS += QUserPanel.h
 
 FORMS = QUserPanel.ui
