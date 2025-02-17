@@ -894,18 +894,18 @@ void QRootCanvas::methodDialog(TObject *object, TMethod* method)
 
    dlg.setWindowTitle(TString::Format("%s:%s", object->GetName(), method->GetName()).Data());
 
-  // iterate through all arguments and create apropriate input-data objects:
-  // inputlines, option menus...
+   // iterate through all arguments and create appropriate input-data objects:
+   // inputlines, option menus...
    TIter next(method->GetListOfMethodArgs());
 
    while (auto argument = (TMethodArg *) next()) {
       TString argTitle = TString::Format("(%s)  %s", argument->GetTitle(), argument->GetName());
       TString argDflt = argument->GetDefault() ? argument->GetDefault() : "";
-      if (argDflt.Length()>0)
+      if (argDflt.Length() > 0)
          argTitle += TString::Format(" [default: %s]", argDflt.Data());
-      TString type       = argument->GetTypeName();
-      TDataType    *datatype   = gROOT->GetType(type);
-      TString       basictype;
+      TString type = argument->GetTypeName();
+      TDataType *datatype   = gROOT->GetType(type);
+      TString basictype;
 
       if (datatype) {
          basictype = datatype->GetTypeName();
@@ -915,7 +915,7 @@ void QRootCanvas::methodDialog(TObject *object, TMethod* method)
          basictype = "int";
       }
 
-      if (TString(argument->GetTitle()).Index("*")!=kNPOS) {
+      if (TString(argument->GetTitle()).Index("*") != kNPOS) {
          basictype += "*";
          type = "char*";
       }
