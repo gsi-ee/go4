@@ -1218,7 +1218,7 @@ void TGo4Analysis::SendObjectToGUI(TObject *ob)
    TString pathname;
 
    if (ObjectManager()->FindObjectPathName(ob, pathname)) {
-      TGo4ObjEnvelope* envelope = new TGo4ObjEnvelope(ob, ob->GetName(), pathname.Data());
+      auto envelope = new TGo4ObjEnvelope(ob, ob->GetName(), pathname.Data());
       fxAnalysisSlave->SendObject(envelope);
       delete envelope;
       return;
@@ -1927,7 +1927,7 @@ TGo4WinCond *TGo4Analysis::MakeWinCond(const char *fullname,
       RemoveAnalysisCondition(fullname);
    }
 
-   TGo4WinCond *wcond = new TGo4WinCond(condname);
+   auto wcond = new TGo4WinCond(condname);
    wcond->SetValues(xmin, xmax);
    wcond->SetHistogram(HistoName);
    wcond->Enable();
@@ -1964,7 +1964,7 @@ TGo4WinCond *TGo4Analysis::MakeWinCond(const char *fullname,
       RemoveAnalysisCondition(fullname);
    }
 
-   TGo4WinCond *wcond = new TGo4WinCond(condname);
+   auto wcond = new TGo4WinCond(condname);
    wcond->SetValues(xmin, xmax, ymin, ymax);
    wcond->SetHistogram(HistoName);
    wcond->Enable();
@@ -2062,7 +2062,7 @@ TGo4ShapedCond *TGo4Analysis::MakeEllipseCond(const char *fullname,
       RemoveAnalysisCondition(fullname);
    }
 
-   TGo4ShapedCond *econd = new TGo4ShapedCond(condname);
+   auto econd = new TGo4ShapedCond(condname);
    econd->SetEllipse(cx, cy, a1, a2, theta, npoints);
    econd->Enable();
    econd->SetHistogram(HistoName);
@@ -2123,7 +2123,7 @@ TGo4ListCond *TGo4Analysis::MakeListCond(const char *fullname, const char *title
       RemoveAnalysisCondition(fullname);
    }
 
-   TGo4ListCond *lcond = new TGo4ListCond(condname.Data(), title);
+   auto lcond = new TGo4ListCond(condname.Data(), title);
    lcond->SetHistogram(HistoName);
    lcond->Enable();
 
@@ -2162,7 +2162,7 @@ TGraph *TGo4Analysis::MakeGraph(const char *fullname, const char *title, Int_t p
       return nullptr;
    }
 
-   TGraph *graph = dynamic_cast<TGraph *>(GetObject(fullname));
+   auto graph = dynamic_cast<TGraph *>(GetObject(fullname));
    if (graph)
       return graph;
    if (!points)

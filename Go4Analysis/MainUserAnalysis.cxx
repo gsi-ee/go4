@@ -303,7 +303,7 @@ TList *GetClassesList(TList *prev = nullptr)
    while ((name = TClassTable::Next()) != nullptr) {
       if (prev && prev->FindObject(name)) continue;
 
-      TNamed *obj = new TNamed(name, name);
+      auto obj = new TNamed(name, name);
       lst->Add(obj);
 
       if (prev) TGo4Log::Debug("New class %s", name);
@@ -586,9 +586,9 @@ TGo4Analysis *CreateDefaultAnalysis(TList *lst, const char *name, int user_argc,
    if (evstore_cl)
       factory->DefUserEventStore(evstore_cl->GetName());
 
-   TGo4MbsFileParameter* sourcepar = new TGo4MbsFileParameter(analysis->GetDefaultTestFileName());
+   auto sourcepar = new TGo4MbsFileParameter(analysis->GetDefaultTestFileName());
 
-   TGo4AnalysisStep *step = new TGo4AnalysisStep("Analysis", factory, sourcepar);
+   auto step = new TGo4AnalysisStep("Analysis", factory, sourcepar);
 
    step->SetSourceEnabled(kTRUE);
    step->SetStoreEnabled(evstore_cl != nullptr);
@@ -1309,7 +1309,7 @@ int main(int argc, char **argv)
 
       if (canrun < 0) autorun = false;
 
-      TGo4AnalysisClient *client = new TGo4AnalysisClient("UserClient", analysis, hostname, iport, hserver, hname, hpasswd, servermode, autorun, kFALSE, loadprefs, showrate);
+      auto client = new TGo4AnalysisClient("UserClient", analysis, hostname, iport, hserver, hname, hpasswd, servermode, autorun, kFALSE, loadprefs, showrate);
 
       TGo4Log::Info("Main: created AnalysisClient instance: %s", client->GetName());
       TGo4Log::Info("Main: Run application loop");
