@@ -13,6 +13,8 @@
 
 #include "TGo4ShapedCond.h"
 
+#include <vector>
+
 #include "TMath.h"
 
 #include "TGo4Log.h"
@@ -181,21 +183,15 @@ void TGo4ShapedCond::ResetPolygon()
    // thanks to Sven Augustin, MPI Heidelberg, for the idea and first version of the code!
    if (fiResolution == 0)
       fiResolution = GO4ELLIPSECOND_DEFAULTRESOLUTION;
-   Double_t *x = new Double_t[fiResolution + 1];
-   Double_t *y = new Double_t[fiResolution + 1];
+   std::vector<Double_t> x(fiResolution + 1), y(fiResolution + 1);
    if (IsEllipse() || IsCircle())
-      DefineEllipse(x, y, fiResolution);
+      DefineEllipse(x.data(), y.data(), fiResolution);
    else if (IsBox())
-      DefineBox(x, y, fiResolution);
+      DefineBox(x.data(), y.data(), fiResolution);
    else {
-      delete[] x;
-      delete[] y;
       return;
    }
-   SetValues(x, y, fiResolution + 1);
-
-   delete[] x;
-   delete[] y;
+   SetValues(x.data(), y.data(), fiResolution + 1);
 }
 
 void TGo4ShapedCond::DefineEllipse(Double_t *x, Double_t *y, Int_t n)

@@ -180,7 +180,7 @@ void TGo4PolyCondView::SetCut(TCutG *source)
 
 TCutG *TGo4PolyCondView::CreateCut()
 {
-   TCutG *result = new TCutG;
+   auto result = new TCutG;
    result->SetBit(kMustCleanup);
    // result->SetBit(kCanDelete,kFALSE);
    TGo4PolyCond::CleanupSpecials(); // JAM2016 - immediately take us out of special list
