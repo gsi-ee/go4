@@ -436,22 +436,22 @@ TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(const char *t
 TFolder *TGo4AnalysisObjectManager::CreateMembersFolder(TObject *obj, const char *membrfoldername, TClass *cl)
 {
    if(!cl) return nullptr;
-   TList *nameslist = new TList;
+   auto nameslist = new TList;
 
    // now process baseclasses of event:
    TIter biter(cl->GetListOfBases());
    while(auto bob = biter()) {
-      TBaseClass* baseclass = dynamic_cast<TBaseClass*>(bob);
+      auto baseclass = dynamic_cast<TBaseClass*>(bob);
       if(!baseclass) continue;
 
       // we have a baseclass
-      TClass *bclass = baseclass->GetClassPointer();
+      auto bclass = baseclass->GetClassPointer();
       if(!bclass) continue;
 
       if(!strcmp(bclass->GetName(),"TNamed")) continue; // suppress bases above
 
       // recursively find out members of all baseclasses
-      TFolder *subfold = CreateMembersFolder(nullptr, bclass->GetName(), bclass);
+      auto subfold = CreateMembersFolder(nullptr, bclass->GetName(), bclass);
       if(subfold)
          nameslist->AddLast(subfold);
    }
@@ -478,26 +478,26 @@ TFolder *TGo4AnalysisObjectManager::CreateMembersFolder(TObject *obj, const char
             sbuf = mem->GetName();
       }
 
-      TGo4MemberStatus* state = new TGo4MemberStatus(sbuf.Data(), mem->GetFullTypeName());
+      auto state = new TGo4MemberStatus(sbuf.Data(), mem->GetFullTypeName());
       nameslist->AddLast(state);
    } // while
 
    // now process components of composite event
    if (obj && obj->InheritsFrom(TGo4CompositeEvent::Class())) {
 
-      TObjArray *arr =((TGo4CompositeEvent *)obj)->getElements();
+      auto arr =static_cast<TGo4CompositeEvent *>(obj)->getElements();
 
       if (arr)
          for (Int_t n = 0; n <= arr->GetLast(); n++) {
-            TGo4EventElement *elem = (TGo4EventElement *) arr->At(n);
+            auto elem = static_cast<TGo4EventElement *>(arr->At(n));
             if (!elem) continue;
-            TFolder *subfold = CreateMembersFolder(elem, elem->GetName(), elem->IsA());
+            auto subfold = CreateMembersFolder(elem, elem->GetName(), elem->IsA());
             if(subfold)
                nameslist->AddLast(subfold);
          }
    }
 
-   TFolder *memberfolder = fxTempFolder->AddFolder(membrfoldername, TString("Object of class ") + cl->GetName(), nameslist);
+   auto memberfolder = fxTempFolder->AddFolder(membrfoldername, TString("Object of class ") + cl->GetName(), nameslist);
    fxTempFolder->Remove(memberfolder);
    memberfolder->SetOwner(kTRUE);
    return memberfolder;
@@ -907,21 +907,21 @@ TFolder *TGo4AnalysisObjectManager::CreateNamesFolder(TFolder *objectfolder)
    GO4TRACE((11,"TGo4AnalysisObjectManager::CreateNamesFolder(TFolder *)",__LINE__, __FILE__));
    if (!objectfolder) return nullptr;
 
-   TList *nameslist = new TList;
+   auto nameslist = new TList;
    TIter listiter(objectfolder->GetListOfFolders());
    while(auto entry = listiter()) {
       if(entry->InheritsFrom(TFolder::Class())) {
          // found subfolder, process it recursively
          auto subobj= dynamic_cast<TFolder *>(entry);
-         TFolder *subnames = CreateNamesFolder(subobj);
+         auto subnames = CreateNamesFolder(subobj);
          nameslist->AddLast(subnames);
       } else if (entry->InheritsFrom(TTree::Class())) {
          // treestructure should be ObjectStatus?
-         TTree *subobj = dynamic_cast<TTree *> (entry);
-         TGo4TreeStructure *treestruct = CreateTreeStructure(subobj);
+         auto subobj = dynamic_cast<TTree *> (entry);
+         auto treestruct = CreateTreeStructure(subobj);
          nameslist->AddLast(treestruct);
       } else if(entry->InheritsFrom(TGo4EventElement::Class())) {
-         TFolder *evfolder = CreateMembersFolder(entry, entry->GetName(), entry->IsA());
+         auto evfolder = CreateMembersFolder(entry, entry->GetName(), entry->IsA());
          if (evfolder)
             nameslist->AddLast(evfolder);
       } else {
@@ -931,7 +931,7 @@ TFolder *TGo4AnalysisObjectManager::CreateNamesFolder(TFolder *objectfolder)
       }
    } // while
 
-   TFolder *namesfolder = fxTempFolder->AddFolder(objectfolder->GetName(),objectfolder->GetTitle(),nameslist);
+   auto namesfolder = fxTempFolder->AddFolder(objectfolder->GetName(),objectfolder->GetTitle(),nameslist);
    fxTempFolder->Remove(namesfolder);
    namesfolder->SetOwner(kTRUE);
 
@@ -1312,8 +1312,9 @@ Bool_t TGo4AnalysisObjectManager::AddDynamicHistogram(const char *name,
       const char *cevx, const char *cmemx,
       const char *cevy, const char *cmemy)
 {
-   if(!name || !histo || !hevx || !hmemx) return kFALSE;
-   TGo4HistogramEntry* entry = new TGo4HistogramEntry(name);
+   if(!name || !histo || !hevx || !hmemx)
+      return kFALSE;
+   auto entry = new TGo4HistogramEntry(name);
 
    entry->SetHistogramName(histo);
 
@@ -1350,8 +1351,7 @@ Bool_t TGo4AnalysisObjectManager::AddTreeHistogram(const char *hisname, const ch
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddTreeHistogram(char*,...)",__LINE__, __FILE__));
    //
    Bool_t rev = kFALSE;
-   TGo4TreeHistogramEntry* tentry =
-      new TGo4TreeHistogramEntry(hisname, treename, varexp, cutexp);
+   auto tentry = new TGo4TreeHistogramEntry(hisname, treename, varexp, cutexp);
    if(AddDynamicEntry(tentry)) {
       TGo4Analysis::Instance()->Message(0,"Analysis added tree histogram %s to dynamic list", tentry->GetName());
       rev=kTRUE;
@@ -1381,7 +1381,7 @@ TFolder *TGo4AnalysisObjectManager::FindSubFolder(TFolder *parent, const char *s
       // we have subfolder of subfolder, process recursively
       TString subname(subfolder, separ - subfolder);
 
-      TFolder *nextsubfolder = FindSubFolder(parent, subname.Data(), create); // get folder directly under parent
+      auto nextsubfolder = FindSubFolder(parent, subname.Data(), create); // get folder directly under parent
       result = FindSubFolder(nextsubfolder, separ+1,create); // search rest of path in this folder
    } else {
       // only one level of subfolder, find it directly
@@ -1896,7 +1896,7 @@ TList *TGo4AnalysisObjectManager::CreateObjectList(const char *expr, const char 
 
 TList *TGo4AnalysisObjectManager::CreateObjectList(const char *expr, TFolder *fold)
 {
-   TList *result = new TList;
+   auto result = new TList;
    if(fold) {
       TIter iter(fold->GetListOfFolders());
       while(auto entry = iter()) {
