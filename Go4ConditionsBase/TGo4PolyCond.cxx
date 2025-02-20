@@ -13,6 +13,8 @@
 
 #include "TGo4PolyCond.h"
 
+#include <vector>
+
 #include "TMath.h"
 #include "TROOT.h"
 #include "TH2.h"
@@ -327,8 +329,7 @@ Bool_t TGo4PolyCond::UpdateFromUrl(const char *rest_url_opt)
       Int_t npoints = GetUrlOptionAsInt(TGo4PolyCond::fgxURL_NPOINTS, -1);
       if (npoints >= 0) {
          TString xname, yname;
-         Double_t *X = new Double_t[npoints];
-         Double_t *Y = new Double_t[npoints];
+         std::vector<Double_t> X(npoints), Y(npoints);
          for (Int_t i = 0; i < npoints; ++i) {
             xname.Form("%s%d", TGo4PolyCond::fgxURL_XPRE.Data(), i);
             yname.Form("%s%d", TGo4PolyCond::fgxURL_YPRE.Data(), i);
@@ -336,9 +337,7 @@ Bool_t TGo4PolyCond::UpdateFromUrl(const char *rest_url_opt)
             Y[i] = GetUrlOptionAsDouble(yname.Data(), 0.);
             message.Append(TString::Format(" X[%i]=%f, Y[%i]=%f\n", i, X[i], i, Y[i]));
          }
-         SetValues(X, Y, npoints);
-         delete[] X;
-         delete[] Y;
+         SetValues(X.data(), Y.data(), npoints);
       }
       message.Append(" - setting Polygon condition to new values!");
       TGo4Log::Message(1, "%s", message.Data());

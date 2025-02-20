@@ -1035,7 +1035,7 @@ void TGo4CondArray::SetPainter(TGo4ConditionPainter *painter)
 // -----------------------------------------------
 TGo4ConditionPainter *TGo4CondArray::CreatePainter()
 {
-   TGo4ConditionPainter *painter = new TGo4CondArrayPainter(GetName());
+   auto painter = new TGo4CondArrayPainter(GetName());
    painter->SetCondition(this);
    return painter;
 }

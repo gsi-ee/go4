@@ -41,13 +41,13 @@ int main(int argc, char **argv)
    std::cout << "Client:" << name << ",\tHost:" << hostname << ",\tConnector:" << con << std::endl;
 
    // variant 1: use demo with internal plain analysis base class
-   TGo4AnalysisClient *myclient = new TGo4AnalysisClient(name, 0, hostname, con);
+   auto myclient = new TGo4AnalysisClient(name, 0, hostname, con);
 
    // variant 2: create user analysis and pass it to client, client adopts it
-   //         TEbAnalysis* myanalysis= new TEbAnalysis;
-   //         myanalysis->SetAutoSaveFile("EbAutoSave");
-   //         myanalysis->SetAutoSaveInterval(200000);
-   //         TGo4AnalysisClient *myclient = new TGo4AnalysisClient(name,myanalysis,hostname,con);
+   //  auto myanalysis= new TEbAnalysis;
+   //  myanalysis->SetAutoSaveFile("EbAutoSave");
+   //  myanalysis->SetAutoSaveInterval(200000);
+   //  auto myclient = new TGo4AnalysisClient(name,myanalysis,hostname,con);
 
    std::cout << "Created AnalysisClient Instance: " << myclient->GetName() << std::endl; // dummy action for warnings
    theApp.Run();

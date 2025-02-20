@@ -141,7 +141,7 @@ void TGo4Marker::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 
 TGo4MarkerPainter* TGo4Marker::CreatePainter()
 {
-   TGo4MarkerPainter* painter = new TGo4MarkerPainter(GetName());
+   auto painter = new TGo4MarkerPainter(GetName());
    painter->SetMarker(this);
    return painter;
 }

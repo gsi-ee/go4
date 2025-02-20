@@ -130,7 +130,7 @@ TGo4Label* TGo4LabelPainter::CreateCurrentLabel(Double_t x, Double_t y)
    // buffer external variables, since LabelCoords will change them
    Double_t x0 = x, y0 = y, xmax = 0, ymax = 0;
    LabelCoords(x0,y0,xmax,ymax);
-   TGo4Label* label = new TGo4Label(x0,y0,xmax,ymax);
+   auto label = new TGo4Label(x0,y0,xmax,ymax);
    label->SetOwner(this);
    TAttText::Copy(*label);
    TAttLine::Copy(*label);

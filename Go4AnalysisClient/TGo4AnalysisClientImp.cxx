@@ -485,7 +485,7 @@ void TGo4AnalysisClient::TerminateFast()
 void TGo4AnalysisClient::SubmitShutdown()
 {
    if(GetTask()) {
-      TGo4ComServerQuit *com = new TGo4ComServerQuit();
+      auto com = new TGo4ComServerQuit();
       //TGo4Log::StartTracing(); // debug
       GetTask()->SubmitLocalCommand(com); // shutdown will be performed in local command thread
    }

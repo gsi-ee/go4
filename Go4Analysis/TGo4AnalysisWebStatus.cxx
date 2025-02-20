@@ -349,12 +349,11 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
       }
 
       TGo4EventStoreParameter *newpar = nullptr;
-      switch (storetype)
-      {
+      switch (storetype) {
         default:
         case GO4EV_FILE:
           {
-            TGo4FileStoreParameter* filestore = new TGo4FileStoreParameter(storename);
+            auto filestore = new TGo4FileStoreParameter(storename);
             if (oldsplit >= 0)
               filestore->SetSplitlevel(oldsplit);    // restore my soul...
             if (oldbuf >= 0)
@@ -370,7 +369,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
           break;
         case GO4EV_BACK:
           {
-            TGo4BackStoreParameter* bckstore = new TGo4BackStoreParameter(storename);
+            auto bckstore = new TGo4BackStoreParameter(storename);
             if (oldsplit >= 0)
               bckstore->SetSplitlevel(oldsplit);
             if (oldbuf >= 0)
@@ -394,23 +393,21 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
     }    // fgxURL_STORE_NAME
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_STORE_SPLIT.Data(), stepindex);
-    if (url.HasOption(theKey.Data()))
-    {
-      Int_t split = url.GetIntValueFromOptions(theKey.Data());
-      message.Append(TString::Format(", %s=%d", theKey.Data(), split));
-      TGo4EventStoreParameter *storepar = step->GetStorePar();
-      TGo4FileStoreParameter* filepar = dynamic_cast<TGo4FileStoreParameter*>(storepar);
-      TGo4BackStoreParameter* backpar = dynamic_cast<TGo4BackStoreParameter*>(storepar);
-      if (filepar)
-        filepar->SetSplitlevel(split);
-      else if (backpar)
-        backpar->SetSplitlevel(split);
-      else
-        message.Append(
-            TString::Format(" - /!\\ NEVER COME HERE: can not set split level to eventstore type %s ",
-                storepar ? storepar->ClassName() : "nullpointer"));
+    if (url.HasOption(theKey.Data())) {
+       Int_t split = url.GetIntValueFromOptions(theKey.Data());
+       message.Append(TString::Format(", %s=%d", theKey.Data(), split));
+       TGo4EventStoreParameter *storepar = step->GetStorePar();
+       TGo4FileStoreParameter *filepar = dynamic_cast<TGo4FileStoreParameter *>(storepar);
+       TGo4BackStoreParameter *backpar = dynamic_cast<TGo4BackStoreParameter *>(storepar);
+       if (filepar)
+          filepar->SetSplitlevel(split);
+       else if (backpar)
+          backpar->SetSplitlevel(split);
+       else
+          message.Append(TString::Format(" - /!\\ NEVER COME HERE: can not set split level to eventstore type %s ",
+                                         storepar ? storepar->ClassName() : "nullpointer"));
 
-    }    //ffgxURL_STORE_SPLIT
+    } // ffgxURL_STORE_SPLIT
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_STORE_BUF.Data(), stepindex);
     if (url.HasOption(theKey.Data()))
