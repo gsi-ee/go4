@@ -128,6 +128,7 @@ export CMAKE_PREFIX_PATH=${GO4_ROOT_DIR}:$CMAKE_PREFIX_PATH")
    file(COPY ${CMAKE_SOURCE_DIR}/build/makedict.sh DESTINATION ${CMAKE_BINARY_DIR}/build)
    file(COPY ${CMAKE_SOURCE_DIR}/build/makelib6.sh DESTINATION ${CMAKE_BINARY_DIR}/build)
    file(COPY ${CMAKE_SOURCE_DIR}/build/makemap.sh DESTINATION ${CMAKE_BINARY_DIR}/build)
+   file(COPY ${CMAKE_SOURCE_DIR}/build/rename.sh DESTINATION ${CMAKE_BINARY_DIR}/build)
    file(COPY ${CMAKE_SOURCE_DIR}/build/Makefile.Linux DESTINATION ${CMAKE_BINARY_DIR}/build)
    file(COPY ${CMAKE_SOURCE_DIR}/build/Makefile.Darwin DESTINATION ${CMAKE_BINARY_DIR}/build)
 
