@@ -1796,7 +1796,9 @@ TH1 *TGo4Analysis::MakeTH1(char type, const char *fullname, const char *title,
       case 2: newh = new TH1D(histoname, title, nbinsx, xlow, xup); break;
       case 3: newh = new TH1S(histoname, title, nbinsx, xlow, xup); break;
       case 4: newh = new TH1C(histoname, title, nbinsx, xlow, xup); break;
+#if ROOT_VERSION_CODE >  ROOT_VERSION(6,32,0)
       case 5: newh = new TH1L(histoname, title, nbinsx, xlow, xup); break;
+#endif
    }
 
    newh->SetTitle(title);
@@ -1881,7 +1883,9 @@ TH2 *TGo4Analysis::MakeTH2(char type, const char *fullname, const char *title,
       case 2: newh = new TH2D(histoname, title, nbinsx, xlow, xup, nbinsy, ylow, yup); break;
       case 3: newh = new TH2S(histoname, title, nbinsx, xlow, xup, nbinsy, ylow, yup); break;
       case 4: newh = new TH2C(histoname, title, nbinsx, xlow, xup, nbinsy, ylow, yup); break;
+#if ROOT_VERSION_CODE >  ROOT_VERSION(6,32,0)
       case 5: newh = new TH2L(histoname, title, nbinsx, xlow, xup, nbinsy, ylow, yup); break;
+#endif
    }
 
    newh->SetTitle(title);

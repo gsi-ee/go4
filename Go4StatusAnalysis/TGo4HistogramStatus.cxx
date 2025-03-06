@@ -68,9 +68,14 @@ TGo4HistogramStatus::TGo4HistogramStatus(TH1 *his, Bool_t allstatistics)
          fieldsize = sizeof(Short_t);
       } else if (his->InheritsFrom(TH1C::Class()) || his->InheritsFrom(TH2C::Class()) || his->InheritsFrom(TH3C::Class())) {
          fieldsize = sizeof(Char_t);
-      } else if (his->InheritsFrom(TH1L::Class()) || his->InheritsFrom(TH2L::Class()) || his->InheritsFrom(TH3L::Class())) {
+      }
+
+#if ROOT_VERSION_CODE >  ROOT_VERSION(6,32,0)
+      else if (his->InheritsFrom(TH1L::Class()) || his->InheritsFrom(TH2L::Class()) || his->InheritsFrom(TH3L::Class())) {
          fieldsize = sizeof(Long64_t);
       }
+#endif
+
       fiObjectSize += fieldsize * his->GetNcells(); // add heap field to object stack memory size
       //////////////////////////////////////////////////////////////////
 
