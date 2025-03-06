@@ -398,6 +398,12 @@ GO4_INSTALL_HEADERS(${gui_install_headers})
 
 add_dependencies(go4 move_headers)
 
+if(APPLE)
+  set(_ext "dylib")
+else()
+  set(_ext "so")
+endif()
+
 if(_qtroot_depend AND NOT MSVC AND examples)
    ExternalProject_Add(Go4UserGUIX11
                        DEPENDS ${_qtroot_depend}
@@ -405,6 +411,7 @@ if(_qtroot_depend AND NOT MSVC AND examples)
                        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Go4UserGUI
                        BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/Go4UserGUI
                        INSTALL_COMMAND "")
+   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Go4UserGUI/libGo4UserGui.${_ext} DESTINATION ${GO4_INSTALL_MAINDIR}/qt4/Go4UserGUI COMPONENT application)
 endif()
 
 if(_webroot_depend AND NOT MSVC AND examples)
@@ -414,4 +421,5 @@ if(_webroot_depend AND NOT MSVC AND examples)
                        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/WebUserGUI
                        BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/WebUserGUI
                        INSTALL_COMMAND "")
+   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/WebUserGUI/libGo4UserGui.${_ext} DESTINATION ${GO4_INSTALL_MAINDIR}/qt4/WebUserGUI COMPONENT application)
 endif()
