@@ -32,7 +32,7 @@ LIBDEPENDENC       += $(GO4FIT_DEP) $(GO4FIT_DDEP)
 
 ifdef DOPACKAGE
 FITDISTRFILES      += $(GO4FIT_S) $(GO4FIT_H) $(GO4FIT_LINKDEF) $(GO4FIT_DIR)/f_find_peaks.c
-FITDISTRFILES      += $(GO4FIT_DIR)/README $(GO4FIT_DIR)/changes.txt
+FITDISTRFILES      += $(GO4FIT_DIR)/Readme.md $(GO4FIT_DIR)/changes.txt
 DISTRFILES         += $(FITDISTRFILES)
 endif
 
