@@ -78,7 +78,7 @@ RUN cd /installations/root/; ls -al; tar zxvf ${ROOTFILE}
 RUN rm -rf /installations/root/rootbuild
 RUN mkdir -p /installations/root/rootbuild
 RUN cd /installations/root/rootbuild; \
-cmake /installations/root/${ROOTDIR} -Dwebgui=on -Dqt5web=on -Dhttp=ON ; \
+cmake /installations/root/${ROOTDIR} -Dwebgui=on -Dqt6web=on -Dhttp=ON ; \
 > /tmp/root_make_exit_value;\
 { make -j6 >>makelog.txt 2>&1;  echo $? > /tmp/root_make_exit_value; killall tail; } & \
   echo -e "\n\n---- display ROOT make log: ----\n\n"; \
