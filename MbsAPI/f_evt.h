@@ -90,7 +90,7 @@ typedef struct
    void     (*cb_polling)(void);    /* function to call when polling for timeout */
 } s_evt_channel;
 
-INTS4 f_evt_cre_tagfile(CHARS *,CHARS *, INTS4 (*)());
+INTS4 f_evt_cre_tagfile(CHARS *,CHARS *, INTS4 (*)(s_ve10_1 *));
 INTS4 f_evt_get_tagopen(s_evt_channel *,CHARS *,CHARS *,CHARS **,INTS4);
 INTS4 f_evt_get_tagevent(s_evt_channel *,INTS4,INTS4,INTS4 **);
 INTS4 f_evt_get_tagnext(s_evt_channel *,INTS4,INTS4 **);
