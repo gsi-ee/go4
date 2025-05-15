@@ -1255,7 +1255,7 @@ void TGo4Picture::ChangeDrawOption(Int_t kind, Int_t value)
          Int_t numdim = GetFullRangeDim();
          SetAutoScale(value != 0);
          Double_t min, max;
-         if (!IsAutoScale()) { // keep current selection if not autosacle
+         if (!IsAutoScale()) { // keep current selection if not autoscale
             if ((numdim==1) && !GetRange(1, min, max)) {
                GetFullRange(1, min, max);
                SetRange(1, min, max);
