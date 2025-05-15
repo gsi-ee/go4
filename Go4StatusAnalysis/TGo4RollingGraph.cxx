@@ -111,5 +111,3 @@ void TGo4RollingGraph::Clear(Option_t *)
    Set(0);
    fdSum = 0.;
 }
-
-ClassImp(TGo4RollingGraph);
