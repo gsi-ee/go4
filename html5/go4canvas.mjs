@@ -22,7 +22,7 @@ class MarkerPainter extends ObjectPainter{
    moveDrag(dx,dy) {
       this.grx += dx;
       this.gry += dy;
-      this.draw_g.select('path').attr("d",this.markeratt.create(this.grx, this.gry));
+      this.getG().select('path').attr("d",this.markeratt.create(this.grx, this.gry));
    }
 
    moveEnd() {
@@ -343,8 +343,8 @@ class ConditionPainter extends ObjectPainter {
          let tempy = this.gry1; this.gry1 = this.gry2; this.gry2 = tempy;
          tempy = this.dy1; this.dy1 = this.dy2; this.dy2 = tempy;
       }
-      this.draw_g.select('rect').attr("x",this.grx1).attr("y", this.gry1)
-                  .attr("width", this.grx2 - this.grx1).attr("height", this.gry2 - this.gry1);
+      this.getG().select('rect').attr("x",this.grx1).attr("y", this.gry1)
+                 .attr("width", this.grx2 - this.grx1).attr("height", this.gry2 - this.gry1);
    }
 
    moveEnd() {
