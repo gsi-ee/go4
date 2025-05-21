@@ -42,7 +42,7 @@ Int_t TGo4ComGetNamesList::ExeCom()
    cli->SendStatusMessage(1,kFALSE, TString::Format(
          "%s::Analysis nameslist was requested from client %s", GetTaskName(), GetTaskName()));
    //cli->SendNamesList();
-   TGo4Analysis *ana = TGo4Analysis::Instance();
+   auto ana = TGo4Analysis::Instance();
    ana->UpdateNamesList();
    TGo4AnalysisObjectNames *state = ana->GetNamesList();
    cli->SendObject(state, GetTaskName());

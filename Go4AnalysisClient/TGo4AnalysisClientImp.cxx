@@ -394,7 +394,7 @@ void TGo4AnalysisClient::UpdateRate(Int_t counts)
    GO4TRACE((12,"TGo4AnalysisClient::UpdateRate(Int_t)",__LINE__, __FILE__));
    if (fxRatemeter->Update(counts)) {
 
-      TGo4Analysis *an = TGo4Analysis::Instance();
+      auto an = TGo4Analysis::Instance();
       fxRatemeter->SetRunning(an ? an->IsRunning() : kFALSE);
 
       TDatime dt;

@@ -54,7 +54,7 @@ Int_t TGo4ComAddTreeHistogram::ExeCom()
 
    TGo4AnalysisClient *cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
    if (cli) {
-      TGo4Analysis *ana = TGo4Analysis::Instance();
+      auto ana = TGo4Analysis::Instance();
       if (ana) {
          TString histo = fxHistoName;
          if (histo.IsNull())

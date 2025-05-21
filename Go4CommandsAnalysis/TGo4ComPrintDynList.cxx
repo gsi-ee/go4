@@ -32,7 +32,7 @@ Int_t TGo4ComPrintDynList::ExeCom()
       return 1;
    }
 
-   TGo4Analysis *ana = TGo4Analysis::Instance();
+   auto ana = TGo4Analysis::Instance();
    if(ana) {
       ana->PrintDynamicList();
       cli->SendStatusMessage(1, kFALSE, TString::Format(

@@ -43,7 +43,7 @@ Int_t TGo4ComAutosave::ExeCom()
 
    TGo4AnalysisClient *cli = dynamic_cast<TGo4AnalysisClient *>(fxReceiverBase);
    if (cli) {
-      TGo4Analysis *ana = TGo4Analysis::Instance();
+      auto ana = TGo4Analysis::Instance();
       if (ana) {
          Bool_t autoenab = ana->IsAutoSaveOn();
          cli->SendStatusMessage(1, kTRUE, "Autosaving now...");

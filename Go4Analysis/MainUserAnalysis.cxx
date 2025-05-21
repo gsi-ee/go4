@@ -560,7 +560,7 @@ TGo4Analysis *CreateDefaultAnalysis(TList *lst, const char *name, int user_argc,
    if (inpev_cl)
       TGo4Log::Info("Use class %s as input event", inpev_cl->GetName());
 
-   TGo4Analysis *analysis = TGo4Analysis::Instance();
+   auto analysis = TGo4Analysis::Instance();
    analysis->SetAnalysisName(name);
 
    TGo4StepFactory* factory = nullptr;

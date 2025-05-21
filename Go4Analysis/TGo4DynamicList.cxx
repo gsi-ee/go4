@@ -183,7 +183,7 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
    if (!hentry) return true;
 
    if (hentry->NeedInitialisation()) {
-      TGo4Analysis *ana = TGo4Analysis::Instance();
+      auto ana = TGo4Analysis::Instance();
 
       hentry->fxCondition = ana->GetAnalysisCondition(hentry->GetConditionName());
 

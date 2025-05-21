@@ -414,7 +414,7 @@ Int_t TGo4MbsFile::CloseFile()
 
 Int_t TGo4MbsFile::NewFileAction(Bool_t dosave)
 {
-   TGo4Analysis *ana = TGo4Analysis::Instance();
+   auto ana = TGo4Analysis::Instance();
    ana->SetNewInputFile(kTRUE);
    ana->SetInputFileName(GetCurrentFileName());
    TGo4Analysis::Instance()->Message(1,"TGo4MbsFile list:%s-- opening new file: %s ", GetName(), GetCurrentFileName());

@@ -63,7 +63,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
 //  std::cout << "\nTGo4AnalysisWebStatus AFTER lockguard." << std::endl;
   TString message;
   message.Form("TGo4AnalysisWebStatus::UpdateFromUrl ");
-  TGo4Analysis *ana = TGo4Analysis::Instance();
+  auto ana = TGo4Analysis::Instance();
   TUrl url;
   url.SetOptions(rest_url_opt);    // this time try to use ROOT default class
   TString theKey;
@@ -554,14 +554,14 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
 
 TGo4AnalysisStatus *TGo4AnalysisWebStatus::CreateStatus()
 {
-   TGo4Analysis *an = TGo4Analysis::Instance();
+   auto an = TGo4Analysis::Instance();
    return an ? an->CreateStatus() : nullptr;
 }
 
 
 Bool_t TGo4AnalysisWebStatus::ApplyStatus(TGo4AnalysisStatus *status)
 {
-   TGo4Analysis *an = TGo4Analysis::Instance();
+   auto an = TGo4Analysis::Instance();
    TGo4AnalysisClient *cli = an ? an->GetAnalysisClient() : nullptr;
 
    if (!an || !status) return kFALSE;
@@ -593,7 +593,7 @@ Bool_t TGo4AnalysisWebStatus::LoadStatus(const char *fname)
 {
    // make it here to be able use via http interface
 
-   TGo4Analysis *ana = TGo4Analysis::Instance();
+   auto ana = TGo4Analysis::Instance();
 
    return ana ? ana->LoadStatus(fname) : kFALSE;
 
@@ -603,7 +603,7 @@ Bool_t TGo4AnalysisWebStatus::SaveStatus(const char *fname)
 {
    // make it here to be able use via http interface
 
-   TGo4Analysis *ana = TGo4Analysis::Instance();
+   auto ana = TGo4Analysis::Instance();
 
    return ana ? ana->SaveStatus(fname) : kFALSE;
 }
@@ -615,7 +615,7 @@ Bool_t TGo4AnalysisWebStatus::WriteAutoSave(const char *fname,
 {
    // make it here to be able use via http interface
 
-   TGo4Analysis *ana = TGo4Analysis::Instance();
+   auto ana = TGo4Analysis::Instance();
    if (!ana) return kFALSE;
 
    ana->SetAutoSaveFile(fname, overwrite, complevel);
@@ -626,8 +626,8 @@ Bool_t TGo4AnalysisWebStatus::WriteAutoSave(const char *fname,
 
 Bool_t TGo4AnalysisWebStatus::ExecuteLine(const char *exeline)
 {
-  if (!exeline || (*exeline == 0)) return kFALSE;
-  TGo4Analysis *ana = TGo4Analysis::Instance();
+  if (!exeline || !*exeline) return kFALSE;
+  auto ana = TGo4Analysis::Instance();
   if(!ana) return kFALSE;
 
   Int_t errcode = 0;

@@ -58,7 +58,7 @@ Int_t TGo4ComGetCurrentEvent::ExeCom()
       return 1;
    }
 
-   TGo4Analysis *ana = TGo4Analysis::Instance();
+   auto ana = TGo4Analysis::Instance();
    if (!ana) {
       // never come here
       cli->SendStatusMessage(3, kTRUE,TString::Format(" %s ERROR no analysis ",GetName()));

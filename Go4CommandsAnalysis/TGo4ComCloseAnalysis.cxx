@@ -37,7 +37,7 @@ Int_t TGo4ComCloseAnalysis::ExeCom()
    }
 
    GO4TRACE((11, "TGo4ComCloseAnalysis::ExeCom() - found valid receiver", __LINE__, __FILE__));
-   TGo4Analysis *ana = TGo4Analysis::Instance();
+   auto ana = TGo4Analysis::Instance();
    if (ana) {
       if (cli->MainIsRunning())
          ana->PostLoop(); // if close is done on running analysis,

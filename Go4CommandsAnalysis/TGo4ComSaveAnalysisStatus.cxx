@@ -55,7 +55,7 @@ Int_t TGo4ComSaveAnalysisStatus::ExeCom()
    {
       GO4TRACE((11,"TGo4ComSaveAnalysisStatus::ExeCom() - found valid receiver",__LINE__, __FILE__));
       //         TGo4Log::Debug(" Executing ComSaveAnalysisStatus...  ");
-      TGo4Analysis *ana = TGo4Analysis::Instance();
+      auto ana = TGo4Analysis::Instance();
       if(ana)
       {
          Bool_t ok=ana->SaveStatus( GetFileName() );
