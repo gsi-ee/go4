@@ -1,6 +1,6 @@
 ---------------------------------------------------------------
          Go4 Release Package v6.4.1 (build 60401)
-                           May 2025
+                           11 June 2025
 ---------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -21,7 +21,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v6.4.1 (May 2025)
+Changes in Go4 v6.4.1 (June 2025)
 1. Fix wrong declaration in f_evt.h (fedora42/ArchLinux build issue)
 
 Changes in Go4 v6.4 (March 2025)
