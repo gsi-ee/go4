@@ -514,7 +514,7 @@ class AnalysisStatusEditor extends BasePainter {
 
       if ((h < 10) && (w > 10)) dom.style("height", Math.round(w * 0.7)+"px");
 
-      return httpRequest(`${source_dir}html5/analysiseditor.htm`, 'text').then(code => {
+      return httpRequest(`${source_dir}html5/analysiseditor.html`, 'text').then(code => {
          dom.html(code);
 
          return httpRequest(`${source_dir}html5/stepeditor.html`, 'text');
