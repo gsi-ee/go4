@@ -103,9 +103,12 @@ void TGo4Log::EnableRedirection()
    if(pipe(fgStdPipe) != 0) return; /* make a pipe */
 
    dup2(fgStdPipe[1], STDOUT_FILENO);   /* redirect stdout to the pipe */
-   long flags = fcntl(fgStdPipe[0], F_GETFL);
-   flags |= O_NONBLOCK;
-   fcntl(fgStdPipe[0], F_SETFL, flags);
+
+   long flags = fcntl(fgStdPipe[0], F_GETFL, 0);
+   fcntl(fgStdPipe[0], F_SETFL, flags | O_NONBLOCK);
+
+   flags = fcntl(fgStdPipe[1], F_GETFL, 0);
+   fcntl(fgStdPipe[1], F_SETFL, flags | O_NONBLOCK);
 
    if (!fgTimer) {
       fgTimer = new TLogTimer(200);
