@@ -104,7 +104,7 @@ function(GO4_LINK_LIBRARY libname)
 
    target_compile_definitions(${libname} PUBLIC ${ARG_DEFINITIONS})
 
-   target_link_libraries(${libname} ${ARG_LIBRARIES})
+   target_link_libraries(${libname} PUBLIC ${ARG_LIBRARIES})
 
    # for debugging purposes can be used -Wzero-as-null-pointer-constant -Wsuggest-override
 
