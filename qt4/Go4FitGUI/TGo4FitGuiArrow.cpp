@@ -14,6 +14,7 @@
 #include "TGo4FitGuiArrow.h"
 
 #include "Buttons.h"
+#include "TMath.h"
 
 #include "TGo4FitPanel.h"
 #include "TGo4FitModel.h"
