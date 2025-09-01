@@ -22,6 +22,7 @@
 #include "TVirtualPad.h"
 #include "TFrame.h"
 #include "TList.h"
+#include "TMath.h"
 #include "TCanvas.h"
 #include "TH1.h"
 #include "TGraph.h"
