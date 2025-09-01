@@ -14,6 +14,7 @@
 #include "TGo4WinCondView.h"
 
 #include "TVirtualPad.h"
+#include "TMath.h"
 
 #include "TGo4WinCond.h"
 
