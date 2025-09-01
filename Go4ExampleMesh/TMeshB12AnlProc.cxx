@@ -15,6 +15,7 @@
 
 #include "TGo4UserException.h"
 #include "TGo4Log.h"
+#include "TMath.h"
 
 #include "TMeshB12OutputEvent.h"
 #include "TMeshB1OutputEvent.h"
