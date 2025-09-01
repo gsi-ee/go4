@@ -19,6 +19,7 @@
 #include "TArrayD.h"
 #include "TArrayI.h"
 #include "TClass.h"
+#include "TMath.h"
 
 #include "TGo4FitData.h"
 #include "TGo4FitParameter.h"
