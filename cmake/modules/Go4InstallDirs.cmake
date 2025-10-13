@@ -55,6 +55,7 @@ set(GO4_INSTALL_ETCDIR "${_go4sys}etc" CACHE PATH "go4 etc files (etc/)")
 set(GO4_INSTALL_DOCSDIR "${_go4sys}docs" CACHE PATH "go4 docs (docs/)")
 set(GO4_INSTALL_BUILDDIR "${_go4sys}build" CACHE PATH "go4 build support (build/)")
 set(GO4_INSTALL_HTMLDIR "${_go4sys}html" CACHE PATH "go4 html/js files (html/)")
+set(GO4_INSTALL_HTML5DIR "${_go4sys}html5" CACHE PATH "go4 new html/js files (html5/)")
 set(GO4_INSTALL_PYTHONDIR "${_go4sys}python" CACHE PATH "go4 python files (python/)")
 
 
@@ -81,5 +82,6 @@ mark_as_advanced(
   GO4_INSTALL_DOCSDIR
   GO4_INSTALL_BUILDDIR
   GO4_INSTALL_HTMLDIR
+  GO4_INSTALL_HTML5DIR
   GO4_INSTALL_PYTHONDIR
 )
