@@ -44,6 +44,7 @@ TGo4MsgList::TGo4MsgList(const char *name, const char *title, Int_t limit) :
 
 TGo4MsgList::~TGo4MsgList()
 {
+   fSelect.Clear("nodelete");
    fMsgs.Clear();
 }
 
@@ -69,7 +70,7 @@ TList *TGo4MsgList::Select(Int_t max, Long64_t id)
    TIter iter(&fMsgs);
    TObject *obj = nullptr;
    Long64_t curr = fCounter;
-   fSelect.Clear();
+   fSelect.Clear("nodelete");
 
    if (max <= 0) max = fMsgs.GetSize() + 1;
 
