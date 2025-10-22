@@ -460,9 +460,12 @@ function drawGo4Picture(dom, pic) {
    let painter = new ObjectPainter(dom, pic);
 
    return ensureTCanvas(painter, false).then(() => {
-      let pad_painter = painter.getPadPainter();
+      const pad_painter = painter.getPadPainter();
 
-      painter.removeFromPadPrimitives();
+      if (painter.removeFromPadPrimitives)
+         painter.removeFromPadPrimitives();
+      else
+         pad_painter.removePrimitive(painter);
 
       return drawPicture(pad_painter, pic);
    }).then(() => painter); // return dummy painter

@@ -13,6 +13,23 @@ function findPainter(painter, obj, name, typ) {
    return pp ? pp.findPainterFor(obj, name, typ) : null;
 }
 
+function cleanupPainterFor(painter, obj) {
+   if (!obj || !painter)
+      return;
+   const pp = painter.getPadPainter(),
+         objp = pp?.findPainterFor(obj);
+
+   if (!objp)
+      return;
+
+   if (objp.removeFromPadPrimitives)
+      objp.removeFromPadPrimitives();
+   else
+      pp.removePrimitive(objp);
+
+   objp.cleanup();
+}
+
 class MarkerPainter extends ObjectPainter{
    constructor(dom, marker) {
       super(dom, marker);
@@ -132,14 +149,8 @@ class MarkerPainter extends ObjectPainter{
    }
 
    cleanup(arg) {
-      if (this.pave) {
-         let pp = findPainter(this, this.pave);
-         if (pp) {
-            pp.removeFromPadPrimitives();
-            pp.cleanup();
-         }
-         delete this.pave;
-      }
+      cleanupPainterFor(this, this.pave);
+      delete this.pave;
 
       super.cleanup(arg);
    }
@@ -360,7 +371,6 @@ class ConditionPainter extends ObjectPainter {
    }
 
    drawLabel() {
-
       let cond = this.getObject(), painter = this, stat = {};
 
       if (!cond.fbLabelDraw || !cond.fbVisible)
@@ -490,14 +500,8 @@ class ConditionPainter extends ObjectPainter {
    }
 
    cleanup(arg) {
-      if (this.pave) {
-         let pp = findPainter(this, this.pave);
-         if (pp) {
-            pp.removeFromPadPrimitives();
-            pp.cleanup();
-         }
-         delete this.pave;
-      }
+      cleanupPainterFor(this, this.pave);
+      delete this.pave;
       super.cleanup(arg);
    }
 
@@ -551,9 +555,11 @@ class ConditionPainter extends ObjectPainter {
          hitem._kind = "ROOT.TH1I";
       }
 
-      return hpainter.display(histofullpath, '', condpainter.getDrawDom()).then(hist_painter => {
+      return hpainter.display(histofullpath, '', dom).then(hist_painter => {
          if (!hist_painter)
             return console.log('fail to draw histogram ' + histofullpath);
+
+         condpainter = new ConditionPainter(hist_painter.getDrawDom(), cond);
          condpainter.drawCondition();
          condpainter.addToPadPrimitives();
          return condpainter.drawLabel();
