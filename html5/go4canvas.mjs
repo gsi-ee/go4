@@ -1,9 +1,6 @@
 import { ObjectPainter, getHPainter, addDrawFunc, create, gStyle, draw, floatToString, getElementMainPainter } from 'jsroot';
-
 import { addMoveHandler } from 'jsrootsys/modules/gui/utils.mjs';
-
 import { GO4 } from './core.mjs';
-
 import { ConditionEditor } from './condition.mjs';
 
 GO4.web_canvas = true;
@@ -17,7 +14,6 @@ function cleanupPainterFor(painter, obj) {
    if (!obj || !painter)
       return;
    const objp = findPainter(painter, obj);
-
    if (objp) {
       objp.removeFromPadPrimitives();
       objp.cleanup();
@@ -33,13 +29,13 @@ class MarkerPainter extends ObjectPainter{
    moveDrag(dx,dy) {
       this.grx += dx;
       this.gry += dy;
-      this.getG().select('path').attr("d",this.markeratt.create(this.grx, this.gry));
+      this.getG().select('path').attr('d', this.markeratt.create(this.grx, this.gry));
    }
 
    moveEnd() {
       let marker = this.getObject();
-      marker.fX = this.svgToAxis("x", this.grx);
-      marker.fY = this.svgToAxis("y", this.gry);
+      marker.fX = this.svgToAxis('x', this.grx);
+      marker.fY = this.svgToAxis('y', this.gry);
       let exec = `SetXY(${marker.fX},${marker.fY})`;
       this.submitCanvExec(exec);
       this.drawLabel();
@@ -51,8 +47,8 @@ class MarkerPainter extends ObjectPainter{
 
       this.createAttMarker({ attr: marker });
 
-      this.grx = this.axisToSvg("x", marker.fX);
-      this.gry = this.axisToSvg("y", marker.fY);
+      this.grx = this.axisToSvg('x', marker.fX);
+      this.gry = this.axisToSvg('y', marker.fY);
 
       let path = this.markeratt.create(this.grx, this.gry);
 
@@ -505,7 +501,6 @@ class ConditionPainter extends ObjectPainter {
    }
 
    static async draw(dom, cond, option) {
-
       if (!option)
          option = '';
 
@@ -546,7 +541,7 @@ class ConditionPainter extends ObjectPainter {
 
          let hitem = hpainter.findItem({ name: histofullpath, force: true });
 
-         hitem._kind = "ROOT.TH1I";
+         hitem._kind = 'ROOT.TH1I';
       }
 
       return hpainter.display(histofullpath, '', dom).then(hist_painter => {
@@ -575,7 +570,6 @@ function drawCondArray(dom, obj, option) {
          return first;
 
       const cond = arr[i];
-
       if ((i === 0) && !cond.fxHistoName && !main) {
          cond.fxHistoName = obj.fxHistoName;
          if (!cond.fxHistoName)
@@ -585,10 +579,8 @@ function drawCondArray(dom, obj, option) {
       return ConditionPainter.draw(dom, cond, ((i > 0) || main) ? 'same' : '').then(p => {
          if (!p)
             return null;
-         if (!first) {
+         if (!first)
             first = p;
-            dom = p.getDrawDom();
-         }
          return drawNext(i + 1);
       });
    }
