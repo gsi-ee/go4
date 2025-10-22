@@ -461,12 +461,7 @@ function drawGo4Picture(dom, pic) {
 
    return ensureTCanvas(painter, false).then(() => {
       const pad_painter = painter.getPadPainter();
-
-      if (painter.removeFromPadPrimitives)
-         painter.removeFromPadPrimitives();
-      else
-         pad_painter.removePrimitive(painter);
-
+      painter.removeFromPadPrimitives();
       return drawPicture(pad_painter, pic);
    }).then(() => painter); // return dummy painter
 }

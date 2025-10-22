@@ -9,25 +9,19 @@ import { ConditionEditor } from './condition.mjs';
 GO4.web_canvas = true;
 
 function findPainter(painter, obj, name, typ) {
-   let pp = painter.getPadPainter();
-   return pp ? pp.findPainterFor(obj, name, typ) : null;
+   const pp = painter.getPadPainter();
+   return pp?.findPainterFor(obj, name, typ);
 }
 
 function cleanupPainterFor(painter, obj) {
    if (!obj || !painter)
       return;
-   const pp = painter.getPadPainter(),
-         objp = pp?.findPainterFor(obj);
+   const objp = findPainter(painter, obj);
 
-   if (!objp)
-      return;
-
-   if (objp.removeFromPadPrimitives)
+   if (objp) {
       objp.removeFromPadPrimitives();
-   else
-      pp.removePrimitive(objp);
-
-   objp.cleanup();
+      objp.cleanup();
+   }
 }
 
 class MarkerPainter extends ObjectPainter{
@@ -72,8 +66,8 @@ class MarkerPainter extends ObjectPainter{
 
    fillLabels(marker) {
       let lbls = [],
-            rect = this.getFramePainter().getFrameRect(),
-            main = this.getMainPainter(), hint = null;
+          rect = this.getFramePainter().getFrameRect(),
+          main = this.getMainPainter(), hint = null;
 
       if (main && typeof main.processTooltipEvent == 'function')
          hint = main.processTooltipEvent({ enabled: false, x: this.grx - rect.x, y: this.gry - rect.y });
@@ -512,27 +506,27 @@ class ConditionPainter extends ObjectPainter {
 
    static async draw(dom, cond, option) {
 
-      if (!option) option = "";
+      if (!option)
+         option = '';
 
       let condpainter = new ConditionPainter(dom, cond),
-            elem = condpainter.selectDom(),
-            main = condpainter.getMainPainter();
+          elem = condpainter.selectDom(),
+          main = getElementMainPainter(dom);
 
       if (GO4.web_canvas || (option.indexOf('same') >= 0) || main) {
          // if no hist painter, do nothing, just return dummy
          if (!main)
             return condpainter;
-         condpainter.drawCondition();
          condpainter.addToPadPrimitives();
+         condpainter.drawCondition();
          return condpainter.drawLabel();
       }
 
       // from here normal code for plain THttpServer
-      if ((option=='editor') || !cond.fxHistoName) {
-
+      if ((option == 'editor') || !cond.fxHistoName) {
          const rect = elem.node().getBoundingClientRect();
          if ((rect.height < 10) && (rect.width > 10))
-            elem.style("height", Math.round(rect.width*0.4) + "px");
+            elem.style('height', Math.round(rect.width*0.4) + 'px');
          const editor = new ConditionEditor(dom, cond);
          return editor.drawEditor();
       }
@@ -543,7 +537,7 @@ class ConditionPainter extends ObjectPainter {
       let histofullpath = null;
 
       hpainter.forEachItem(h => {
-         if ((h._name == cond.fxHistoName) && h._kind && (h._kind.indexOf("ROOT.TH") == 0))
+         if ((h._name == cond.fxHistoName) && h._kind && (h._kind.indexOf('ROOT.TH') == 0))
             histofullpath = hpainter.itemFullName(h);
       });
 
@@ -556,13 +550,15 @@ class ConditionPainter extends ObjectPainter {
       }
 
       return hpainter.display(histofullpath, '', dom).then(hist_painter => {
-         if (!hist_painter)
-            return console.log('fail to draw histogram ' + histofullpath);
+         if (!hist_painter) {
+            console.log('fail to draw histogram ' + histofullpath);
+            return null;
+         }
 
-         condpainter = new ConditionPainter(hist_painter.getDrawDom(), cond);
-         condpainter.drawCondition();
          condpainter.addToPadPrimitives();
+         condpainter.drawCondition();
          return condpainter.drawLabel();
+
       });
    }
 
@@ -574,7 +570,7 @@ function drawCondArray(dom, obj, option) {
          main = getElementMainPainter(dom);
    let first = null;
 
-   function drawNext(i) {
+   async function drawNext(i) {
       if (i >= num)
          return first;
 
@@ -587,8 +583,12 @@ function drawCondArray(dom, obj, option) {
       }
 
       return ConditionPainter.draw(dom, cond, ((i > 0) || main) ? 'same' : '').then(p => {
-         if (!first)
+         if (!p)
+            return null;
+         if (!first) {
             first = p;
+            dom = p.getDrawDom();
+         }
          return drawNext(i + 1);
       });
    }
