@@ -393,12 +393,14 @@ void TGo4AnalysisWindow::SaveAnalysisOutput()
    if (flst.isEmpty()) return;
    QString fileName = flst[0];
 
-   if(!fileName.endsWith(".txt")) fileName.append(".txt");
+   if(!fileName.endsWith(".txt"))
+      fileName.append(".txt");
    QFile NewFile(fileName);
-   NewFile.open( QIODevice::ReadWrite | QIODevice::Append );
-   QTextStream t( &NewFile );
-   t << fxOutput->toPlainText() << "\n";
-   NewFile.close();
+   if (NewFile.open( QIODevice::ReadWrite | QIODevice::Append )) {
+      QTextStream t( &NewFile );
+      t << fxOutput->toPlainText() << "\n";
+      NewFile.close();
+   }
 }
 
 void TGo4AnalysisWindow::CommandSlot()

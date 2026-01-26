@@ -117,27 +117,29 @@ void TGo4LogInfo::ClearLogInfo()
 
 void TGo4LogInfo::SaveLogInfo()
 {
-    QString TextToSave;
-    QFileDialog fd( this, "Save analysis log window", QString(),
-          "Plain text (*.txt)");
-    fd.setFileMode( QFileDialog::AnyFile );
-    fd.setAcceptMode(QFileDialog::AcceptSave);
+   QString TextToSave;
+   QFileDialog fd( this, "Save analysis log window", QString(),
+                 "Plain text (*.txt)");
+   fd.setFileMode( QFileDialog::AnyFile );
+   fd.setAcceptMode(QFileDialog::AcceptSave);
 
-    if (fd.exec() != QDialog::Accepted) return;
+   if (fd.exec() != QDialog::Accepted)
+      return;
 
-    QStringList flst = fd.selectedFiles();
-    if (flst.isEmpty()) return;
+   QStringList flst = fd.selectedFiles();
+   if (flst.isEmpty()) return;
 
-    QString fileName = flst[0];
-    if(!fileName.endsWith(".txt")) fileName.append(".txt");
-    QFile NewFile(fileName);
-    NewFile.open( QIODevice::ReadWrite | QIODevice::Append );
-    QTextStream t( &NewFile );
-
-    QTreeWidgetItemIterator it(LogText);
-    while (*it) {
-       QTreeWidgetItem* itm = *it++;
-       t << itm->text(0) << " " << itm->text(1) << " " << itm->text(3) << "\n";
-    }
-    NewFile.close();
+   QString fileName = flst[0];
+   if(!fileName.endsWith(".txt"))
+      fileName.append(".txt");
+   QFile NewFile(fileName);
+   if (NewFile.open( QIODevice::ReadWrite | QIODevice::Append )) {
+      QTextStream t( &NewFile );
+      QTreeWidgetItemIterator it(LogText);
+      while (*it) {
+         QTreeWidgetItem* itm = *it++;
+         t << itm->text(0) << " " << itm->text(1) << " " << itm->text(3) << "\n";
+      }
+      NewFile.close();
+   }
 }
