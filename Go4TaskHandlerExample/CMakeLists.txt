@@ -43,7 +43,7 @@ GO4_STANDARD_LIBRARY(Go4TaskHandlerExampleLib
                      LIBRARIES ${Go4Base_LIBRARY} ${Go4ThreadManager_LIBRARY} ${Go4TaskHandler_LIBRARY})
 
 add_executable(MainGo4TaskHandlerClient MainGo4TaskHandlerClient.cxx)
-target_link_libraries(MainGo4TaskHandlerClient ${ROOT_LIBRARIES} Go4TaskHandlerExampleLib)
+target_link_libraries(MainGo4TaskHandlerClient PUBLIC ${ROOT_LIBRARIES} Go4TaskHandlerExampleLib)
 
 add_executable(MainGo4TaskHandlerServer MainGo4TaskHandlerServer.cxx)
-target_link_libraries(MainGo4TaskHandlerServer ${ROOT_LIBRARIES} Go4TaskHandlerExampleLib)
+target_link_libraries(MainGo4TaskHandlerServer PUBLIC ${ROOT_LIBRARIES} Go4TaskHandlerExampleLib)

@@ -11,4 +11,4 @@ GO4_STANDARD_LIBRARY(Go4ThreadManagerExampleLib
                      LIBRARIES ${Go4Base_LIBRARY} ${Go4ThreadManager_LIBRARY})
 
 add_executable(Go4ThreadManagerExample MainGo4ThreadManagerExample.cxx)
-target_link_libraries(Go4ThreadManagerExample ${ROOT_LIBRARIES} Go4ThreadManagerExampleLib)
+target_link_libraries(Go4ThreadManagerExample PUBLIC ${ROOT_LIBRARIES} Go4ThreadManagerExampleLib)
