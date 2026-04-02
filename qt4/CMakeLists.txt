@@ -377,7 +377,7 @@ target_include_directories(go4 PRIVATE
 
 link_directories(${CMAKE_BINARY_DIR}/lib)
 
-target_link_libraries(go4
+target_link_libraries(go4 PUBLIC
    ${qt_libs}
    ${ROOT_LIBRARIES}
    ${ROOT_Minuit_LIBRARY} ${ROOT_Ged_LIBRARY} ${ROOT_TreePlayer_LIBRARY}

@@ -179,7 +179,7 @@ endif()
 # ================== go4analysis executable =================
 
 add_executable(MainUserAnalysis Go4Analysis/MainUserAnalysis.cxx)
-target_link_libraries(MainUserAnalysis Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase Go4Analysis)
+target_link_libraries(MainUserAnalysis PUBLIC Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase Go4Analysis)
 target_include_directories(MainUserAnalysis PRIVATE ${CMAKE_BINARY_DIR}/include)
 target_compile_definitions(MainUserAnalysis PRIVATE ${http_def} ${hdf5_def} ${dabc_def})
 set_target_properties(MainUserAnalysis PROPERTIES OUTPUT_NAME go4analysis)
@@ -198,7 +198,7 @@ GO4_STANDARD_LIBRARY(Go4Gui
                      LIBRARIES ${ROOT_Gui_LIBRARY})
 
 if(DABC_FOUND)
-   target_link_libraries(Go4Gui dabc::DabcBase)
+   target_link_libraries(Go4Gui PUBLIC dabc::DabcBase)
 else()
    set_source_files_properties(Go4Proxies/TGo4DabcProxy.cxx PROPERTIES COMPILE_DEFINITIONS WITHOUT_DABC)
 endif()

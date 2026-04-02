@@ -15,4 +15,4 @@ GO4_INSTALL_HEADERS(${Go4Queue_headers})
 GO4_SOURCES(Go4TaskHandler HEADERS ${Go4Queue_headers} SOURCES ${Go4Queue_sources})
 
 add_executable(MainGo4Queue MainGo4Queue.cxx)
-target_link_libraries(MainGo4Queue Go4Base Go4ThreadManager Go4TaskHandler)
+target_link_libraries(MainGo4Queue PUBLIC Go4Base Go4ThreadManager Go4TaskHandler)

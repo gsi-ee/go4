@@ -19,5 +19,5 @@ GO4_USER_ANALYSIS(
 )
 
 add_executable(MainGo4EventServerExample MainGo4EventServerExample.cxx)
-target_link_libraries(MainGo4EventServerExample ${ROOT_LIBRARIES} Go4EventServerExampleLib)
+target_link_libraries(MainGo4EventServerExample PUBLIC ${ROOT_LIBRARIES} Go4EventServerExampleLib)
 
