@@ -618,8 +618,11 @@ Bool_t TGo4AnalysisWebStatus::WriteAutoSave(const char *fname,
    auto ana = TGo4Analysis::Instance();
    if (!ana) return kFALSE;
 
+   Bool_t oldflag = ana->IsAutoSaveOn();
+   ana->SetAutoSave(kTRUE);
    ana->SetAutoSaveFile(fname, overwrite, complevel);
    ana->AutoSave();
+   ana->SetAutoSave(oldflag);
 
    return kTRUE;
 }
