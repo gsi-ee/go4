@@ -640,7 +640,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint &pos)
          if (TGo4BrowserProxy::CanInfoItem(cando))
            ninfo++;
 
-         istopmemory = (itemslot==memslot);
+         istopmemory = (itemslot == memslot);
 
          if (ismemitem || istopmemory)
            nmemory++;
@@ -653,13 +653,16 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint &pos)
               nexport++;
          }
 
-         bool isanalysisitem = (itemslot==analslot) || itemslot->IsParent(analslot);
+         bool isanalysisitem = (itemslot == analslot) || itemslot->IsParent(analslot);
 
-         if (isanalysisitem) nanalysis++;
+         if (isanalysisitem)
+            nanalysis++;
 
-         if (itemclassname && (strcmp(itemclassname,"TGo4DabcProxy") == 0)) nremote++;
+         if (itemclassname && (strcmp(itemclassname,"TGo4DabcProxy") == 0))
+            nremote++;
 
-         if (itemclassname && (strcmp(itemclassname,"TGo4ServerProxy") == 0)) nremote++;
+         if (itemclassname && (strcmp(itemclassname,"TGo4ServerProxy") == 0))
+            nremote++;
 
          if (br->IsItemRemote(itemslot)) {
             nremote++;
