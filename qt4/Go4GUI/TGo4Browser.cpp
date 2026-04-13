@@ -573,7 +573,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint &pos)
    int nitems = 0, nmemory = 0, nclose = 0, ndraw = 0, nsuperimpose = 0, si_kind = -1,
        nremote = 0, nanalysis = 0, nmonitor = 0, nclear = 0, nclearlocal = 0, nclearproton = 0,
        nclearprotoff = 0, ndelprotoff = 0, nobjects = 0, nfolders = 0, nedits = 0, ninfo = 0,
-       nexport = 0, ndelete = 0, nassigned = 0, nexpand = 0, nexecute = 0;
+       nexport = 0, ndelete = 0, nexpand = 0, nexecute = 0;
 
    QTreeWidgetItemIterator it(ListView);
    for ( ; *it; ++it )
@@ -648,8 +648,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint &pos)
          if (ismemitem && TGo4BrowserProxy::CanClearItem(cando))
             nclearlocal++;
 
-         if ((kind==TGo4Access::kndObject) && itemslot->GetAssignedObject()) {
-            nassigned++;
+         if ((kind == TGo4Access::kndObject) && itemslot->GetAssignedObject()) {
             if (TGo4BrowserProxy::CanExportItem(cando))
               nexport++;
          }
