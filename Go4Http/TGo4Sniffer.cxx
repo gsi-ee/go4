@@ -84,8 +84,6 @@ TGo4Sniffer::TGo4Sniffer(const char *name) :
 
 #ifdef __ROOT_HAVE_POST_ALLOWED__
    SetAllowPostObject(kTRUE);
-#else
-   quatch
 #endif
 
    #if ROOT_VERSION_CODE >= ROOT_VERSION(6,33,0)
