@@ -82,6 +82,12 @@ TGo4Sniffer::TGo4Sniffer(const char *name) :
    SetReadOnly(kFALSE);
    SetScanGlobalDir(kFALSE);
 
+#ifdef __ROOT_HAVE_POST_ALLOWED__
+   SetAllowPostObject(kTRUE);
+#else
+   quatch
+#endif
+
    #if ROOT_VERSION_CODE >= ROOT_VERSION(6,33,0)
    fAutoLoadArg = "go4sys/html5/go4.mjs";
    #else
