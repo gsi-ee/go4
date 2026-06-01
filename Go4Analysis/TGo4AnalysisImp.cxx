@@ -296,6 +296,7 @@ TGo4Analysis::~TGo4Analysis()
    SafeDelete(fxSampleEvent);
    TGo4CommandInvoker::UnRegister(this);
    fxInstance = nullptr; // reset static singleton instance pointer
+   fbExists = kFALSE; // reset static flag which indicate existance of analysis instance
    gROOT->ProcessLineSync(TString::Format(".x %s", TGo4Log::subGO4SYS("macros/anamacroclose.C").Data()).Data());
 }
 
