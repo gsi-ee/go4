@@ -268,8 +268,8 @@ void TGo4Analysis::Constructor()
       Message(2,"Analysis BaseClass ctor -- analysis singleton already exists !!!");
    }
    // settings for macro execution
-   TInterpreter* theI = gROOT->GetInterpreter();
-   theI->SetProcessLineLock(kTRUE); // mandatory for ROOT > 6.12
+   if (auto theI = gROOT->GetInterpreter())
+      theI->SetProcessLineLock(kTRUE); // mandatory for ROOT > 6.12
 
    gROOT->ProcessLineSync("TGo4Analysis *go4 = TGo4Analysis::Instance();");
    gROOT->ProcessLineSync(TString::Format(".x %s", TGo4Log::subGO4SYS("macros/anamacroinit.C").Data()).Data());
