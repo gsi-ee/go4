@@ -15,11 +15,9 @@ void setup(const char *kind, const char *name)
 // odir/name_AS
 // odir/name_unpacked
 // odir/name_analyzed
-  Text_t sourcedir[512]; // source directory
 
 // steering parameters to modify:
-  sprintf(sourcedir,"%s/data",getenv("GO4SYS"));
-  TString inpath(sourcedir);  // input directory
+  TString inpath = TGo4Log::subGO4SYS("data");  // input directory
   TString outpath("."); // output directory
 
   TString unpackSource(kind); // -file, -stream, -transport, -random
