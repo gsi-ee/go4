@@ -1291,16 +1291,17 @@ int main(int argc, char **argv)
          if (!analysis->InitEventClasses()) {
             TGo4Log::Error("Main: Init event classes failed, aborting!");
             enter_loop = kFALSE;
-         } else {
-            if (canrun >= 0) analysis->StartAnalysis();
+         } else if (canrun >= 0) {
+            analysis->StartAnalysis();
          }
       }
 
-      if (enter_loop) {
+      if (enter_loop)
          analysis->RunImplicitLoop(maxevents, showrate, process_interv, httpmode);
-         delete analysis;
-         TGo4Log::Info("Main: analysis batch done");
-      }
+
+      delete analysis;
+
+      TGo4Log::Info("Main: analysis batch done");
    } else {
       if (!hostname) hostname = "localhost";
 
