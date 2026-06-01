@@ -993,9 +993,9 @@ Int_t TGo4Analysis::PreLoop()
    fiAutoSaveCount = 0;
    Int_t rev = UserPreLoop();
    for (Int_t num = 0; num < fxStepManager->GetNumberOfAnalysisSteps(); num++) {
-      TGo4AnalysisStep *step = fxStepManager->GetAnalysisStepNum(num);
-      TGo4EventProcessor *proc = step ? step->GetEventProcessor() : nullptr;
-      if (proc) proc->UserPreLoop();
+      if (auto step = fxStepManager->GetAnalysisStepNum(num))
+         if (auto proc = step->GetEventProcessor())
+            proc->UserPreLoop();
    }
 
    fxAutoSaveClock->Start(kTRUE);
@@ -1017,9 +1017,9 @@ Int_t TGo4Analysis::PostLoop()
    /////////////////////
    if(fbInitIsDone) {
       for (Int_t num = 0; num < fxStepManager->GetNumberOfAnalysisSteps(); num++) {
-         TGo4AnalysisStep *step = fxStepManager->GetAnalysisStepNum(num);
-         TGo4EventProcessor *proc = step ? step->GetEventProcessor() : nullptr;
-         if (proc) proc->UserPostLoop();
+         if (auto step = fxStepManager->GetAnalysisStepNum(num))
+            if (auto proc = step->GetEventProcessor())
+               proc->UserPostLoop();
       }
 
       rev = UserPostLoop(); // do not call userpostloop after error in initialization
