@@ -283,19 +283,17 @@ TGo4Analysis::~TGo4Analysis()
    InstallGo4CtrlCHandler(false);
 #endif
 
-   if (fxInterruptHandler) {
-      delete fxInterruptHandler;
-      fxInterruptHandler = nullptr;
-   }
+   SafeDelete(fxInterruptHandler);
 
    GO4TRACE((15,"TGo4Analysis::~TGo4Analysis()",__LINE__, __FILE__));
    CloseAnalysis();
    CloseAutoSaveFile();
-   delete fxStepManager;
-   delete fxObjectManager;
-   delete fxObjectNames;
-   delete fxAutoSaveClock;
-   delete fxSampleEvent;
+   SafeDelete(fxStepManager);
+   SafeDelete(fxObjectManager);
+   SafeDelete(fxObjectNames);
+   SafeDelete(fxAutoSaveClock);
+   SafeDelete(fxAutoSaveMutex);
+   SafeDelete(fxSampleEvent);
    TGo4CommandInvoker::UnRegister(this);
    fxInstance = nullptr; // reset static singleton instance pointer
    gROOT->ProcessLineSync(TString::Format(".x %s", TGo4Log::subGO4SYS("macros/anamacroclose.C").Data()).Data());
