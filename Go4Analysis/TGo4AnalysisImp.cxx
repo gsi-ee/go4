@@ -432,13 +432,10 @@ Int_t TGo4Analysis::Process()
          {
             rev=-1;
          }
-         //return -1;
          else
          {
-            TDirectory *savdir = gDirectory;
-            gROOT->cd(); // necessary for dynamic list scope
+            TDirectory::TContext ctxt(gROOT);
             MainCycle();
-            savdir->cd();
          }
       }
 
@@ -928,22 +925,20 @@ Bool_t TGo4Analysis::SaveStatus(const char *filename)
 TGo4AnalysisStatus *TGo4Analysis::CreateStatus()
 {
    GO4TRACE((11,"TGo4Analysis::CreateStatus()",__LINE__, __FILE__));
-   TDirectory *filsav = gDirectory;
-   gROOT->cd();
-   TGo4AnalysisStatus *state= new TGo4AnalysisStatus(GetName());
+
+   TDirectory::TContext ctxt(gROOT);
+   auto state = new TGo4AnalysisStatus(GetName());
    UpdateStatus(state);
-   filsav->cd();
    return state;
 }
 
 TGo4AnalysisWebStatus *TGo4Analysis::CreateWebStatus()
 {
    GO4TRACE((11,"TGo4Analysis::CreateWebStatus()",__LINE__, __FILE__));
-   TDirectory *filsav = gDirectory;
-   gROOT->cd();
-   TGo4AnalysisWebStatus *state= new TGo4AnalysisWebStatus(GetName());
+
+   TDirectory::TContext ctxt(gROOT);
+   auto state = new TGo4AnalysisWebStatus(GetName());
    UpdateStatus(state);
-   filsav->cd();
    return state;
 }
 
@@ -2086,7 +2081,8 @@ TGo4ShapedCond *TGo4Analysis::MakeCircleCond(const char *fullname,
            const char *HistoName)
 {
    TGo4ShapedCond *elli = MakeEllipseCond(fullname, npoints, cx, cy, r, r, 0, HistoName);
-   elli->SetCircle(); // mark "circle shape" property
+   if (elli)
+      elli->SetCircle(); // mark "circle shape" property
    return elli;
 }
 
@@ -2094,7 +2090,8 @@ TGo4ShapedCond *TGo4Analysis::MakeBoxCond(const char *fullname, Double_t cx, Dou
                const char *HistoName)
 {
    TGo4ShapedCond *elli = MakeEllipseCond(fullname, 4, cx, cy, a1, a2, theta, HistoName);
-   elli->SetBox(); // convert to  "box shape" property
+   if (elli)
+      elli->SetBox(); // convert to  "box shape" property
    return elli;
 }
 
@@ -2103,8 +2100,9 @@ TGo4ShapedCond *TGo4Analysis::MakeFreeShapeCond(const char *fullname,
                                    Double_t (*points) [2],
                                    const char *HistoName)
 {
-   TGo4ShapedCond *elli=dynamic_cast<TGo4ShapedCond*>(MakePolyCond(fullname, npoints, points, HistoName,true));
-   elli->SetFreeShape();
+   TGo4ShapedCond *elli = dynamic_cast<TGo4ShapedCond*>(MakePolyCond(fullname, npoints, points, HistoName,true));
+   if (elli)
+      elli->SetFreeShape();
    return elli;
 }
 
