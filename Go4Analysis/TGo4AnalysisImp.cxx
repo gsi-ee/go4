@@ -792,8 +792,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
    if (showrate) {
       printf("\n"); fflush(stdout);
    }
-   delete fxRate;
-   fxRate = nullptr;
+   SafeDelete(fxRate);
    /////////// end outer catch block
    return cnt;
 }
@@ -847,10 +846,11 @@ Bool_t TGo4Analysis::LoadStatus(const char *filename)
    GO4TRACE((11,"TGo4Analysis::LoadStatus(const char *)",__LINE__, __FILE__));
    //
    Bool_t rev = kFALSE;
-   TString fname = filename ? filename : fgcDEFAULTSTATUSFILENAME;
+   TString fname = filename && *filename ? filename : fgcDEFAULTSTATUSFILENAME;
 
    // file suffix if not given by user
-   if(!fname.Contains(fgcDEFAULTFILESUF)) fname.Append(fgcDEFAULTFILESUF);
+   if(!fname.Contains(fgcDEFAULTFILESUF))
+      fname.Append(fgcDEFAULTFILESUF);
 
    TFile *statusfile = TFile::Open(fname.Data(), "READ");
    if(statusfile && statusfile->IsOpen()) {
@@ -908,7 +908,6 @@ Bool_t TGo4Analysis::SaveStatus(const char *filename)
       if(state) {
          state->Write();
          delete state;
-         delete statusfile;
          rev = kTRUE;
          Message(-1,"Analysis SaveStatus: Saved Analysis settings to file %s", buffer);
       } else {
@@ -920,6 +919,9 @@ Bool_t TGo4Analysis::SaveStatus(const char *filename)
             buffer);
       rev = kFALSE;
    }  // if(statusfile && statusfile->IsOpen())
+
+   delete statusfile;
+
    return rev;
 }
 
