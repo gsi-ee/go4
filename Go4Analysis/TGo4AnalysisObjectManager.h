@@ -718,7 +718,6 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
       TFolder *fxGo4Dir{nullptr};
 
-
       /**
        * Directory containing all histogram objects to be used by dynamic list
        * and user analysis.

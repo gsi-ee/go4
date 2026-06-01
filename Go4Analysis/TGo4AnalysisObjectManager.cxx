@@ -93,18 +93,17 @@ const char *TGo4AnalysisObjectManager::GetUSRFOLDER() { return fgcUSRFOLDER; }
 const char *TGo4AnalysisObjectManager::GetTMPFOLDER() { return fgcTMPFOLDER; }
 
 
+void SafeFolderClear(TFolder *folder)
+{
+   if (folder)
+      folder->Clear();
+}
+
 
 #define fguSUBFOLDERMAXLEN 1024
 
 TGo4AnalysisObjectManager::TGo4AnalysisObjectManager(const char *name) :
-   TNamed(name,"The Go4 Analysis Object Manager"),
-   fxGo4Dir(nullptr),fxHistogramDir(nullptr),fxConditionDir(nullptr), fxParameterDir(nullptr),
-   fxDynListDir(nullptr),fxUserDir(nullptr), fxTreeDir(nullptr), fxPictureDir(nullptr), fxCanvasDir(nullptr),
-   fxStoreDir(nullptr), fxSourceDir(nullptr), fxProcessorDir(nullptr), fxEventDir(nullptr),
-   fxAnalysisDir(nullptr), fxTempFolder(nullptr),
-   fxMatchList(nullptr), fxMatchIterator(nullptr),
-   fiDynListCount(0), fiDynListInterval(0),
-   fbCreatedinMake(kFALSE), fbSuppressLoadHistograms(kFALSE), fbSortedOrder(kFALSE)
+   TNamed(name,"The Go4 Analysis Object Manager")
 {
    fxDirMutex = new TMutex(kTRUE);
    fxGo4Dir = gROOT->GetRootFolder()->AddFolder(fgcTOPFOLDER,"The Go4 Object folder");
@@ -145,18 +144,9 @@ TGo4AnalysisObjectManager::TGo4AnalysisObjectManager(const char *name) :
    gROOT->GetListOfCleanups()->Add(this);
 }
 
-TGo4AnalysisObjectManager::TGo4AnalysisObjectManager() :
-   TNamed(),
-   fxGo4Dir(nullptr),fxHistogramDir(nullptr),fxConditionDir(nullptr),
-   fxDynListDir(nullptr), fxUserDir(nullptr), fxTreeDir(nullptr), fxPictureDir(nullptr), fxCanvasDir(nullptr),
-   fxStoreDir(nullptr), fxSourceDir(nullptr), fxProcessorDir(nullptr), fxEventDir(nullptr),
-   fxAnalysisDir(nullptr), fxTempFolder(nullptr),
-   fxMatchList(nullptr), fxMatchIterator(nullptr),
-   fiDynListCount(0), fiDynListInterval(0),
-   fbCreatedinMake(kFALSE), fbSuppressLoadHistograms(kFALSE), fbSortedOrder(kFALSE)
+TGo4AnalysisObjectManager::TGo4AnalysisObjectManager()
 {
    // ctor for streamer only!
-
    gROOT->GetListOfCleanups()->Add(this);
 }
 
@@ -165,39 +155,39 @@ TGo4AnalysisObjectManager::~TGo4AnalysisObjectManager()
 {
    gROOT->GetListOfCleanups()->Remove(this);
 
-   delete fxMatchIterator;
-   delete fxMatchList;
+   SafeDelete(fxMatchIterator);
+   SafeDelete(fxMatchList);
    gROOT->GetListOfBrowsables()->Remove(fxGo4Dir);
 
    gROOT->GetRootFolder()->Remove(fxTempFolder);
    gROOT->GetRootFolder()->Remove(fxGo4Dir);
 
    //   disable canvas clear - does not work for some reasons
-   fxCanvasDir->Clear();
+   SafeFolderClear(fxCanvasDir);
 
-   fxHistogramDir->Clear();
-   fxConditionDir->Clear();
-   fxParameterDir->Clear();
-   fxDynListDir->Clear();
-   fxUserDir->Clear();
-   fxTreeDir->Clear();
-   fxPictureDir->Clear();
+   SafeFolderClear(fxHistogramDir);
+   SafeFolderClear(fxConditionDir);
+   SafeFolderClear(fxParameterDir);
+   SafeFolderClear(fxDynListDir);
+   SafeFolderClear(fxUserDir);
+   SafeFolderClear(fxTreeDir);
+   SafeFolderClear(fxPictureDir);
 
-   fxEventDir->Clear();
-   fxProcessorDir->Clear();
-   fxStoreDir->Clear();
-   fxSourceDir->Clear();
-   fxGo4Dir->Clear();
-   fxTempFolder->Clear();
+   SafeFolderClear(fxEventDir);
+   SafeFolderClear(fxProcessorDir);
+   SafeFolderClear(fxStoreDir);
+   SafeFolderClear(fxSourceDir);
+   SafeFolderClear(fxGo4Dir);
+   SafeFolderClear(fxTempFolder);
 
-   delete fxTempFolder;
-   delete fxGo4Dir;
-   delete fxDirMutex;
+   SafeDelete(fxTempFolder);
+   SafeDelete(fxGo4Dir);
+   SafeDelete(fxDirMutex);
 }
 
 void TGo4AnalysisObjectManager::RecursiveRemove(TObject *obj)
 {
-   if (obj && (obj!=this)) {
+   if (obj && (obj != this)) {
       // remove objects from canvas folder - it may happen that canvas automatically deleted
       if (fxCanvasDir) fxCanvasDir->RecursiveRemove(obj);
    }
@@ -1089,13 +1079,13 @@ void TGo4AnalysisObjectManager::SaveObjects(TFile *file)
    //fxGo4Dir->Write(0, TObject::kOverwrite);
    /////// end old implementation ///////////////////////////////
    ////// begin new implementation: transform folder into subdirectories of output file
-   TDirectory *savdir = gDirectory;
-   file->cd();
-   // file->Delete("T*;*"); // remove old contents (get rid of deleted dynamic objects)
-   // note: we always use RECREATE option on saving now. No need to cleanup old file!
-   SaveFolder(fxGo4Dir);
-   file->Write(nullptr, TObject::kOverwrite); // write all appended objects and subdirs
-   savdir->cd();
+   {
+      TDirectory::TContext ctxt(file);
+      // file->Delete("T*;*"); // remove old contents (get rid of deleted dynamic objects)
+      // note: we always use RECREATE option on saving now. No need to cleanup old file!
+      SaveFolder(fxGo4Dir);
+      file->Write(nullptr, TObject::kOverwrite); // write all appended objects and subdirs
+   }
    RemoveFromDir(fxGo4Dir,file); // prevent object deletion on closing the file
    ////// end new implementation ////////////////
    fxGo4Dir->Add(fxTreeDir);
@@ -1539,8 +1529,8 @@ Bool_t TGo4AnalysisObjectManager::LoadFolder(TDirectory *source, TFolder *destin
    if(!source || !destination) return kFALSE;
    TGo4LockGuard  dirguard(fxDirMutex);
    Bool_t rev = kTRUE;
-   TDirectory *savdir = gDirectory;
-   source->cd(); // this is necessary to let the TKey::ReadObj work!
+   // this is necessary to let the TKey::ReadObj work!
+   TDirectory::TContext ctxt(source);
    source->ReadKeys();
    TIter keyiter(source->GetListOfKeys());
    while (auto keyob = keyiter()) {
@@ -1576,7 +1566,6 @@ Bool_t TGo4AnalysisObjectManager::LoadFolder(TDirectory *source, TFolder *destin
          rev = PutToFolder(ob, destination, replace);
       }
    } // while(..)
-   savdir->cd();
    return rev;
 }
 
@@ -1642,9 +1631,8 @@ Bool_t TGo4AnalysisObjectManager::SaveFolder(TFolder *source)
             TDirectory *currentdir = gDirectory;
             const char *subfoldername = subfolder->GetName();
             TDirectory *subdir = dynamic_cast<TDirectory *>(currentdir->Get(subfoldername));
-            if (!subdir) {
+            if (!subdir)
                subdir = currentdir->mkdir(subfoldername, "subdir");
-            }
 
             if (subdir) {
                subdir->cd();
@@ -1653,7 +1641,8 @@ Bool_t TGo4AnalysisObjectManager::SaveFolder(TFolder *source)
                TGo4Analysis::Instance()->Message(2, "Analysis SaveFolder: Could not assign subdirectory %s to folder.",
                                                  subfoldername);
             }
-            currentdir->cd();
+            if (currentdir)
+               currentdir->cd();
          }
       } else
          AppendToDir(ob, gDirectory);
@@ -1949,6 +1938,7 @@ TObject *TGo4AnalysisObjectManager::FindObjectInFolder(TFolder *folder, const ch
 
    return folder ? folder->FindObjectAny(fullname) : nullptr;
 }
+
 
 TObject *TGo4AnalysisObjectManager::TestObject(TFolder *folder, const char *&pathname, const char *objectname, const TClass *cl)
 {
