@@ -132,7 +132,7 @@ void TGo4FitMinuitResult::CallMNEMAT(TMinuit *fMinuit, Int_t nPars, Bool_t DoTra
 
 void TGo4FitMinuitResult::GetContourPlot(TMinuit *fMinuit)
 {
-   Int_t sz = strlen(fMinuit->fChpt);
+   Int_t sz = fMinuit->fChpt ? strlen(fMinuit->fChpt) : 0;
    if (sz == 0)
       return;
    CONTOX = new TArrayD(sz);
