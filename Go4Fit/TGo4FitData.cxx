@@ -29,7 +29,7 @@ TGo4FitData::TGo4FitData()
    : TGo4FitComponent(), fiDataType(0), fbUseBinScale(kFALSE), fiTakeSigmasFrom(1), fdSigmaValue(1.),
      fdExcludeLessThen(0.), fxAxisTrans()
 {
-   ResetAllPoinetrs();
+   ResetAllPointers();
 }
 
 TGo4FitData::TGo4FitData(const char *iName, const char *iTitle, Int_t iDataType, Bool_t AddAmpl)
@@ -37,7 +37,7 @@ TGo4FitData::TGo4FitData(const char *iName, const char *iTitle, Int_t iDataType,
      fdSigmaValue(1.), fdExcludeLessThen(0.), fxAxisTrans()
 {
 
-   ResetAllPoinetrs();
+   ResetAllPointers();
 
    if (AddAmpl)
       NewAmplitude("Ampl", 1.0, kTRUE);
@@ -192,7 +192,7 @@ void TGo4FitData::Finalize()
    ReleaseAllPointers();
 }
 
-void TGo4FitData::ResetAllPoinetrs()
+void TGo4FitData::ResetAllPointers()
 {
    fiBinsSize = 0;
    fiIndexesSize = 0;
@@ -228,7 +228,7 @@ void TGo4FitData::ReleaseAllPointers()
    if (fxFullWidth)
       delete[] fxFullWidth;
 
-   ResetAllPoinetrs();
+   ResetAllPointers();
 }
 
 Bool_t TGo4FitData::DefineScaleMinMax(Int_t naxis, Double_t &min, Double_t &max)
