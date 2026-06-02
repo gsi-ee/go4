@@ -138,8 +138,7 @@ Bool_t TGo4FitParsList::GetParRange(const char *ParName, Double_t &RangeMin, Dou
 
 Bool_t TGo4FitParsList::SetParEpsilon(const char *ParName, Double_t Epsilon)
 {
-   TGo4FitParameter *par = Find(ParName);
-   if (par) {
+   if (auto par = Find(ParName)) {
       par->SetEpsilon(Epsilon);
       return kTRUE;
    }
@@ -148,27 +147,27 @@ Bool_t TGo4FitParsList::SetParEpsilon(const char *ParName, Double_t Epsilon)
 
 Bool_t TGo4FitParsList::GetParEpsilon(const char *ParName, Double_t &Epsilon)
 {
-   TGo4FitParameter *par = Find(ParName);
+   auto par = Find(ParName);
    return par ? par->GetEpsilon(Epsilon) : kFALSE;
 }
 
 void TGo4FitParsList::SetParName(Int_t n, const char *name)
 {
-   if (Get(n))
-      Get(n)->SetName(name);
+   if (auto par = Get(n))
+      par->SetName(name);
 }
 
 const char *TGo4FitParsList::GetParName(Int_t n)
 {
-   if (Get(n))
-      return Get(n)->GetName();
+   if (auto par = Get(n))
+      return par->GetName();
    return nullptr;
 }
 
 const char *TGo4FitParsList::GetParFullName(Int_t n)
 {
-   if (Get(n))
-      return Get(n)->GetFullName();
+   if (auto par = Get(n))
+      return par->GetFullName();
    return nullptr;
 }
 
@@ -248,11 +247,12 @@ void TGo4FitParsList::PrintPars() const
 {
    std::cout << std::endl << "*** LIST OF PARAMETERS VALUE ***" << std::endl;
 
-   TGo4FitParsList *l = (TGo4FitParsList *)this;
+   auto l = const_cast<TGo4FitParsList *>(this);
 
    int maxparlen = 14;
    for (Int_t np = 0; np < l->NumPars(); np++) {
-      int len = strlen(l->GetParFullName(np));
+      const char *fullname = l->GetParFullName(np);
+      int len = fullname ? strlen(fullname) : 0;
       if (len > maxparlen)
          maxparlen = len;
    }
