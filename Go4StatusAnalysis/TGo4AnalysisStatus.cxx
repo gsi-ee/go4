@@ -95,8 +95,9 @@ void TGo4AnalysisStatus::ResetStepIterator()
 
 Bool_t TGo4AnalysisStatus::AddStepStatus(TGo4AnalysisStepStatus * next)
 {
-   if(!fxStepArray) return kFALSE;
-   if(next) {
+   if(!fxStepArray)
+      return kFALSE;
+   if (next) {
       TGo4LockGuard  listguard(fxStepMutex);
       fxStepArray->AddLast(next);
       return kTRUE;
@@ -106,8 +107,10 @@ Bool_t TGo4AnalysisStatus::AddStepStatus(TGo4AnalysisStepStatus * next)
 
 void TGo4AnalysisStatus::ClearStepStatus()
 {
-  TGo4LockGuard  listguard(fxStepMutex);
-  fxStepArray->Delete();
+   if (!fxStepArray)
+      return;
+   TGo4LockGuard  listguard(fxStepMutex);
+   fxStepArray->Delete();
 }
 
 
