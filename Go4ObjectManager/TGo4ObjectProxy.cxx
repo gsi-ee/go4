@@ -72,7 +72,8 @@ TGo4ObjectProxy::TGo4ObjectProxy(TObject *obj, Bool_t owner) :
 
 TGo4ObjectProxy::~TGo4ObjectProxy()
 {
-   if (fOwner) delete fObject;
+   if (fOwner && fObject)
+      delete fObject;
 }
 
 void TGo4ObjectProxy::Initialize(TGo4Slot *slot)

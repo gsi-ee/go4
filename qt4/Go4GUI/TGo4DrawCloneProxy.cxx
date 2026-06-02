@@ -142,11 +142,11 @@ TObject *TGo4DrawCloneProxy::GetAssignedObject()
 
 Bool_t TGo4DrawCloneProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void *param)
 {
-   if (id==TGo4Slot::evObjAssigned) {
+   if (id == TGo4Slot::evObjAssigned) {
       TObject *obj = GetLink()->GetAssignedObject();
       AssignClone(obj, slot);
       ChangeTitle(obj);
-   } else if ((id==TGo4Slot::evObjUpdated) || (id==TGo4Slot::evContAssigned)) {
+   } else if ((id == TGo4Slot::evObjUpdated) || (id == TGo4Slot::evContAssigned)) {
       bool res = kFALSE;
       TObject *obj = GetLink()->GetAssignedObject();
       if (obj) {

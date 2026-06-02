@@ -229,16 +229,15 @@ Bool_t TGo4BrowserProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id
 {
    bool ischildevent = source->IsParent(slot);
 
-//   Info("ProcessEvent","Source %x %s event %d", source, source->GetName(), id);
-
-   if ((source!=slot) && !ischildevent) {
+   if ((source != slot) && !ischildevent) {
       if (source->GetParent()) {
          TGo4ServerProxy *serv = dynamic_cast<TGo4ServerProxy *>(source->GetParent()->GetProxy());
          if (serv && serv->IsGo4Analysis()) return kFALSE; // suppress message from analysis subitems
       }
 
       if (!fbBlockSync) {
-         if (!fxSyncTimer) fxSyncTimer = new TTimer(this, 10, kTRUE);
+         if (!fxSyncTimer)
+            fxSyncTimer = new TTimer(this, 10, kTRUE);
          fbBlockSync = kTRUE;
          fxSyncTimer->Start(10, kTRUE);
       }

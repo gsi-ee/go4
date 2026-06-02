@@ -106,32 +106,32 @@ TObject *TGo4LinkProxy::GetAssignedObject()
 
 Bool_t TGo4LinkProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void *param)
 {
-    if ((id == TGo4Slot::evDelete) && (source == fLink)) {
-       // next line very important.
-       // If master slot says that it will be deleted, we just
-       // brake dependency from it and "forgot" that it is existing
-       // As a result, access to master object will be canceled
-       // After we delete slot with our link proxy.
-       // For instance, if marker is assigned to histogram, and histogram
-       // is deleted (file closed), marker cannot access histogram pointer
-       // and will be reassigned to null histogram even when master slot is
-       // able to provide histogram pointer.
-       fLink = nullptr;
-       slot->Delete();
-//       delete slot;
-       // we delete slot with timer afterwards
+   if ((id == TGo4Slot::evDelete) && (source == fLink)) {
+      // next line very important.
+      // If master slot says that it will be deleted, we just
+      // brake dependency from it and "forgot" that it is existing
+      // As a result, access to master object will be canceled
+      // After we delete slot with our link proxy.
+      // For instance, if marker is assigned to histogram, and histogram
+      // is deleted (file closed), marker cannot access histogram pointer
+      // and will be reassigned to null histogram even when master slot is
+      // able to provide histogram pointer.
+      fLink = nullptr;
+      slot->Delete();
+      // delete slot;
+      // we delete slot with timer afterwards
 
-//       TGo4ObjectManager *om = slot->GetOM();
-       // om->UnregisterLink(slot);
-//       om->DeleteObject(slot);
+      // TGo4ObjectManager *om = slot->GetOM();
+      // om->UnregisterLink(slot);
+      // om->DeleteObject(slot);
 
-//       slot->ForwardEvent(slot, TGo4Slot::evObjDeleted);
+      // slot->ForwardEvent(slot, TGo4Slot::evObjDeleted);
 
-       return kFALSE;
-    }
+      return kFALSE;
+   }
 
-    // emulate that message come from this slot, not from master link
-    slot->ForwardEvent(slot, id, param);
+   // emulate that message come from this slot, not from master link
+   slot->ForwardEvent(slot, id, param);
 
-    return kFALSE;
+   return kFALSE;
 }
