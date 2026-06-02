@@ -610,7 +610,7 @@ void TGo4BrowserProxy::PerformTreeDraw(const char *treename,
 
    if(Yexp && strlen(Yexp) > 0) {
       varexp = TString(Yexp) + TString(":") + varexp;
-      if(strlen(Zexp) > 0)
+      if(Zexp && strlen(Zexp) > 0)
          varexp = TString(Zexp) + TString(":") + varexp;
    }
 
