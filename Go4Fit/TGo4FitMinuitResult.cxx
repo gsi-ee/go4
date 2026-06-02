@@ -135,6 +135,12 @@ void TGo4FitMinuitResult::GetContourPlot(TMinuit *fMinuit)
    Int_t sz = fMinuit->fChpt ? strlen(fMinuit->fChpt) : 0;
    if (sz == 0)
       return;
+   if (CONTOX)
+      delete CONTOX;
+   if (CONTOY)
+      delete CONTOY;
+   if (CONTOCH)
+      delete CONTOCH;
    CONTOX = new TArrayD(sz);
    CONTOY = new TArrayD(sz);
    CONTOCH = new TArrayC(sz);
