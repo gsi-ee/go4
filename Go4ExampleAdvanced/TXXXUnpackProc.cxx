@@ -46,8 +46,10 @@ TXXXUnpackProc::TXXXUnpackProc(const char *name) :
    fParam1   = (TXXXParameter *) GetParameter("XXXPar1");
    fParam2   = (TXXXParameter *) GetParameter("XXXPar2");
 
-   fParam1->Print();
-   fParam2->Print();
+   if (fParam1)
+      fParam1->Print();
+   if (fParam2)
+      fParam2->Print();
 
    TGo4Log::Info("TXXXProc: Produce histograms");
 
@@ -165,8 +167,10 @@ TXXXUnpackProc::TXXXUnpackProc(const char *name) :
 //***********************************************************
 TXXXUnpackProc::~TXXXUnpackProc()
 {
-   fWinCon1->PrintCondition(true);
-   fPolyCon1->PrintCondition(true);
+   if (fWinCon1)
+      fWinCon1->PrintCondition(true);
+   if (fPolyCon1)
+      fPolyCon1->PrintCondition(true);
 }
 
 //-----------------------------------------------------------
