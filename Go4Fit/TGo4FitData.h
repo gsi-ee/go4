@@ -339,7 +339,7 @@ class TGo4FitData : public TGo4FitComponent {
       /**
        * Clears (sets to 0) all pointers, used for buffer allocations.
        */
-      void ResetAllPoinetrs();
+      void ResetAllPointers();
 
       /**
        * Release all memory, allocated for buffers.
