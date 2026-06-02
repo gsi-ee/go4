@@ -5555,6 +5555,15 @@ void TGo4ViewPanel::checkResizeSlot()
 
 void TGo4ViewPanel::PadDeleted(TPad *pad)
 {
+   if (fxRepaintTimerPad == pad)
+      fxRepaintTimerPad = nullptr;
+   if (fxResizeTimerPad == pad)
+      fxResizeTimerPad = nullptr;
+   if (fxDoubleClickTimerPad == pad)
+      fxDoubleClickTimerPad = nullptr;
+   if (fxActivePad == pad)
+      fxActivePad = nullptr;
+
    TGo4Slot *slot = GetPadSlot(pad);
    if (slot)
       delete slot;
