@@ -32,7 +32,7 @@ Bool_t TGo4WidgetProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id,
       fWidget->ProcessSignal("TGo4Slot::evSubslotUpdated", true, (TObject *) param, src);
 
    // process further events which important for data management
-   return id==TGo4Slot::evDelete;
+   return id == TGo4Slot::evDelete;
 }
 
 void TGo4WidgetProxy::PadRangeAxisChanged()

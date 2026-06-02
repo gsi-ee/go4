@@ -559,7 +559,8 @@ void TGo4Slot::Event(TGo4Slot *source, Int_t id, void *param)
    if (fProxy)
       doforward = fProxy->ProcessEvent(this, source, id, param);
 
-   if (doforward) ForwardEvent(source, id, param);
+   if (doforward)
+      ForwardEvent(source, id, param);
 }
 
 void TGo4Slot::ForwardEvent(TGo4Slot *source, Int_t id, void *param)
