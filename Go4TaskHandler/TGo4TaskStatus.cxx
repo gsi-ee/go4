@@ -32,10 +32,10 @@ TGo4TaskStatus::~TGo4TaskStatus()
 }
 
 void TGo4TaskStatus::SetFlags(Bool_t blocking,
-                                 Bool_t autocreate,
-                                 Bool_t autostart,
-                                 Bool_t terminating,
-                                 Bool_t initdone)
+                              Bool_t autocreate,
+                              Bool_t autostart,
+                              Bool_t terminating,
+                              Bool_t initdone)
 {
    fbAppBlocking = blocking;
    fbAutoCreate = autocreate;
@@ -44,8 +44,9 @@ void TGo4TaskStatus::SetFlags(Bool_t blocking,
    fbInitDone = initdone;
 }
 
-void TGo4TaskStatus::SetTaskHandlerStatus(TGo4TaskHandlerStatus* thstate)
+void TGo4TaskStatus::SetTaskHandlerStatus(TGo4TaskHandlerStatus *thstate)
 {
+   delete fxTaskHandlerStatus;
    fxTaskHandlerStatus = thstate;
 }
 
@@ -59,6 +60,7 @@ void TGo4TaskStatus::Print(Option_t *) const
    PrintLine("G-OOOO-> InitDone: %d", fbInitDone);
    PrintLine("G-OOOO-> IsTerminating: %d", fbTerminating);
    PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");
-   fxTaskHandlerStatus->Print();
+   if (fxTaskHandlerStatus)
+      fxTaskHandlerStatus->Print();
    PrintLine("G-OOOO-> END Client Status Class Printout END <-OOOO-G");
 }
