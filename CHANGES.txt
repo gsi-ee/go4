@@ -1,6 +1,6 @@
 ---------------------------------------------------------------
-         Go4 Release Package v6.4.0 (build 60400)
-                           March 2025
+         Go4 Release Package v6.4.5 (build 60405)
+                           10-June 2026
 ---------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -20,6 +20,12 @@ Contact:            http://Go4.gsi.de
 This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
+Changes in Go4 v6.4.5 (June 2026)
+1. Necessary adjustments for new ROOT >v6.36 
+2. Many AI assisted code improvements
+
+Changes in Go4 v6.4.1 (June 2025)
+1. Fix wrong declaration in f_evt.h (fedora42/ArchLinux build issue)
 
 Changes in Go4 v6.4 (March 2025)
 1. Support ES6 modules, requires ROOT 6.34
