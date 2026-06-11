@@ -100,9 +100,9 @@ export CMAKE_PREFIX_PATH=${GO4_ROOT_DIR}:$CMAKE_PREFIX_PATH")
                   ${CMAKE_BINARY_DIR}/build/Makefile.gener @ONLY NEWLINE_STYLE UNIX)
 
    set(_go4top_ ${GO4_INSTALL_FULL_MAINDIR})
-   set(_go4bin_ ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR})
-   set(_go4lib_ ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
-   set(_go4inc_ ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR})
+   set(_go4bin_ ${CMAKE_INSTALL_FULL_BINDIR})
+   set(_go4lib_ ${CMAKE_INSTALL_FULL_LIBDIR})
+   set(_go4inc_ ${CMAKE_INSTALL_FULL_INCLUDEDIR})
 
    if(GO4_ROOT_DIR)
    set(_go4root_ "##### ROOT-related settings ###########\n\
