@@ -1,7 +1,7 @@
 ```
 --------------------------------------------------------------
-         Go4 Release Package v6.4.0 (build 60400)
-                      March 2025
+         Go4 Release Package v6.4.5 (build 60405)
+                      June 2026
 --------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -26,10 +26,10 @@ in Go4License.txt file which is part of the distribution.
 # GO4 PACKAGE
 
 This package was tested on
-  * openSUSE Leap 42.2, openSUSE Tumblweed 10.2022
-  * Debian 7.0, Debian 8.10 (32 bit and 64bit), Debian 9, Debian 11
+  * openSUSE Leap 42.2, openSUSE Tumblweed 20260430
+  * Debian 7.0, Debian 8.10 (32 bit and 64bit), Debian 9, Debian 11, Debian12, Debian 13
   * macOS 10.14.6
-  * compilers: gcc 10.2, gcc 11.2, gcc 12.2, gcc 13.2
+  * compilers: gcc 10.2, gcc 11.2, gcc 12.2, gcc 13.2, gcc 15.2
 
 ## REQUIREMENTS
    * ROOT 6.28 or higher (recommended 6.30)
