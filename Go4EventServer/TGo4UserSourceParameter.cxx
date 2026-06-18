@@ -35,6 +35,8 @@ void TGo4UserSourceParameter::Print(Option_t *) const
    TGo4EventSourceParameter::Print();
    if (GetPort() > 0)
       TGo4Status::PrintLine(" Port  %d", GetPort());
+   if (GetStartEvent() > 0)
+      TGo4Status::PrintLine(" Start event  %u", GetStartEvent());
    TGo4Status::PrintLine(" Expression: %s", GetExpression());
 }
 
@@ -42,9 +44,12 @@ Bool_t TGo4UserSourceParameter::UpdateFrom(TGo4Parameter *rhs)
 {
    if(rhs && rhs->InheritsFrom(TGo4UserSourceParameter::Class())) {
       auto userpar = dynamic_cast<TGo4UserSourceParameter*>(rhs);
-      if(!userpar) return kFALSE;
-      if(!TGo4EventSourceParameter::UpdateFrom(rhs)) return kFALSE;
+      if(!userpar)
+         return kFALSE;
+      if(!TGo4EventSourceParameter::UpdateFrom(rhs))
+         return kFALSE;
       SetPort(userpar->GetPort());
+      SetStartEvent(userpar->GetStartEvent());
       SetExpression(userpar->GetExpression());
       return kTRUE;
    }
