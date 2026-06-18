@@ -59,7 +59,17 @@ configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/Go4Macros.cmake
 configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4UseFile.cmake.in
                ${CMAKE_BINARY_DIR}/Go4UseFile.cmake @ONLY NEWLINE_STYLE UNIX)
 
+
+include(CMakePackageConfigHelpers)
+
+write_basic_package_version_file(
+   "${CMAKE_BINARY_DIR}/Go4ConfigVersion.cmake"
+   VERSION ${GO4_VERSION}
+   COMPATIBILITY SameMajorVersion
+)
+
 install(FILES ${CMAKE_BINARY_DIR}/_install/Go4Config.cmake
+              ${CMAKE_BINARY_DIR}/Go4ConfigVersion.cmake
               ${CMAKE_BINARY_DIR}/Go4Macros.cmake
               ${CMAKE_BINARY_DIR}/Go4UseFile.cmake
               DESTINATION ${GO4_INSTALL_MAINDIR}
