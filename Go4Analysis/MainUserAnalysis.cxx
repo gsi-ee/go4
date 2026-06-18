@@ -959,13 +959,18 @@ int main(int argc, char **argv)
       } else
       if (strcmp(argv[narg],"-skip") == 0) {
          narg++;
-         TGo4MbsSourceParameter* param = dynamic_cast<TGo4MbsSourceParameter*> (step->GetEventSource());
-         if (!param) showerror("only in MBS source events can be skipped");
+         auto param = dynamic_cast<TGo4MbsSourceParameter *> (step->GetEventSource());
+         auto userpar = dynamic_cast<TGo4UserSourceParameter *> (step->GetEventSource());
+         if (!param && !userpar)
+            showerror("only in MBS or user source events can be skipped");
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
             unsigned value = 0;
             if (sscanf(argv[narg],"%u",&value)!=1)
                showerror(TString::Format("Value error %s", argv[narg]));
-            param->SetStartEvent(value);
+            if (param)
+               param->SetStartEvent(value);
+            else if (userpar)
+               userpar->SetStartEvent(value);
             narg++;
          }
       } else
