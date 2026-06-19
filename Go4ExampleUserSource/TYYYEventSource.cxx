@@ -21,39 +21,31 @@
 #include "TGo4UserSourceParameter.h"
 #include "TYYYRawEvent.h"
 
+TYYYEventSource::TYYYEventSource() :
+   TGo4EventSource("default YYY source")
+{
+}
+
 TYYYEventSource::TYYYEventSource(const char *name,
                                  const char *args,
                                  Int_t port) :
-   TGo4EventSource(name),
-   fbIsOpen(kFALSE),
-   fxArgs(args),
-   fiPort(port)
+   TGo4EventSource(name)
 {
    Open();
 }
 
 TYYYEventSource::TYYYEventSource(TGo4UserSourceParameter* par) :
-   TGo4EventSource(" "),
-   fbIsOpen(kFALSE),
-   fxArgs(),
-   fiPort(0)
+   TGo4EventSource(" ")
 {
    if(par) {
       SetName(par->GetName());
       SetPort(par->GetPort());
       SetArgs(par->GetExpression());
+      SetStartEvent(par->GetStartEvent());
       Open();
    } else {
       TGo4Log::Error("TYYYEventSource constructor with zero parameter!");
    }
-}
-
-TYYYEventSource::TYYYEventSource() :
-   TGo4EventSource("default YYY source"),
-   fbIsOpen(kFALSE),
-   fxArgs(),
-   fiPort(0)
-{
 }
 
 TYYYEventSource::~TYYYEventSource()
@@ -69,22 +61,36 @@ Bool_t TYYYEventSource::CheckEventClass(TClass *cl)
 Bool_t TYYYEventSource::BuildEvent(TGo4EventElement *dest)
 {
    auto evnt = static_cast<TYYYRawEvent *>(dest);
-   if (!evnt) return kFALSE;
+   if (!evnt)
+      return kFALSE;
 
    char sbuf[1024], buffer[1024];
+
+   bool get_next_line = false;
 
    // read another event from open file into our buffer
    do {
       fxFile->getline(sbuf, sizeof(sbuf), '\n' ); // read whole line
+
       if(fxFile->eof() || !fxFile->good()) {
          // reached last line or read error?
          SetCreateStatus(1);
-         TString errmsg = TString::Format("End of input file %s", GetName());
-         SetErrMess(errmsg.Data());
+         SetErrMess(TString::Format("End of input file %s", GetName()));
          SetEventStatus(1);
          throw TGo4EventEndException(this);
       }
-   } while(strstr(sbuf,"#") || strstr(sbuf,"!") ); // skip any comments
+
+      get_next_line = false;
+      if (strstr(sbuf,"#") || strstr(sbuf,"!")) {
+         // skip any comments
+         get_next_line = true;
+      } else if (fuStartEvent > 0) {
+         // skip configured first events
+         get_next_line = true;
+         fuStartEvent--;
+      }
+
+   } while(get_next_line);
 
    Int_t status = 1;
    // process on event information in our buffer

@@ -58,15 +58,22 @@ class TYYYEventSource : public TGo4EventSource {
 
       void SetPort(Int_t val) { fiPort = val; }
 
+      UInt_t GetStartEvent() const { return fuStartEvent; }
+
+      void SetStartEvent(UInt_t val) { fuStartEvent = val; }
+
    private:
 
-      Bool_t fbIsOpen{kFALSE};
+      Bool_t fbIsOpen = kFALSE;
 
       /** Optional argument string */
       TString fxArgs;
 
       /** Optional port number  */
-      Int_t fiPort{0};
+      Int_t fiPort = 0;
+
+      /** Optional first event  */
+      UInt_t fuStartEvent = 0;
 
       /** file that contains the data in ascii format. */
       std::ifstream *fxFile{nullptr}; //!
