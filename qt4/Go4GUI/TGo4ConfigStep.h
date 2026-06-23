@@ -45,10 +45,10 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       virtual void SetMbsRetryCnt(int retry);
       virtual void SetRandomSource();
       virtual void SetHDF5Source(QString name);
-      virtual void SetUserSource( int port, QString expr );
+      virtual void SetUserSource( int port, QString expr, unsigned start = 0 );
       virtual int GetSourceSetup( QString & name, int & timeout, int & start, int & stop, int & interval, int & port, int & nretry);
       virtual void GetMbsFileSource( QString & TagFile );
-      virtual void GetUserSource( int & port, QString & expr );
+      virtual void GetUserSource( int & port, QString & expr, unsigned &start );
       virtual void SetFileStore( QString name, bool overwrite, int bufsize, int splitlevel, int compression, int autosave = 0);
       virtual void SetBackStore( QString name, int bufsize, int splitlevel );
       virtual QString GetBackStoreName();

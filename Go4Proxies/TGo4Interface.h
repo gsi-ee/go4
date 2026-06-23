@@ -124,7 +124,8 @@ class TGo4Interface : public TGo4AbstractInterface {
                           const char *sourcename,
                           int timeout,
                           int port,
-                          const char *expr) override;
+                          const char *expr,
+                          unsigned start = 0) override;
 
       void StepFileStore(const char *stepname,
                          const char *storename,

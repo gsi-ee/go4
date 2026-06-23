@@ -639,11 +639,12 @@ void TGo4Script::StepUserSource(const char *stepname,
                                 const char *sourcename,
                                 int timeout,
                                 int port,
-                                const char *expr)
+                                const char *expr,
+                                unsigned start)
 {
-   TGo4ConfigStep* step = GetStepGUI(stepname);
+   auto step = GetStepGUI(stepname);
    if (step) {
-      step->SetUserSource(port, expr);
+      step->SetUserSource(port, expr, start);
       step->SetSourceWidgets(sourcename, timeout);
    }
 }
@@ -1028,12 +1029,14 @@ void TGo4Script::ProduceScript(const char *filename, TGo4MainWindow* main)
             fs << "go4->StepRandomSource" << srcargs;
             break;
          case 7: {
-           int port;
-           QString expr;
-           stepconf->GetUserSource(port, expr);
-           fs << "go4->StepUserSource" << srcargs << ", " << port << ", \""
-                                       << expr.toLatin1().constData() << "\"";
-           break;
+            int port;
+            QString expr;
+            unsigned start;
+            stepconf->GetUserSource(port, expr, start);
+            fs << "go4->StepUserSource" << srcargs << ", " << port << ", \""
+                                        << expr.toLatin1().constData() << "\", "
+                                        << start;
+            break;
          }
          case 8:
            fs << "go4->StepHDF5Source" << srcargs;

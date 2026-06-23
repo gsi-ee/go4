@@ -969,12 +969,13 @@ void TGo4ConfigStep::SetRandomSource()
    EventSourceCombo->setCurrentIndex(kind_MbsRandom);
 }
 
-void TGo4ConfigStep::SetUserSource(int port, QString expr)
+void TGo4ConfigStep::SetUserSource(int port, QString expr, unsigned start)
 {
    EventSourceCombo->setCurrentIndex(kind_UserSource);
 
    SpinBoxPortNumber->setValue(port);
    LineEditArgs->setText(expr);
+   SpinBoxStartEvent->setValue(start);
 }
 
 void TGo4ConfigStep::SetHDF5Source(QString name)
@@ -1017,10 +1018,11 @@ void TGo4ConfigStep::GetMbsFileSource(QString& TagFile)
 //   if (TagFile.isEmpty()) TagFile = TGo4MbsFile__fgcNOTAGFILE;
 }
 
-void TGo4ConfigStep::GetUserSource(int& port, QString& expr)
+void TGo4ConfigStep::GetUserSource(int& port, QString& expr, unsigned &start)
 {
    port = SpinBoxPortNumber->value();
    expr = LineEditArgs->text();
+   start = SpinBoxStartEvent->value();
 }
 
 void TGo4ConfigStep::SetFileStore(QString name, bool overwrite, int bufsize, int splitlevel, int compression, int autosave)

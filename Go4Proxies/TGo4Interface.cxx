@@ -475,10 +475,10 @@ void TGo4Interface::StepMbsRevServSource(const char *stepname,
 }
 
 void TGo4Interface::StepRandomSource(const char *stepname,
-                                  const char *sourcename,
-                                  int timeout)
+                                     const char *sourcename,
+                                     int timeout)
 {
-   TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
+   auto step = GetStepStatus(stepname);
    if (!step) return;
 
    TGo4MbsRandomParameter par(sourcename);
@@ -487,28 +487,30 @@ void TGo4Interface::StepRandomSource(const char *stepname,
 }
 
 void TGo4Interface::StepUserSource(const char *stepname,
-                                const char *sourcename,
-                                int timeout,
-                                int port,
-                                const char *expr)
+                                   const char *sourcename,
+                                   int timeout,
+                                   int port,
+                                   const char *expr,
+                                   unsigned start)
 {
-   TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
+   auto step = GetStepStatus(stepname);
    if (!step) return;
 
    TGo4UserSourceParameter par(sourcename);
    par.SetTimeout(timeout);
    par.SetPort(port);
    par.SetExpression(expr);
+   par.SetStartEvent(start);
    step->SetSourcePar(&par);
 }
 
 void TGo4Interface::StepFileStore(const char *stepname,
-                               const char *storename,
-                               bool overwrite,
-                               int bufsize,
-                               int splitlevel,
-                               int compression,
-                               int autosaveperiod)
+                                  const char *storename,
+                                  bool overwrite,
+                                  int bufsize,
+                                  int splitlevel,
+                                  int compression,
+                                  int autosaveperiod)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
    if (!step) return;

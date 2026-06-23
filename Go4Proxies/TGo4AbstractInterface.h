@@ -475,10 +475,11 @@ class TGo4AbstractInterface : public TObject {
 
       /** @brief Set user data source as step data source */
       virtual void StepUserSource(const char *stepname,
-                          const char *sourcename,
-                          int timeout,
-                          int port,
-                          const char *expr) {}
+                                  const char *sourcename,
+                                  int timeout,
+                                  int port,
+                                  const char *expr,
+                                  unsigned start = 0) {}
 
       /** @brief Set hdf5 data source as step data source */
       virtual void StepHDF5Source(const char *stepname,

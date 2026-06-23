@@ -137,7 +137,8 @@ class TGo4Script : public TGo4AbstractInterface {
                           const char *sourcename,
                           int timeout,
                           int port,
-                          const char *expr) override;
+                          const char *expr,
+                          unsigned start = 0) override;
 
       void StepHDF5Source(const char *stepname,
                           const char *sourcename,
