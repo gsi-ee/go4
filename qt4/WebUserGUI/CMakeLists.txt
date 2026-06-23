@@ -19,12 +19,6 @@ if(GO4_QTVERSION STREQUAL Qt6)
       message(FATAL_ERROR "Could NOT find Qt6 libs")
    endif()
    set(qt_libs Qt6::Core Qt6::Widgets Qt6::WebEngineCore Qt6::WebEngineWidgets)
-else()
-   find_package(Qt5 COMPONENTS Widgets WebEngine WebEngineWidgets)
-   if(NOT Qt5_FOUND)
-      message(FATAL_ERROR "Could NOT find Qt5 libs")
-   endif()
-   set(qt_libs Qt5::Core Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets)
 endif()
 
 

@@ -18,12 +18,10 @@ else()
    set(_platform Linux)
 endif()
 
-set(_qtvers Qt6)
+set(_qtvers "")
 
 if(qt6)
    set(_qtvers Qt6)
-elseif(qt5)
-   set(_qtvers Qt5)
 endif()
 
 set(GO4_PLATFORM "${_platform}" CACHE STRING "Go4 platform definitions" FORCE)

@@ -18,12 +18,6 @@ if(GO4_QTVERSION STREQUAL Qt6)
       message(FATAL_ERROR "Could NOT find Qt6")
    endif()
    set(qt_libs Qt6::Core Qt6::Widgets)
-else()
-   find_package(Qt5 COMPONENTS Widgets)
-   if(NOT Qt5_FOUND)
-      message(FATAL_ERROR "Could NOT find Qt5")
-   endif()
-   set(qt_libs Qt5::Core Qt5::Widgets)
 endif()
 
 
