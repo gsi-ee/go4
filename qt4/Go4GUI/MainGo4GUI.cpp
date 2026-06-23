@@ -40,12 +40,6 @@
 #endif
 
 
-#ifdef __GO4WEB__
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#include <QtWebEngine>
-#endif
-#endif
-
 int print_go4_version()
 {
    const char *dabc_vers = TGo4DabcProxy::GetDabcVersion();
@@ -254,23 +248,7 @@ int main(int argc, char **argv)
 
    Q_INIT_RESOURCE(go4icons);
 
-#ifdef __GO4WEB__
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#if QT_VERSION >= QT_VERSION_CHECK(5,13,0)
-   // must be called before creating QApplication, from Qt 5.13
-   if (useweb) QtWebEngine::initialize();
-#endif
-#endif
-#endif
-
    QRootApplication myapp(argc, argv2); // Qt application
-
-#ifdef __GO4WEB__
-#if QT_VERSION < QT_VERSION_CHECK(5,13,0)
-   // must be called after creating QApplication, until Qt 5.12
-   if (useweb) QtWebEngine::initialize();
-#endif
-#endif
 
    // qt4.4 sets local settings not to "C", but to system-depended values
    ::setlocale(LC_ALL, "C");

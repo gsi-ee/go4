@@ -33,7 +33,6 @@
 #include "TGo4MbsRandomParameter.h"
 
 #ifdef __GO4HDF5__
-//#include "H5Cpp.h"
 #include "TGo4HDF5StoreParameter.h"
 #include "TGo4HDF5SourceParameter.h"
 #endif
@@ -74,6 +73,7 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget *parent, const char *name, Qt::WindowFla
    QObject::connect(EnableSourceBox, &QCheckBox::checkStateChanged, this, &TGo4ConfigStep::InputStateChanged);
    QObject::connect(EnableStoreBox, &QCheckBox::checkStateChanged, this, &TGo4ConfigStep::OutputStateChanged);
 #endif
+
    QObject::connect(SourceNameEdit, &QLineEdit::textChanged, this, &TGo4ConfigStep::InputSourceText);
    QObject::connect(EventSourceCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &TGo4ConfigStep::SourceComboHighlighted);
    QObject::connect(OutputCombo, QOverload<int>::of(&QComboBox::activated), this, &TGo4ConfigStep::StoreComboHighlighted);

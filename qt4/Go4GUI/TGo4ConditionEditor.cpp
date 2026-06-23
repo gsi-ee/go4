@@ -681,11 +681,8 @@ void TGo4ConditionEditor::SetCondVisible(bool on)
    ChangeConditionProperty(10, on);
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-void TGo4ConditionEditor::enterEvent(QEvent *)
-#else
+
 void TGo4ConditionEditor::enterEvent(QEnterEvent *)
-#endif
 {
    auto cond = GetLinkedCast<TGo4Condition>("Condition");
    if (cond && (fiLastChangeValue != cond->IsChanged()))

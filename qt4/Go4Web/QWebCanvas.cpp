@@ -82,7 +82,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    auto web = new TWebCanvas(fCanvas, "title", 0, 0, 800, 600, kFALSE);
 
 
-   #if ROOT_VERSION_CODE >= ROOT_VERSION(6,33,0) && QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+   #if ROOT_VERSION_CODE >= ROOT_VERSION(6,33,0)
    // this is usage of new JS modules functionality, works only with qt6
    ROOT::RWebWindowsManager::AddServerLocation("go4sys", TGo4Log::GO4SYS());
    static std::string go4script = "modules:go4sys/html5/go4canvas.mjs";
@@ -118,16 +118,10 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    web->SetPadDblClickedHandler([this](TPad *pad, int x, int y) { ProcessPadDblClicked(pad, x, y); });
 
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-   const char *kind = "qt6";
-#else
-   const char *kind = "qt5";
-#endif
-
 #if ROOT_VERSION_CODE > ROOT_VERSION(6,29,0)
-   ROOT::RWebDisplayArgs args(kind);
+   ROOT::RWebDisplayArgs args("qt6");
 #else
-   ROOT::Experimental::RWebDisplayArgs args(kind);
+   ROOT::Experimental::RWebDisplayArgs args("qt6");
 #endif
 
    args.SetDriverData(this); // it is parent widget for created QWebEngineView element
@@ -137,7 +131,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    fView = findChild<QWebEngineView *>("RootWebView");
    if (!fView) {
-      printf("FAIL TO FIND QWebEngineView - ROOT %sweb plugin does not work properly !!!!!\n", kind);
+      printf("FAIL TO FIND QWebEngineView - ROOT qt6web plugin does not work properly !!!!!\n");
       exit(11);
    }
 
@@ -200,11 +194,7 @@ void QWebCanvas::dropEvent(QDropEvent* event)
    // TODO: remove, not needed at all
 
    TObject *obj = nullptr;
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-   QPoint pos = event->pos();
-#else
    QPoint pos = event->position().toPoint();
-#endif
    auto pad = fCanvas->Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
 
    emit CanvasDropEvent(event, pad ? pad : fCanvas);
@@ -213,11 +203,7 @@ void QWebCanvas::dropEvent(QDropEvent* event)
 void QWebCanvas::dropView(QDropEvent* event)
 {
    TObject *obj = nullptr;
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-   QPoint pos = event->pos();
-#else
    QPoint pos = event->position().toPoint();
-#endif
    auto pad = fCanvas->Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
 
    emit CanvasDropEvent(event, pad ? pad : fCanvas);

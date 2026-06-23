@@ -154,13 +154,8 @@ QRootCanvas::~QRootCanvas()
 
 QPoint QRootCanvas::scaledMousePoint(QMouseEvent *e)
 {
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-   int scaledX = scaledPosition(e->x());
-   int scaledY = scaledPosition(e->y());
-#else
    int scaledX = scaledPosition(e->position().x());
    int scaledY = scaledPosition(e->position().y());
-#endif
    return QPoint(scaledX, scaledY);
 }
 
@@ -220,15 +215,10 @@ void  QRootCanvas::wheelEvent( QWheelEvent* e)
    if (!fCanvas) return;
    e->accept();
 
-#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
-   bool positive = (e->delta() > 0);
-   int ex = e->x(), ey = e->y();
-#else
    QPoint delta = e->pixelDelta();
    if (delta.isNull()) delta = e->angleDelta() / 8;
    bool positive = delta.x() > 0 || delta.y() > 0;
    int ex = e->position().x(), ey = e->position().y();
-#endif
 
    fCanvas->HandleInput(positive ? kWheelUp : kWheelDown, scaledPosition(ex), scaledPosition(ey));
 }
@@ -244,11 +234,7 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
 //    std::cout <<"QRootCanvas::mousePressEvent at ("<<e->x()<<", "<<  e->y()<<")"<< std::endl;
 
    QPoint scaled = scaledMousePoint(e);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-   QPoint mouse_pnt = e->globalPos();
-#else
    QPoint mouse_pnt = e->globalPosition().toPoint();
-#endif
 
   // std::cout <<"      scaledX,scaledY: ("<<scaledX<<", "<<scaledY <<") "<< std::endl;
 //      std::cout <<"global from event: ("<<e->globalX()<<", "<<  e->globalY()<< std::endl;
@@ -302,13 +288,9 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
 
         QMenu menu;
         QSignalMapper map;
-   #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
-        auto signal = QOverload<int>::of(&QSignalMapper::mapped);
-   #else
-        auto signal = &QSignalMapper::mappedInt;
-   #endif
 
-        QObject::connect(&map, signal, this, &QRootCanvas::executeMenu);
+        QObject::connect(&map, &QSignalMapper::mappedInt,
+                         this, &QRootCanvas::executeMenu);
         fMenuObj = selected;
         fMenuMethods = new TList;
         TClass *cl = fMenuObj->IsA();
@@ -505,11 +487,7 @@ void QRootCanvas::dropEvent( QDropEvent *event )
 {
    TObject *obj = nullptr;
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-   QPoint pos = event->pos();
-#else
    QPoint pos = event->position().toPoint();
-#endif
 
    TPad *pad = Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
 
@@ -1047,11 +1025,7 @@ QAction* QRootCanvas::addMenuAction(QMenu* menu, QSignalMapper* map, const QStri
          act->setEnabled(false);
 
    QObject::connect(act, &QAction::triggered, [id, map]() {
-#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
-      map->mapped(id);
-#else
       map->mappedInt(id);
-#endif
    });
 
    menu->addAction(act);

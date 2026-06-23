@@ -311,11 +311,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    const char *libs = gSystem->Getenv("GO4USERLIBRARY");
 
    if (libs) {
-#if QT_VERSION < QT_VERSION_CHECK(5,14,0)
-      QStringList LibList = QString(libs).split(":", QString::SkipEmptyParts);
-#else
       QStringList LibList = QString(libs).split(":", Qt::SkipEmptyParts);
-#endif
 
       for (auto &lib : LibList)
           gSystem->Load(lib.toLatin1().constData());

@@ -297,11 +297,8 @@ void TGo4AnalysisWindow::ExtractProgArgs(QString &progname, QStringList &args)
       progname.resize(first);
    }
 
-#if QT_VERSION < QT_VERSION_CHECK(5,14,0)
-   args = progname.split(" ",QString::SkipEmptyParts);
-#else
    args = progname.split(" ",Qt::SkipEmptyParts);
-#endif
+
    if (args.size() > 0) {
       progname = args.front();
       args.pop_front();

@@ -249,11 +249,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char *name) :
    fOptionsMenu = fMenuBar->addMenu("&Options");
    QObject::connect(fOptionsMenu, &QMenu::aboutToShow, this, &TGo4ViewPanel::AboutToShowOptionsMenu);
 
-#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
-   auto signal = QOverload<int>::of(&QSignalMapper::mapped);
-#else
    auto signal = &QSignalMapper::mappedInt;
-#endif
 
    QObject::connect(fSelectMap, signal, this, &TGo4ViewPanel::SelectMenuItemActivated);
    QObject::connect(fOptionsMap, signal, this, &TGo4ViewPanel::OptionsMenuItemActivated);

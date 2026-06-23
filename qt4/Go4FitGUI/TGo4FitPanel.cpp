@@ -224,11 +224,7 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char *name) : QGo4Widget(paren
    SettMenu = MenuBar->addMenu("&Settings");
    QObject::connect(SettMenu, &QMenu::aboutToShow, this, &TGo4FitPanel::AboutToShowSettMenu);
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-   auto signal = QOverload<int>::of(&QSignalMapper::mapped);
-#else
    auto signal = &QSignalMapper::mappedInt;
-#endif
 
    QObject::connect(FitterMap, signal, this, &TGo4FitPanel::FitterMenuItemSelected);
    QObject::connect(ViewMap, signal, this, &TGo4FitPanel::ChangeViewType);
@@ -325,11 +321,7 @@ void TGo4FitPanel::DropOnPanel(QDropEvent *event, const char *itemname, TClass *
 
    if (!event)
       return;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-   QPoint pos = event->pos();
-#else
    QPoint pos = event->position().toPoint();
-#endif
 
    QWidget *w = childAt(pos);
 

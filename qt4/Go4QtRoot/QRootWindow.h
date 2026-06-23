@@ -51,10 +51,10 @@ class QRootWindow : public QWidget {
        true=explicit resize, false=no resize of TQRootFrame*/
       void SetResizeOnPaint(bool on = true) { fbResizeOnPaint = on; }
 
-      /** deliver width scaled with Qt5 screen scaling factor*/
+      /** deliver width scaled with Qt6 screen scaling factor*/
       double ScaledWidth();
 
-       /** deliver Height scaled with Qt5 screen scaling factor*/
+       /** deliver Height scaled with Qt6 screen scaling factor*/
       double ScaledHeight();
 
    protected:

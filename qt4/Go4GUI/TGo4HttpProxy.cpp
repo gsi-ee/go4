@@ -90,11 +90,7 @@ void QHttpProxy::StartRequest(const char *url)
 
    QObject::connect(fHReply, &QNetworkReply::finished, this, &QHttpProxy::httpFinished);
 
-#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
-   QObject::connect(fHReply, (void (QNetworkReply::*)(QNetworkReply::NetworkError)) &QNetworkReply::error, this, &QHttpProxy::httpHReqError);
-#else
    QObject::connect(fHReply, &QNetworkReply::errorOccurred, this, &QHttpProxy::httpHReqError);
-#endif
 
    QObject::connect(fHReply, &QNetworkReply::sslErrors, [this](const QList<QSslError> &errors) { fHReply->ignoreSslErrors(errors); });
 
@@ -236,11 +232,7 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager *rcv, const char *path)
    fReply = fProxy->fComm.qnam.get(QNetworkRequest(QUrl(url.Data())));
    QObject::connect(fReply, &QNetworkReply::finished, this, &TGo4HttpAccess::httpFinished);
 
-#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
-   QObject::connect(fReply, (void (QNetworkReply::*)(QNetworkReply::NetworkError)) &QNetworkReply::error, this, &TGo4HttpAccess::httpError);
-#else
    QObject::connect(fReply, &QNetworkReply::errorOccurred, this, &TGo4HttpAccess::httpError);
-#endif
 
    if (gDebug > 2)
       printf("TGo4HttpAccess::AssignObjectTo Request URL %s\n", url.Data());

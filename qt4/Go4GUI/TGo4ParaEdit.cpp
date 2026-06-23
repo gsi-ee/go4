@@ -226,11 +226,7 @@ void TGo4ParaEdit::ShowVisibleItems()
    // MemberTable->setLeftMargin(0);
    MemberTable->verticalHeader()->hide();
    TString buf;
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-   int ih = QApplication::fontMetrics().height();
-#else
    int ih = QFontMetricsF(QApplication::font()).height();
-#endif
    for (int row = 0; row < memnum; row++) {
       MemberTable->setRowHeight(row, ih);
       TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(row);

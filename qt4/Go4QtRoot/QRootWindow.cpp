@@ -107,26 +107,26 @@ Bool_t QRootWindow::MapQMouseEvent(QMouseEvent *e, Event_t* rev)
 {
    if(!e || !rev) return kFALSE;
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-   rev->fX = e->x();
-   rev->fY = e->y();
-   rev->fXRoot = e->globalX();
-   rev->fYRoot = e->globalY();
-#else
    rev->fX = e->position().x();
    rev->fY = e->position().y();
    rev->fXRoot = e->globalPosition().x();
    rev->fYRoot = e->globalPosition().y();
-#endif
 
    // translate Qt event type:
-   if(e->type() == QEvent::MouseButtonPress) rev->fType = kButtonPress;
-   else if(e->type() == QEvent::MouseButtonRelease) rev->fType = kButtonRelease;
-   else if(e->type() == QEvent::MouseButtonDblClick) rev->fType = kButtonDoubleClick;
-   else if(e->type() == QEvent::MouseMove) rev->fType = kMotionNotify;
-   else if(e->type() == QEvent::KeyPress) rev->fType = kGKeyPress;
-   else if(e->type() == QEvent::KeyRelease) rev->fType = kKeyRelease;
-   else rev->fType = kOtherEvent;
+   if(e->type() == QEvent::MouseButtonPress)
+      rev->fType = kButtonPress;
+   else if(e->type() == QEvent::MouseButtonRelease)
+      rev->fType = kButtonRelease;
+   else if(e->type() == QEvent::MouseButtonDblClick)
+      rev->fType = kButtonDoubleClick;
+   else if(e->type() == QEvent::MouseMove)
+      rev->fType = kMotionNotify;
+   else if(e->type() == QEvent::KeyPress)
+      rev->fType = kGKeyPress;
+   else if(e->type() == QEvent::KeyRelease)
+      rev->fType = kKeyRelease;
+   else
+      rev->fType = kOtherEvent;
 
    // translate Qt state bits:
    rev->fState = 0;
@@ -167,7 +167,6 @@ Bool_t QRootWindow::MapQMouseEvent(QMouseEvent *e, Event_t* rev)
 
    return kTRUE;
 }
-
 
 
 void QRootWindow::paintEvent( QPaintEvent * e)
