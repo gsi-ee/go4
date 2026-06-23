@@ -224,11 +224,9 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char *name) : QGo4Widget(paren
    SettMenu = MenuBar->addMenu("&Settings");
    QObject::connect(SettMenu, &QMenu::aboutToShow, this, &TGo4FitPanel::AboutToShowSettMenu);
 
-   auto signal = &QSignalMapper::mappedInt;
-
-   QObject::connect(FitterMap, signal, this, &TGo4FitPanel::FitterMenuItemSelected);
-   QObject::connect(ViewMap, signal, this, &TGo4FitPanel::ChangeViewType);
-   QObject::connect(SettMap, signal, this, &TGo4FitPanel::ChangeSettings);
+   QObject::connect(FitterMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::FitterMenuItemSelected);
+   QObject::connect(ViewMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::ChangeViewType);
+   QObject::connect(SettMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::ChangeSettings);
 
    AddIdAction(SettMenu, SettMap, "&Confirmation", 1);
    AddIdAction(SettMenu, SettMap, "&Show primitives", 2);
