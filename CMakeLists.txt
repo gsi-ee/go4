@@ -321,8 +321,6 @@ install(FILES ${CMAKE_SOURCE_DIR}/data/test.lmd DESTINATION ${GO4_INSTALL_MAINDI
 if(MSVC)
    if(qt6)
       get_filename_component(_qt_dir_ "${Qt6_DIR}/../../.." ABSOLUTE)
-   else()
-      get_filename_component(_qt_dir_ "${Qt5_DIR}/../../.." ABSOLUTE)
    endif()
 
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4login.bat.in
@@ -365,33 +363,6 @@ if(MSVC)
       install(DIRECTORY ${_qt_dir_}/plugins/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt6/plugins COMPONENT qt6)
       install(DIRECTORY ${_qt_dir_}/resources/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt6/resources COMPONENT qt6)
       install(DIRECTORY ${_qt_dir_}/translations/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt6/translations COMPONENT qt6)
-   else()
-      # install selected files from Qt5 - only run go4gui
-      install(FILES ${_qt_dir_}/bin/libEGL.dll
-                     ${_qt_dir_}/bin/libGLESv2.dll
-                     ${_qt_dir_}/bin/qt.conf
-                     ${_qt_dir_}/bin/Qt5Core.dll
-                     ${_qt_dir_}/bin/Qt5Gui.dll
-                     ${_qt_dir_}/bin/Qt5Network.dll
-                     ${_qt_dir_}/bin/Qt5Positioning.dll
-                     ${_qt_dir_}/bin/Qt5PrintSupport.dll
-                     ${_qt_dir_}/bin/Qt5Qml.dll
-                     ${_qt_dir_}/bin/Qt5QmlModels.dll
-                     ${_qt_dir_}/bin/Qt5Quick.dll
-                     ${_qt_dir_}/bin/Qt5QuickWidgets.dll
-                     ${_qt_dir_}/bin/Qt5WebChannel.dll
-                     ${_qt_dir_}/bin/Qt5WebEngine.dll
-                     ${_qt_dir_}/bin/Qt5WebEngineCore.dll
-                     ${_qt_dir_}/bin/Qt5WebEngineWidgets.dll
-                     ${_qt_dir_}/bin/Qt5Widgets.dll
-                     ${_qt_dir_}/bin/QtWebEngineProcess.exe
-                     ${_qt_dir_}/bin/QtWebEngineProcessd.exe
-                     DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/bin
-                     COMPONENT qt5)
-
-      install(DIRECTORY ${_qt_dir_}/plugins/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/plugins COMPONENT qt5)
-      install(DIRECTORY ${_qt_dir_}/resources/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/resources COMPONENT qt5)
-      install(DIRECTORY ${_qt_dir_}/translations/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/translations COMPONENT qt5)
    endif()
 
    # add all tests sources

@@ -151,7 +151,7 @@ endif()
 
 
 # search for extra ROOT libraries
-foreach(_cpt Gui XMLIO RHTTP RHTTPSniff Ged Spectrum ASImage Minuit ROOTWebDisplay ROOTQt5WebDisplay WebGui6)
+foreach(_cpt Gui XMLIO RHTTP RHTTPSniff Ged Spectrum ASImage Minuit ROOTWebDisplay ROOTQt6WebDisplay WebGui6)
   find_library(ROOT_${_cpt}_LIBRARY ${_cpt} HINTS ${ROOT_LIBRARY_DIR})
   if(ROOT_${_cpt}_LIBRARY)
     mark_as_advanced(ROOT_${_cpt}_LIBRARY)

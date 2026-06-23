@@ -13,15 +13,6 @@ if(GO4_QTVERSION STREQUAL Qt6)
       message(FATAL_ERROR "Could NOT find Qt6")
    endif()
    set(qt_libs Qt6::Core Qt6::Widgets Qt6::Network)
-else()
-   if(ROOT_qt5web_FOUND)
-      set(qt5comp WebEngine WebEngineWidgets)
-   endif()
-   find_package(Qt5 COMPONENTS Widgets Network ${qt5comp} REQUIRED)
-   if(NOT Qt5_FOUND)
-      message(FATAL_ERROR "Could NOT find Qt5")
-   endif()
-   set(qt_libs Qt5::Core Qt5::Widgets Qt5::Network)
 endif()
 
 set(Go4GUI_headers
@@ -295,26 +286,6 @@ if(ROOT_x11_FOUND)
       set(_qtroot_depend Go4Widgets Go4QtRoot)
    endif()
 endif()
-
-
-if(Qt5_FOUND AND ROOT_qt5web_FOUND AND GO4_QTVERSION STREQUAL Qt5)
-
-   list(APPEND gui_extra_libs ${ROOT_RHTTP_LIBRARY} ${ROOT_ROOTWebDisplay_LIBRARY} ${ROOT_ROOTQt5WebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY})
-   list(APPEND qt_libs Qt5::WebEngine Qt5::WebEngineWidgets)
-   list(APPEND gui_defines -D__GO4WEB__)
-
-   if(_plain_gui)
-      list(APPEND QtRoot_sources Go4Web/QWebCanvas.cpp)
-      list(APPEND QtRoot_headers Go4Web/QWebCanvas.h)
-      list(APPEND gui_install_headers Go4Web/QWebCanvas.h)
-      set(_webroot_depend go4)
-   else()
-      add_subdirectory(Go4Web)
-      list(APPEND gui_extra_libs Go4WebRoot)
-      set(_webroot_depend Go4Widgets Go4WebRoot)
-   endif()
-endif()
-
 
 if(Qt6_FOUND AND ROOT_qt6web_FOUND AND GO4_QTVERSION STREQUAL Qt6)
 

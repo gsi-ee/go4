@@ -8,7 +8,7 @@
 - **License**: GNU General Public License v2 or later
 - **Language**: C++ (`.cxx` / `.h` files)
 - **Build System**: CMake (minimum 3.10)
-- **Dependencies**: ROOT >= 6.28, Qt5 >= 5.12 or Qt6 >= 6.4
+- **Dependencies**: ROOT >= 6.28, Qt6 >= 6.4
 - **Total Source Files**: ~965 (`.cxx`, `.h`, `.cpp`, `.hpp`)
 
 ## Architecture
@@ -106,8 +106,8 @@ Every source and header file starts with:
 
 ### Common CMake Options
 ```bash
-cmake - Dhdf5=ON    # Enable HDF5 support
-cmake -Dqt6=ON      # Use Qt6 instead of Qt5
+cmake -Dhdf5=ON     # Enable HDF5 support
+cmake -Dqt6=ON      # Use Qt6
 cmake -Dgui=ON      # Build GUI components
 cmake -Dexamples=ON # Build example projects
 cmake -Ddabc=ON     # Enable DABC integration
@@ -149,7 +149,7 @@ Headers included in `LINKDEF` files get dictionary generation via `ROOT_GENERATE
 |----------|--------|
 | openSUSE Leap/Tumbleweed | Primary development |
 | Debian 7-11 | Supported |
-| macOS 10.14+ | Supported (requires qt5web) |
+| macOS 10.14+ | Supported (requires qt6web) |
 | Windows (VS2019) | Supported |
 | GCC 10-13 | Tested |
 

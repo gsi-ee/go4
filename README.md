@@ -32,9 +32,8 @@ This package was tested on
   * compilers: gcc 10.2, gcc 11.2, gcc 12.2, gcc 13.2, gcc 15.2
 
 ## REQUIREMENTS
-   * ROOT 6.28 or higher (recommended 6.30)
-   * Qt5.12 or higher (recommended 5.15)
-   * or Qt6.4 or higher (experimental)
+   * ROOT 6.34 or higher (recommended 6.40)
+   * Qt6.8 or higher (recommended 6.10)
 
 
 ## ROOT INSTALLATION
@@ -43,16 +42,16 @@ Install the ROOT framework Version >=6.28/00.
 See instruction how download and compile ROOT on http://root.cern
 Recommended way to build ROOT - compile it and use from compilation path:
 
-     [shell] tar xzf root_v6.28.00.source.tar.gz
-     [shell] mkdir build_628
-     [shell] cd build_628
-     [shell] cmake ../root_v6.28.00
+     [shell] tar xzf root_v6.40.00.source.tar.gz
+     [shell] mkdir build_640
+     [shell] cd build_640
+     [shell] cmake ../root_v6.40.00
      [shell] make -j
      [shell] source bin/thisroot.sh
 
-To use web-based graphics (required for Mac) qt5web option should be enabled:
+To use web-based graphics (required for Mac) qt6web option should be enabled:
 
-     shell> cmake ../root_v6.28.00 -Dwebgui=ON -Dqt5web=ON
+     shell> cmake ../root_v6.40.00 -Dwebgui=ON -Dqt6web=ON
 
 Check after ROOT compilation that everything is fine by calling:
 
@@ -66,15 +65,10 @@ If command fails, one should configure environment call
 
 ## QT INSTALLATION
 
-This Go4 distribution can be built with following Qt versions:
-* qt5 - Qt 5.6.x and higher (recommended 5.15.2)
-* qt6 - Qt 6.4.x and higher
+This Go4 distribution can be built with following Qt 6.4 and higher.
 Most modern Linux distributions provide Qt libraries, utilities and include files.
-Typically one should install libqt5-devel packages.
-Normally Go4 able to detect major version of such Qt installation
-and will compile correspondent version of Go4 GUI.
-If both qt5 and qt6 are installed, use "cmake -Dqt6=ON <path_to_source>" to compile
-go4 with Qt6.
+Typically one should install `qt6-gui-devel`, ` qt6-webenginecore-devel`
+and `qt6-webenginewidgets-devel` packages. Normally Go4 able to detect Qt installation and will compile correspondent version of Go4 GUI.
 
 If there is no Qt installed on your system, or Go4 is not able to use it correctly,
 one should download it from https://www.qt.io/download anf follow instruction how it should be
@@ -88,18 +82,12 @@ installed. After compilation set environment variables e.g.
 ### QT installation on Mac OS X
 
 Go4 QtROOT GUI on Mac works only with web-based ROOT graphics.
-For that one requires latest qt5 with QWebEngine support.
-Most simple way is to use brew (see http://macappstore.org/qt5/):
+For that one requires latest qt6 with QWebEngine support.
+Most simple way is to use brew:
 
-    shell> brew install qt5
+    shell> brew install qt
 
-Qt5 should be installed before ROOT and ROOT compilation should include -Dqt5web=ON flag.
-After installing Qt5 libraries, one should set following shell variables:
-
-    shell> export Qt5_DIR=/usr/local/opt/qt5/
-    shell> export QTDIR=/usr/local/opt/qt5/
-    shell> export PATH=$QTDIR/bin:$PATH
-    shell> export DYLD_LIBRARY_PATH=$QTDIR/lib:$DYLD_LIBRARY_PATH
+Qt6 should be installed before ROOT and ROOT compilation should include -Dqt6web=ON flag.
 
 
 ## GO4 COMPILATION WITH CMAKE
@@ -112,7 +100,6 @@ Create build directory and call
 One also can specify several options for cmake:
 
     -Dhdf5=ON - enable HDF5 support, requires installed HDF5 library
-    -Dqt6=ON - use Qt6 for GUI compilation
     -DCMAKE_INSTALL_PREFIX=/home/user/custom/dir - configure custom directory for installation
 
 
@@ -153,39 +140,34 @@ It will copy files to configured installation path
 
 ### Install using binary distribution
 
-To use ROOT6 and Go4 on Windows, it is necessary to install Microsoft Visual Studio.
-There is free "Community" version which can be found on
-https://visualstudio.microsoft.com/downloads/ website. During installation C++ components
+To use ROOT6 and Go4 on Windows, it is necessary to install Microsoft Visual Studio. There is free "Community" version which can be found on https://visualstudio.microsoft.com/downloads/ website. During installation C++ components
 should be installed.
 
-For the go4 there is windows installer file, which provides Go4 with correspondent ROOT and Qt5 libraries.
-It is recommended to install it in directory without spaces like "C:\Soft\go4".
-After installation Go4 icon created in the windows menu and on desktop - it runs go4 gui.
+For the go4 there is windows installer file, which provides Go4 with correspondent ROOT and Qt6 libraries. It is recommended to install it in directory without spaces like "C:\Soft\go4". After installation Go4 icon created in the windows menu and on desktop - it runs go4 gui.
 
 
 ### User analysis compilation
 
-To compile any user analysis, start "x86 Native Tools Command Prompt VS 2019" and:
+To compile any user analysis, start "x64 Native Tools Command Prompt VS 2022" and:
 
     call C:\Soft\go4\go4login.bat
     mkdir C:\Soft\analysis
     cd C:\Soft\analysis
-    cmake -G"Visual Studio 16 2019" -A Win32 -Thost=x64 c:\Soft\go4\examples\Go4ExampleSimple
+    cmake c:\Soft\go4\examples\Go4ExampleSimple
     cmake --build . --config Release -- /maxcpucount
 
-To run it, one should specify directory "C:\Soft\analysis\Release" as analysis directory in
-"Launch Analysis" widget.
+To run it, one should specify directory "C:\Soft\analysis\Release" as analysis directory in "Launch Analysis" widget.
 
 
 ### Go4 compilation from sources on Windows
 
-First of all, install Qt5 with WebEngine support on Windows.
-Then start "x86 Native Tools Command Prompt VS 2019" and compile ROOT:
+First of all, install Qt6 with WebEngine support on Windows.
+Then start "x64 Native Tools Command Prompt VS 2022" and compile ROOT:
 
-    set PATH=%PATH%;C:\Qt5\5.15.2\msvc2019\bin
+    set PATH=%PATH%;C:\Qt\6.8.3\msvc2022_64\bin
     mkdir C:\Soft\root
     cd C:\Soft\root
-    cmake -G"Visual Studio 16 2019" -A Win32 -Thost=x64 c:\git\root -Droot7=ON -DCMAKE_CXX_STANDARD=17 -Dwebgui=ON -Dqt5web=ON
+    cmake c:\git\root -Droot7=ON -DCMAKE_CXX_STANDARD=17 -Dwebgui=ON -Dqt6web=ON
     cmake --build . --config Release -- /maxcpucount
 
 Then compile Go4:
@@ -193,6 +175,6 @@ Then compile Go4:
     call C:\Soft\root\bin\thisroot.bat
     mkdir C:\Soft\go4
     cd C:\Soft\go4
-    cmake -G"Visual Studio 16 2019" -A Win32 -Thost=x64 c:\git\go4
+    cmake c:\git\go4
     cmake --build . --config Release -- /maxcpucount
 
