@@ -129,7 +129,6 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget *parent, const char *name, Qt::WindowFla
    OutputCombo->removeItem(3);
    EventSourceCombo->removeItem(8);
 #endif
-
 }
 
 TGo4ConfigStep::~TGo4ConfigStep()
@@ -139,7 +138,6 @@ TGo4ConfigStep::~TGo4ConfigStep()
       fPars[n] = nullptr;
    }
 }
-
 
 void TGo4ConfigStep::InputArguments(const QString& Arg)
 {
@@ -167,31 +165,29 @@ void TGo4ConfigStep::InputPortChanged(int port)
 {
    if (fBlocked) return;
 
-   TGo4EventSourceParameter *SourcePar = fStepStatus->GetSourcePar();
+   auto SourcePar = fStepStatus->GetSourcePar();
 
    switch (SourcePar->GetID()) {
-
       case GO4EV_MBS_TRANSPORT:
       case GO4EV_MBS_STREAM:
       case GO4EV_MBS_EVENTSERVER:
       case GO4EV_MBS_REVSERV: {
-         TGo4MbsSourceParameter* par = dynamic_cast<TGo4MbsSourceParameter*>(SourcePar);
-         if (par)
-            par->SetPort(port);
+         auto mbspar = dynamic_cast<TGo4MbsSourceParameter *>(SourcePar);
+         if (mbspar)
+            mbspar->SetPort(port);
          break;
       }
 
       case GO4EV_USER: { // user defined source class
-         auto usrpar = dynamic_cast<TGo4UserSourceParameter*>(SourcePar);
+         auto usrpar = dynamic_cast<TGo4UserSourceParameter *>(SourcePar);
          if (usrpar)
             usrpar->SetPort(port);
          break;
       }
 
-      default: {
+      default:
          // do nothing
          break;
-      }
    }
 }
 
@@ -385,8 +381,8 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
 
    auto srcpar = fStepStatus->TakeSourcePar();
    bool delsrcpar = true;
-   auto mbspar = dynamic_cast<TGo4MbsSourceParameter*> (srcpar);
-   auto usrpar = dynamic_cast<TGo4UserSourceParameter*> (srcpar);
+   auto mbspar = dynamic_cast<TGo4MbsSourceParameter *> (srcpar);
+   auto usrpar = dynamic_cast<TGo4UserSourceParameter *> (srcpar);
 
    if (fLastSrcKind >= 0) {
       if (fPars[fLastSrcKind]) delete fPars[fLastSrcKind];
@@ -548,7 +544,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
    SourceNameEdit->setText(srcpar->GetName());
    SpinBoxTimeout->setValue(srcpar->GetTimeout());
 
-   TGo4MbsSourceParameter* mbspar = dynamic_cast<TGo4MbsSourceParameter*> (srcpar);
+   auto mbspar = dynamic_cast<TGo4MbsSourceParameter *> (srcpar);
 
    if (mbspar) {
       SpinBoxStartEvent->setValue(mbspar->GetStartEvent());
@@ -556,13 +552,10 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
       SpinBoxInterEvent->setValue(mbspar->GetEventInterval());
       SpinBoxPortNumber->setValue(mbspar->GetPort());
       SpinBoxRetryNumber->setValue(mbspar->GetRetryCnt());
-
-//      if ((mbspar->GetPort() != 0) || (mbspar->GetRetryCnt() > 0) ||
-//          (mbspar->GetStartEvent() != 0) || (mbspar->GetStopEvent() != 0) || (mbspar->GetEventInterval()>1)) fExtra = true;
    }
 
-   TGo4MbsFileParameter* mbsfilpar = dynamic_cast<TGo4MbsFileParameter*>(srcpar);
-   TGo4UserSourceParameter* userpar = dynamic_cast<TGo4UserSourceParameter*>(srcpar);
+   auto mbsfilpar = dynamic_cast<TGo4MbsFileParameter *>(srcpar);
+   auto usrpar = dynamic_cast<TGo4UserSourceParameter *>(srcpar);
 
    switch (kind) {
       case kind_RootFile:            // root file with one tree
@@ -611,9 +604,10 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
 
       case kind_UserSource:      // user source
          FileNameBtn->setEnabled(true);
-         SpinBoxPortNumber->setValue(userpar->GetPort());
-         LineEditArgs->setText(userpar->GetExpression());
+         SpinBoxPortNumber->setValue(usrpar->GetPort());
+         LineEditArgs->setText(usrpar->GetExpression());
          SpinBoxPortNumber->setVisible(fExtra);
+         SpinBoxStartEvent->setValue(usrpar->GetStartEvent());
          TextLabelPortNumber->setVisible(fExtra);
          LineEditArgs->setVisible(fExtra);
          TextLabelArgs->setVisible(fExtra);
@@ -660,17 +654,17 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
       StoreOverwriteMode->setDisabled(true);
       FileNameOutput->setDisabled(true);
       TreeAutosave->setDisabled(true);
-    } else if(k == 2) {
-       StoreNameEdit->setDisabled(false);
-       TGo4UserStoreParameter newpar2(StoreNameEdit->text().toLatin1().constData());
-       fStepStatus->SetStorePar(&newpar2);
-       SplitLevel->setDisabled(true);
-       BufferSize->setDisabled(true);
-       CompLevel->setDisabled(true);
-       StoreOverwriteMode->setDisabled(true);
-       FileNameOutput->setDisabled(false);
-       TreeAutosave->setDisabled(true);
-     } else if(k == 3) {
+   } else if(k == 2) {
+      StoreNameEdit->setDisabled(false);
+      TGo4UserStoreParameter newpar2(StoreNameEdit->text().toLatin1().constData());
+      fStepStatus->SetStorePar(&newpar2);
+      SplitLevel->setDisabled(true);
+      BufferSize->setDisabled(true);
+      CompLevel->setDisabled(true);
+      StoreOverwriteMode->setDisabled(true);
+      FileNameOutput->setDisabled(false);
+      TreeAutosave->setDisabled(true);
+   } else if(k == 3) {
 #ifdef __GO4HDF5__
       StoreNameEdit->setDisabled(false);
       TGo4HDF5StoreParameter newpar3(StoreNameEdit->text().toLatin1().constData(), GO4_H5F_ACC_TRUNC);
@@ -689,27 +683,29 @@ void TGo4ConfigStep::OutputFileDialog()
 {
    QString filters;
    if(fStepStatus) {
-        TGo4EventStoreParameter *storepar = fStepStatus->GetStorePar();
-        if(storepar->InheritsFrom(TGo4FileStoreParameter::Class()))
-           filters = "Go4FileSource  (*.root)";
-        else if (storepar->InheritsFrom(TGo4UserStoreParameter::Class()))
-           filters = "Go4UserStore  (*.root)";
+      auto storepar = fStepStatus->GetStorePar();
+      if(storepar->InheritsFrom(TGo4FileStoreParameter::Class()))
+         filters = "Go4FileSource  (*.root)";
+      else if (storepar->InheritsFrom(TGo4UserStoreParameter::Class()))
+         filters = "Go4UserStore  (*.root)";
 #ifdef __GO4HDF5__
-        else if (storepar->InheritsFrom(TGo4HDF5StoreParameter::Class())) {
-           filters="Go4HDF5 (*.h5)";
-        }
+      else if (storepar->InheritsFrom(TGo4HDF5StoreParameter::Class())) {
+         filters="Go4HDF5 (*.h5)";
+      }
 #endif
-        else
-           std::cout <<"Unknown storepar " <<storepar->ClassName() << std::endl;
-    }
+      else
+         std::cout <<"Unknown storepar " <<storepar->ClassName() << std::endl;
+   }
 
-   QFileDialog fd( this, "Select file name for step output",
-         fxPanel->GetStorePath(), filters);
-   fd.setFileMode( QFileDialog::AnyFile);
-   if (fd.exec() != QDialog::Accepted) return;
+   QFileDialog fd(this, "Select file name for step output",
+                  fxPanel->GetStorePath(), filters);
+   fd.setFileMode(QFileDialog::AnyFile);
+   if (fd.exec() != QDialog::Accepted)
+      return;
 
    QStringList flst = fd.selectedFiles();
-   if (flst.isEmpty()) return;
+   if (flst.isEmpty())
+      return;
 
    QString fileName = flst[0];
    std::cout << "output file is "<<fileName.toLatin1().constData() << std::endl;
@@ -798,12 +794,12 @@ void TGo4ConfigStep::ChangeStartEvent(int num)
    if (fBlocked) return;
 
    // only for mbs sources
-   auto mbspar = dynamic_cast<TGo4MbsSourceParameter*>(fStepStatus->GetSourcePar());
-   auto userpar = dynamic_cast<TGo4UserSourceParameter*>(fStepStatus->GetSourcePar());
+   auto mbspar = dynamic_cast<TGo4MbsSourceParameter *>(fStepStatus->GetSourcePar());
+   auto usrpar = dynamic_cast<TGo4UserSourceParameter *>(fStepStatus->GetSourcePar());
    if (mbspar)
       mbspar->SetStartEvent(num);
-   if (userpar)
-      userpar->SetStartEvent(num);
+   if (usrpar)
+      usrpar->SetStartEvent(num);
 }
 
 void TGo4ConfigStep::ChangeStopEvent(int num)
@@ -840,54 +836,52 @@ void TGo4ConfigStep::InputFileDialog()
    QString filters;
    bool mbsfilemode = false;
    if(fStepStatus) {
-       TGo4EventSourceParameter *sourcepar = fStepStatus->GetSourcePar();
-       if(sourcepar->InheritsFrom(TGo4FileSourceParameter::Class()))
-          filters = "Go4FileSource  (*.root)";
-       else
-       if (sourcepar->InheritsFrom(TGo4MbsFileParameter::Class())) {
-           mbsfilemode=true;
-           filters="Go4MbsFile (*";
-           filters+=TGo4MbsFile__fgcLMDSUF;
-           filters+=" *";
-           filters+=QString(TGo4MbsFile__fgcLMDSUF).toUpper();
-           filters+=");;Go4 list mode list (*";
-           filters+=TGo4MbsFile__fgcFILELISTSUF;
-           filters+=")";
-
-       }
-       else
-       if (sourcepar->InheritsFrom(TGo4UserSourceParameter::Class())) {
-          filters = "all files  (*.*)";
-       }
+      auto sourcepar = fStepStatus->GetSourcePar();
+      if(sourcepar->InheritsFrom(TGo4FileSourceParameter::Class()))
+         filters = "Go4FileSource  (*.root)";
+      else if (sourcepar->InheritsFrom(TGo4MbsFileParameter::Class())) {
+         mbsfilemode = true;
+         filters="Go4MbsFile (*";
+         filters+=TGo4MbsFile__fgcLMDSUF;
+         filters+=" *";
+         filters+=QString(TGo4MbsFile__fgcLMDSUF).toUpper();
+         filters+=");;Go4 list mode list (*";
+         filters+=TGo4MbsFile__fgcFILELISTSUF;
+         filters+=")";
+      } else if (sourcepar->InheritsFrom(TGo4UserSourceParameter::Class())) {
+         filters = "all files  (*.*)";
+      }
 #ifdef __GO4HDF5__
-        else if (sourcepar->InheritsFrom(TGo4HDF5SourceParameter::Class())) {
-           filters="Go4HDF5 (*.h5)";
-        }
+      else if (sourcepar->InheritsFrom(TGo4HDF5SourceParameter::Class())) {
+         filters="Go4HDF5 (*.h5)";
+      }
 #endif
-       else
-          std::cout <<"Unknown sourcepar " <<sourcepar->ClassName() << std::endl;
+      else
+         std::cout <<"Unknown sourcepar " <<sourcepar->ClassName() << std::endl;
    }
 
-    QFileDialog fd(this, "Select file name for step input", fxPanel->GetSourcePath(), filters);
-    fd.setFileMode(QFileDialog::ExistingFile);
+   QFileDialog fd(this, "Select file name for step input", fxPanel->GetSourcePath(), filters);
+   fd.setFileMode(QFileDialog::ExistingFile);
 
-    if (fd.exec() != QDialog::Accepted) return;
+   if (fd.exec() != QDialog::Accepted)
+      return;
 
-    QStringList flst = fd.selectedFiles();
-    if (flst.isEmpty()) return;
+   QStringList flst = fd.selectedFiles();
+   if (flst.isEmpty())
+      return;
 
-    QString fileName = flst[0];
-    fxPanel->SetSourcePath(fd.directory().path());
-    SourceNameEdit->setText(fileName);
-    if(mbsfilemode) {
-       bool islml = fd.selectedNameFilter().contains(TGo4MbsFile__fgcFILELISTSUF);
+   QString fileName = flst[0];
+   fxPanel->SetSourcePath(fd.directory().path());
+   SourceNameEdit->setText(fileName);
+   if(mbsfilemode) {
+      bool islml = fd.selectedNameFilter().contains(TGo4MbsFile__fgcFILELISTSUF);
 
-       LineEditTagfile->setVisible(!islml);
-       TextLabelTagfile->setVisible(!islml);
-       SpinBoxStartEvent->setEnabled(!islml);
-       SpinBoxStopEvent->setEnabled(!islml);
-       SpinBoxInterEvent->setEnabled(!islml);
-    }
+      LineEditTagfile->setVisible(!islml);
+      TextLabelTagfile->setVisible(!islml);
+      SpinBoxStartEvent->setEnabled(!islml);
+      SpinBoxStopEvent->setEnabled(!islml);
+      SpinBoxInterEvent->setEnabled(!islml);
+   }
 }
 
 QString TGo4ConfigStep::GetStepName()
