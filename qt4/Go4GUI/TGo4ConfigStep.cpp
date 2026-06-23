@@ -107,6 +107,7 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget *parent, const char *name, Qt::WindowFla
    SpinBoxTimeout->setVisible(false);
    TextLabelTimeout->setVisible(false);
 
+   StartEventLabel->setVisible(false);
    SpinBoxStartEvent->setVisible(false);
    SpinBoxStopEvent->setVisible(false);
    SpinBoxInterEvent->setVisible(false);
@@ -142,13 +143,13 @@ TGo4ConfigStep::~TGo4ConfigStep()
 
 void TGo4ConfigStep::InputArguments(const QString& Arg)
 {
-    TGo4EventSourceParameter *SourcePar=fStepStatus->GetSourcePar();
-    int ParId=SourcePar->GetID();
-    if (ParId==GO4EV_USER){                    // user defined source class
-        TGo4UserSourceParameter* usrpar = dynamic_cast<TGo4UserSourceParameter*>(SourcePar);
-        if (usrpar)
-           usrpar->SetExpression(Arg.trimmed().toLatin1().constData());
-    }
+   TGo4EventSourceParameter *SourcePar = fStepStatus->GetSourcePar();
+   int ParId = SourcePar->GetID();
+   if (ParId == GO4EV_USER){                    // user defined source class
+      auto usrpar = dynamic_cast<TGo4UserSourceParameter *>(SourcePar);
+      if (usrpar)
+         usrpar->SetExpression(Arg.trimmed().toLatin1().constData());
+   }
 }
 
 void TGo4ConfigStep::InputStateChanged(int )
@@ -181,7 +182,7 @@ void TGo4ConfigStep::InputPortChanged(int port)
       }
 
       case GO4EV_USER: { // user defined source class
-         TGo4UserSourceParameter* usrpar=dynamic_cast<TGo4UserSourceParameter*>(SourcePar);
+         auto usrpar = dynamic_cast<TGo4UserSourceParameter*>(SourcePar);
          if (usrpar)
             usrpar->SetPort(port);
          break;
@@ -382,9 +383,10 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
 {
    if (!fStepStatus) return;
 
-   TGo4EventSourceParameter *srcpar = fStepStatus->TakeSourcePar();
+   auto srcpar = fStepStatus->TakeSourcePar();
    bool delsrcpar = true;
-   TGo4MbsSourceParameter* mbspar = dynamic_cast<TGo4MbsSourceParameter*> (srcpar);
+   auto mbspar = dynamic_cast<TGo4MbsSourceParameter*> (srcpar);
+   auto usrpar = dynamic_cast<TGo4UserSourceParameter*> (srcpar);
 
    if (fLastSrcKind >= 0) {
       if (fPars[fLastSrcKind]) delete fPars[fLastSrcKind];
@@ -401,6 +403,7 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
 
    TString filename, hostname;
    Int_t port = 0;
+   UInt_t first_event = 0;
 
    switch(srcpar->GetID()) {
       case GO4EV_FILE:
@@ -415,11 +418,14 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
       case GO4EV_MBS_REVSERV:
          hostname = srcpar->GetName();
          port = mbspar ? mbspar->GetPort() : 0;
+         first_event = mbspar ? mbspar->GetStartEvent() : 0;
          break;
 
       case GO4EV_MBS_RANDOM:
          break;
       case GO4EV_USER:
+         first_event = usrpar ? usrpar->GetStartEvent() : 0;
+         port = usrpar ? usrpar->GetPort() : 0;
          break;
       default:
          break;
@@ -457,7 +463,7 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
          break;
 
       case kind_UserSource:
-         newpar = new TGo4UserSourceParameter(filename,"",port);
+         newpar = new TGo4UserSourceParameter(filename, "", port, first_event);
          break;
 #ifdef __GO4HDF5__
       case kind_HDF5:
@@ -466,7 +472,7 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
 #endif
    }
 
-   TGo4MbsSourceParameter* newmbspar = dynamic_cast<TGo4MbsSourceParameter*> (newpar);
+   auto newmbspar = dynamic_cast<TGo4MbsSourceParameter *> (newpar);
 
    if (newmbspar) {
       newmbspar->SetPort(port);
@@ -475,6 +481,8 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
          newmbspar->SetStartEvent(mbspar->GetStartEvent());
          newmbspar->SetStopEvent(mbspar->GetStopEvent());
          newmbspar->SetEventInterval(mbspar->GetEventInterval());
+      } else {
+         newmbspar->SetStartEvent(first_event);
       }
    }
 
@@ -487,7 +495,8 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
 
    fLastSrcKind = kind;
 
-   if (delsrcpar) delete srcpar;
+   if (delsrcpar)
+      delete srcpar;
 }
 
 void TGo4ConfigStep::SetSourceWidgets( const QString & name, int timeout)
@@ -523,6 +532,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
    LineEditTagfile->setVisible(false);
    TextLabelTagfile->setVisible(false);
 
+   StartEventLabel->setVisible(false);
    SpinBoxStartEvent->setVisible(false);
    SpinBoxStopEvent->setVisible(false);
    SpinBoxInterEvent->setVisible(false);
@@ -590,6 +600,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
          TextLabelRetryNumber->setVisible(fExtra);
          SpinBoxRetryNumber->setVisible(fExtra);
          MbsMonitorBtn->setEnabled(kind != kind_MbsREvent);
+         StartEventLabel->setVisible(false);
          SpinBoxStartEvent->setVisible(fExtra);
          SpinBoxStopEvent->setVisible(fExtra);
          SpinBoxInterEvent->setVisible(fExtra);
@@ -608,6 +619,8 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
          TextLabelArgs->setVisible(fExtra);
          TextLabelTimeout->setVisible(fExtra);
          SpinBoxTimeout->setVisible(fExtra);
+         StartEventLabel->setVisible(fExtra);
+         SpinBoxStartEvent->setVisible(fExtra);
          break;
 
       case kind_HDF5:            // hdf5 file
@@ -785,9 +798,12 @@ void TGo4ConfigStep::ChangeStartEvent(int num)
    if (fBlocked) return;
 
    // only for mbs sources
-   TGo4MbsSourceParameter* par =
-      dynamic_cast<TGo4MbsSourceParameter*>(fStepStatus->GetSourcePar());
-   if (par) par->SetStartEvent(num);
+   auto mbspar = dynamic_cast<TGo4MbsSourceParameter*>(fStepStatus->GetSourcePar());
+   auto userpar = dynamic_cast<TGo4UserSourceParameter*>(fStepStatus->GetSourcePar());
+   if (mbspar)
+      mbspar->SetStartEvent(num);
+   if (userpar)
+      userpar->SetStartEvent(num);
 }
 
 void TGo4ConfigStep::ChangeStopEvent(int num)

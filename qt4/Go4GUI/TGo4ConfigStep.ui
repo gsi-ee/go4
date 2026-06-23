@@ -517,6 +517,28 @@
       <item>
        <layout class="QHBoxLayout">
         <item>
+           <widget class="QLabel" name="StartEventLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Start event:</string>
+            </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
+           </widget>
+        </item>
+        <item>
          <widget class="QSpinBox" name="SpinBoxStartEvent">
           <property name="toolTip">
            <string>Sequence number of first event for processing</string>
