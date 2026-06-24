@@ -2792,6 +2792,11 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel *panel)
    flt << ROOTM;
    flt << GIF;
 
+#if ROOT_VERSION_CODE > ROOT_VERSION(6,41,0)
+   QString HTMLM = "HTML format (*.html)";
+   flt << HTMLM;
+#endif
+
    flt << PS;
    flt << PS_Portrait;
    flt << PS_Landscape;
@@ -2800,6 +2805,7 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel *panel)
 
    flt << XPM;
    flt << TIFF;
+
 
    flt << JSONM;
 
@@ -2820,8 +2826,8 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel *panel)
       fd.selectFile(filename0 + fltr.mid(p + 2, p2 - p - 2));
    });
 
-
-   if (fd.exec() != QDialog::Accepted) return;
+   if (fd.exec() != QDialog::Accepted)
+      return;
 
    bool blankbg = go4sett->getSavePadWhiteBackground();
    if(blankbg) {
@@ -2882,6 +2888,12 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel *panel)
       opt = "jpg";
       if (!filename.endsWith(".jpg"))
          filename.append(".jpg");
+#if ROOT_VERSION_CODE > ROOT_VERSION(6,41,0)
+   } else if (filter == HTMLM) {
+      opt = "html";
+      if (!filename.endsWith(".html"))
+         filename.append(".html");
+#endif
    } else if (filter == TIFF) {
       opt = "tiff";
       if (!filename.endsWith(".tiff"))
