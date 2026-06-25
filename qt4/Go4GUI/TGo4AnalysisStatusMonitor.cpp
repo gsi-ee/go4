@@ -11,6 +11,7 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#include <cmath>
 #include "TGo4AnalysisStatusMonitor.h"
 
 #include <QStatusBar>
@@ -60,11 +61,11 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated(const char *linkname, TObjec
    }
 
    double Rate = status ? status->GetRate() : rate->GetRate();
-   if (Rate>10) LCDCurrentRate->display(floor(Rate));
+   if (Rate>10) LCDCurrentRate->display(std::floor(Rate));
            else LCDCurrentRate->display(Rate);
 
    double AvRate = status ? status->GetAvRate() : rate->GetAvRate();
-   if(AvRate>10) LCDAverageRate->display(floor(AvRate));
+   if(AvRate>10) LCDAverageRate->display(std::floor(AvRate));
             else LCDAverageRate->display(AvRate);
 
    int stime = status ? (int) status->GetTime() : (int) rate->GetTime();
