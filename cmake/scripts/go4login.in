@@ -4,6 +4,9 @@ esac
 
 @_go4root_@
 
+# This forces QT to use X11 (XWayland) on Wayland systems. Remove this once ROOT supports Wayland.
+export QT_QPA_PLATFORM=xcb
+
 ##### Go4-related settings ###########
 export GO4SYS=@_go4top_@
 export PATH=@_go4bin_@:$PATH
