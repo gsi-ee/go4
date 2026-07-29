@@ -101,6 +101,8 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
 
       void              CanvasDropEvent(QDropEvent *, TPad *);
 
+      void              CanvasEnterEvent();
+
       void              CanvasLeaveEvent();
 
       void              CanvasUpdated();
@@ -184,7 +186,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
 
    protected:
 
-      void      dropEvent( QDropEvent *Event ) override;
+      void      dropEvent( QDropEvent *e ) override;
       void      dragEnterEvent( QDragEnterEvent *e ) override;
       void      mousePressEvent( QMouseEvent *e ) override;
       void      mouseReleaseEvent( QMouseEvent *e ) override;
@@ -193,6 +195,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
       void      mouseDoubleClickEvent(QMouseEvent* e ) override;
       void      mouseMoveEvent(QMouseEvent *e) override;
       void      wheelEvent( QWheelEvent* e) override;
+      void      enterEvent(QEnterEvent *e) override;
       void      leaveEvent(QEvent *e) override;
       void      closeEvent( QCloseEvent * e) override;
 

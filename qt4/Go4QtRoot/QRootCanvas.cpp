@@ -452,6 +452,20 @@ void QRootCanvas::processRepaintTimer()
    //setUpdatesEnabled( true ); // JAM avoid flicker on Qt5 ?
 }
 
+void QRootCanvas::enterEvent(QEnterEvent *e)
+{
+   QWidget::enterEvent(e);
+
+   TGo4LockGuard threadlock;
+   (void) threadlock; // suppress compiler warnings
+
+   if (fCanvas)
+      fCanvas->HandleInput(kMouseEnter, 0, 0);
+
+   emit CanvasEnterEvent();
+}
+
+
 void QRootCanvas::leaveEvent( QEvent *e )
 {
    QWidget::leaveEvent(e);
