@@ -922,7 +922,7 @@ int f_fltrd(struct s_clnt_filter *p_clnt_filter, char *c_file)
 
    /* +++ action +++ */
 
-   if ( (infile = fopen(c_file,"r"))  == 0)
+   if ( (infile = fopen(c_file,"r")) == NULL)
    {                                          /* open file for data input   */
       sprintf(c_retmsg,"E-%s: fopen(File=%s) ",
               fltrd_modnam,
@@ -941,7 +941,7 @@ int f_fltrd(struct s_clnt_filter *p_clnt_filter, char *c_file)
 
       memset(c_line,0,sizeof(c_line));
 
-      if ( (c_fsts = fgets(c_line, sizeof(c_line), infile)) == 0)
+      if ( (c_fsts = fgets(c_line, sizeof(c_line), infile)) == NULL)
       {
          if (i_debug == 2)
             printf("D-%s: File=%s: Last input line.\n",
@@ -988,7 +988,7 @@ int f_fltrd(struct s_clnt_filter *p_clnt_filter, char *c_file)
 
          memset(c_line,0,sizeof(c_line));
 
-         if ( (c_fsts = fgets(c_line, sizeof(c_line), infile)) == 0)
+         if ( (c_fsts = fgets(c_line, sizeof(c_line), infile)) == NULL)
          {
             sprintf(c_retmsg,"E-%s: Error reading:fgets(File=%s) ",
               fltrd_modnam,

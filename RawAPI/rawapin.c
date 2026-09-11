@@ -4891,7 +4891,7 @@ void *rfio_opendir(const char *dirpath)
    if (iDebug)
       printf("-D- end %s\n", cModule);
 
-   return 0;
+   return NULL;
 
 } /* rfio_opendir */
 
@@ -4916,7 +4916,7 @@ void *rfio_readdir(void *dirp)
    if (iDebug)
       printf("-D- end %s\n", cModule);
 
-   return 0;
+   return NULL;
 
 } /* rfio_readdir */
 

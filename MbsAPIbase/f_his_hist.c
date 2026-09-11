@@ -219,7 +219,7 @@ if(s_his_comm_cli.l_status != COMM__SUCCESS) {l_status=s_his_comm_cli.l_status;g
 l_histos=s_his_comm_cli.lu_histos;
 l_size=sizeof(s_his_head)*l_histos;
 /* allocate buffer */
-if(*p_buffer == 0)
+if(*p_buffer == NULL)
 {
      pl_all  = (INTS4 *)malloc(l_size);
     *p_buffer = pl_all;
@@ -340,7 +340,7 @@ if(s_his_comm_cli.l_status != COMM__SUCCESS) {l_status=s_his_comm_cli.l_status;g
 
 l_size=s_his_comm_cli.lu_size-sizeof(s_his_head);
 /* allocate buffer */
-if(*p_buffer == 0)
+if(*p_buffer == NULL)
 {
      pl_all  = (INTS4 *)malloc(l_size);
     *p_buffer = pl_all;
@@ -351,7 +351,7 @@ else
     pl_all = *p_buffer;
 }
 /* allocate header buffer */
-if(*p_head == 0)
+if(*p_head == NULL)
 {
      ps_his_head = (s_his_head *)malloc(sizeof(s_his_head));
     *p_head = ps_his_head;

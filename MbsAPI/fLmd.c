@@ -540,7 +540,7 @@ uint32_t fLmdGetBuffer(sLmdControl *pLmdControl, sMbsHeader *pMbsHeader, uint32_
          return(LMD__FAILURE);
       }
 
-      if (pLmdControl->pMbsHeader == 0) {
+      if (pLmdControl->pMbsHeader == NULL) {
          printf("fLmdGetBuffer: Internal error pMbsHeader==0\n");
          return(LMD__FAILURE);
       }
@@ -593,7 +593,7 @@ uint32_t fLmdGetBuffer(sLmdControl *pLmdControl, sMbsHeader *pMbsHeader, uint32_
   if (pLmdControl->iLeftWords>0)
      pLmdControl->pMbsHeader = (sMbsHeader*)pLmdControl->pBuffer;
   else
-     pLmdControl->pMbsHeader = 0;
+     pLmdControl->pMbsHeader = NULL;
 
   return(LMD__SUCCESS);
 }
@@ -611,7 +611,7 @@ uint32_t fLmdGetElement(sLmdControl *pLmdControl, uint32_t iEvent, sMbsHeader **
 
      // check if we need to read extra data
      if ((pLmdControl->iLeftWords < 4) ||
-         (pLmdControl->pMbsHeader == 0) ||
+         (pLmdControl->pMbsHeader == NULL) ||
          (pLmdControl->pMbsHeader->iWords+4 > pLmdControl->iLeftWords)) {
              // first copy old data, if it exists
              if (pLmdControl->iLeftWords > 0) {

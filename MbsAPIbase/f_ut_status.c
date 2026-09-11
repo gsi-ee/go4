@@ -511,8 +511,8 @@ INTS4 l_cmd;
 INTS4 i,k,l_items,l_size,l_crate;
 INTU4 *pl_b,*pl_o;
 INTS4 l_status;
-s_setup_64_receiver *ps_setup_64=0;
-s_setup_32_receiver *ps_setup_32=0;
+s_setup_64_receiver *ps_setup_64 = NULL;
+s_setup_32_receiver *ps_setup_32 = NULL;
 
  memset(ps_setup,0,sizeof(s_setup));
 l_cmd=2;
