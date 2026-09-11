@@ -96,38 +96,34 @@ enum Go4_Palette_t
 class TGo4ViewPanel;
 class TPad;
 
-class TGo4Style : public QWidget, public Ui::TGo4Style
- {
-     Q_OBJECT
+class TGo4Style : public QWidget, public Ui::TGo4Style {
+   Q_OBJECT
 
- public:
+   protected:
+      /** Transform ROOT palette index in named palette combobox index */
+      Go4_Palette_t CodePalette(int i);
 
-    TGo4Style( QWidget *parent = nullptr, const char *name = nullptr, Qt::WindowFlags fl = Qt::Widget );
+      /** Transform combobox index to ROOT palette index*/
+      int DecodePalette(Go4_Palette_t key);
 
-    /** Set default palette and minimum maximum indices */
-    virtual void SetPaletteRange(int min, int def, int max);
+      /** Change selection menu entries according to index range*/
+      void RefreshPaletteText(int min, int max);
 
- public slots:
+      bool fbMenuLock{false};
+      bool fbSettingPanelData{false};
 
-   virtual void SetPadColor();
-   virtual void SetPalette(int t);
-   virtual void SetNamedPalette(int i);
-   virtual void SetContourLevels(int nlvl);
-   virtual void panelSlot(TGo4ViewPanel *panel,TPad *pad, int signalid);
+   public:
+      TGo4Style(QWidget *parent = nullptr, const char *name = nullptr, Qt::WindowFlags fl = Qt::Widget);
 
- protected:
-   /** Transform ROOT palette index in named palette combobox index */
-   Go4_Palette_t CodePalette(int i);
+      /** Set default palette and minimum maximum indices */
+      virtual void SetPaletteRange(int min, int def, int max);
 
-   /** Transform combobox index to ROOT palette index*/
-   int DecodePalette(Go4_Palette_t key);
-
-   /** Change selection menu entries according to index range*/
-   void RefreshPaletteText(int min, int max);
-
-   bool fbMenuLock{false};
-   bool fbSettingPanelData{false};
-
- };
+   public slots:
+      virtual void SetPadColor();
+      virtual void SetPalette(int t);
+      virtual void SetNamedPalette(int i);
+      virtual void SetContourLevels(int nlvl);
+      virtual void panelSlot(TGo4ViewPanel *panel, TPad *pad, int signalid);
+};
 
 #endif

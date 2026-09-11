@@ -213,12 +213,12 @@ public:
 public slots:
     virtual void panelSlot(TGo4ViewPanel *, TPad *, int);
     virtual void FitList_customContextMenuRequested(const QPoint &);
-    virtual void FitList_currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*);
+    virtual void FitList_currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *);
     virtual void AboutToShowViewMenu();
     virtual void ChangeViewType(int id);
     virtual void ShowPanelPage(int id);
     virtual void AboutToShowSettMenu();
-    virtual void ChangeSettings( int id );
+    virtual void ChangeSettings(int id);
     virtual void AboutToShowFitterMenu();
     virtual void FitterMenuItemSelected( int id );
     virtual void AboutToShowItemMenu();

@@ -26,12 +26,7 @@ class TGo4HisDrawOptions : public QWidget, public Ui::TGo4HisDrawOptions
      Q_OBJECT
 
  public:
-
-    enum { view_Histo1 = 1,
-          view_Histo2 = 2,
-          view_Histo2ext = 3,
-          view_Graph = 4,
-          view_Polar = 5 };
+    enum { view_Histo1 = 1, view_Histo2 = 2, view_Histo2ext = 3, view_Graph = 4, view_Polar = 5 };
 
     TGo4HisDrawOptions( QWidget *parent = nullptr, const char *name = nullptr, Qt::WindowFlags fl = Qt::Widget );
 
@@ -45,7 +40,7 @@ class TGo4HisDrawOptions : public QWidget, public Ui::TGo4HisDrawOptions
     virtual void ChangeColor(int kind);
 
  public slots:
-    virtual void panelSlot( TGo4ViewPanel * panel,TPad *pad, int signalid );
+    virtual void panelSlot(TGo4ViewPanel *panel, TPad *pad, int signalid);
     virtual void SetDrawOptions(int t);
     virtual void SetErrorBars(int t);
     virtual void SetCoordinates(int t);
