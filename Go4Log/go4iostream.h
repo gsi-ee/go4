@@ -9,7 +9,7 @@
 #ifndef GO4IOSTREAM_H_
 #define GO4IOSTREAM_H_
 
-#include "Riostream.h"
+#include <iostream>
 using namespace std;
 
 

@@ -17,8 +17,8 @@
 //gSystem->Load("libGo4UserAnalysis.so");
 
 
-#include <fstream.h>
-#include <stdio.h>
+#include <fstream>
+#include <cstdio>
 #include <stdarg.h>
 
 

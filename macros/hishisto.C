@@ -13,7 +13,8 @@
 // The draw flag switches if the results are displayed each time this makro is called
 // if display is switched off, result is lost
 ///////
-#include "Riostream.h"
+
+#include <iostream>
 
 
 #ifdef __GO4MACRO__

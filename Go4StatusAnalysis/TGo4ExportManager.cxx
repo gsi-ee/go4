@@ -15,6 +15,7 @@
 
 #include <fstream>
 #include <istream>
+#include <iostream>
 
 #include "TSystem.h"
 #include "TFolder.h"
@@ -25,8 +26,6 @@
 #include "TH2.h"
 #include "TH3.h"
 #include "TGraph.h"
-
-#include "Riostream.h"
 
 #include "TGo4Log.h"
 

@@ -116,7 +116,7 @@ void saveall(const char *wildcard = "*", const char *outputname = "savemacro", i
   std::ofstream xout(macroname.Data());
 
   xout << TString::Format("// written by macro saveall.C at %s", TDatime().AsString()) << std::endl << std::endl;
-  xout << TString::Format("#include \"Riostream.h\"") << std::endl << std::endl;
+  xout << TString::Format("#include <iostream>") << std::endl << std::endl;
 
   TIter next(&lst);
 

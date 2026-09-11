@@ -28,8 +28,8 @@ void plothistos(const char *file, Stat_t lo, Stat_t up, Bool_t ylog)
 //gSystem->Load("$GO4SYS/lib/libGo4Analysis.so");
 //gSystem->Load("libGo4UserAnalysis.so");
 
-#include <fstream.h>
-#include <stdio.h>
+#include <fstream>
+#include <cstdio>
 #include <stdarg.h>
 
 // number of histograms/pad divisions
