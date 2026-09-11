@@ -15,8 +15,8 @@
 
 #include <stdarg.h>
 #include <iostream>
+#include <cstdio>
 
-#include "snprintf.h"
 #include "TROOT.h"
 
 #include "TGo4Log.h"
