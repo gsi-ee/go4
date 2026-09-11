@@ -409,7 +409,7 @@ int rfio_open_gsidaq(
 
    int iMapFound = 0;             /* =1: specified file already open */
    int ii;
-   char *pcc, *pcc1;
+   char *pcc = NULL, *pcc1 = NULL;
    char cTemp[STATUS_LEN] = "";
    char cMsg[STATUS_LEN] = "                                                                                                                                                                                                         ";
    char cNamefs[MAX_OBJ_FS] = "", *pcNamefs;       /* filespace name */
@@ -492,7 +492,7 @@ int rfio_open_gsidaq(
          if (iDebug)
             printf("    %d: %s already open\n", ii, cObject);
 
-         pcc = strstr(pcFile, cObject);
+         pcc = (char *) strstr(pcFile, cObject);
          if (pcc != NULL)
          {
             iMapFound = 1;
@@ -5078,7 +5078,7 @@ int rfio_stat(const char *pcFile, struct stat *pStatBuf)
    int iFileId = -1;
    int iRC;
    int ii;
-   char *pcc;
+   const char *pcc = NULL;
    char cObject[MAX_FULL_FILE] = "";
 
    srawComm *pComm;
@@ -5188,7 +5188,7 @@ int rfio_cache_stat(const char *pcFile)
    int iRC;
    int iCache = 0;                                 /* to be returned */
    int ii;
-   char *pcc;
+   const char *pcc = NULL;
    char cObject[MAX_FULL_FILE] = "";
 
    srawComm *pComm;
