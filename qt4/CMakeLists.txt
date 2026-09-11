@@ -356,9 +356,14 @@ target_link_libraries(go4 PUBLIC
    Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase Go4Gui
 )
 
-# keep out suggest override due to older ROOT -Wsuggest-override -Wzero-as-null-pointer-constant
+# keep out suggest override due to older ROOT -Wzero-as-null-pointer-constant
 
-target_compile_options(go4 PRIVATE $<$<CXX_COMPILER_ID:GNU>:-Wall>)
+target_compile_options(go4 PRIVATE $<$<CXX_COMPILER_ID:GNU>:-Wall -Wsuggest-override>)
+
+# alternative to disable warning is adding TGo4ViewPanel.h to TGo4FitPanel.h file,
+# but we want to avoid such crossdependency first
+
+target_compile_options(go4 PRIVATE $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_GREATER_EQUAL:$<CXX_COMPILER_VERSION>,13.0>>:-Wno-sfinae-incomplete>)
 
 install(TARGETS go4 EXPORT ${CMAKE_PROJECT_NAME}Exports
                     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT applications)
