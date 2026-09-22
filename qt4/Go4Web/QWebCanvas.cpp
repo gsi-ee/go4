@@ -16,9 +16,9 @@
 #include "TCanvas.h"
 #include "TROOT.h"
 #include "TClass.h"
-#include "RVersion.h"
 #include "THttpServer.h"
 #include "ROOT/RWebWindowsManager.hxx"
+#include "ROOT/RVersion.hxx"
 
 #include "TGo4Log.h"
 
