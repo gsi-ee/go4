@@ -142,7 +142,6 @@ int main(int argc, char **argv)
 #endif
          } else if ((curr == "--x11") || (curr == "-x11")) {
             usex11 = true;
-            gSystem->Setenv("QT_QPA_PLATFORM", "xcb");
          } else if (curr == "-debug") {
             std::cout << "G-OOOO-> MainGo4GUI switched on debug output" << std::endl;
             traceon = true;
@@ -213,18 +212,23 @@ int main(int argc, char **argv)
    }
 
    go4sett = new TGo4QSettings(settfile);
+
 #ifdef __GO4WEB__
    if (!usex11 && !useweb) {
       if (QGuiApplication::platformName() == "wayland") {
          useweb = true;
          std::cout << "Use web graphics on Wayland by default, start go4 --x11 to force Wayland usage" << std::endl;
+      } else if (QGuiApplication::platformName() == "xcb") {
+         usex11 = true;
       }
    }
 
    go4sett->setWebBasedCanvas(useweb);
-#else
-   (void) usex11; // avoid warnings
 #endif
+
+   // force use of xcb driver
+   if (usex11)
+      gSystem->Setenv("QT_QPA_PLATFORM", "xcb");
 
    ////// end settings setup ///////////////////////////////
 
