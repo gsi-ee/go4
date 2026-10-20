@@ -142,6 +142,7 @@ int main(int argc, char **argv)
 #endif
          } else if ((curr == "--x11") || (curr == "-x11")) {
             usex11 = true;
+            gSystem->Setenv("QT_QPA_PLATFORM", "xcb");
          } else if (curr == "-debug") {
             std::cout << "G-OOOO-> MainGo4GUI switched on debug output" << std::endl;
             traceon = true;
