@@ -213,16 +213,19 @@ int main(int argc, char **argv)
 
    go4sett = new TGo4QSettings(settfile);
 
+   if (QGuiApplication::platformName() == "wayland") {
 #ifdef __GO4WEB__
-   if (!usex11 && !useweb) {
-      if (QGuiApplication::platformName() == "wayland") {
-         useweb = true;
-         std::cout << "Use web graphics on Wayland by default, start go4 --x11 to force Wayland usage" << std::endl;
-      } else if (QGuiApplication::platformName() == "xcb") {
-         usex11 = true;
-      }
+      useweb = true;
+      std::cout << "Use web graphics on Wayland, start go4 --x11 to force X11 usage" << std::endl;
+#else
+      usex11 = true;
+      std::cout << "Use X11 graphics on Wayland" << std::endl;
+#endif
+   } else if (QGuiApplication::platformName() == "xcb") {
+      usex11 = true;
    }
 
+#ifdef __GO4WEB__
    go4sett->setWebBasedCanvas(useweb);
 #endif
 
