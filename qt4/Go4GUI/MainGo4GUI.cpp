@@ -215,8 +215,10 @@ int main(int argc, char **argv)
 
    if (QGuiApplication::platformName() == "wayland") {
 #ifdef __GO4WEB__
-      useweb = true;
-      std::cout << "Use web graphics on Wayland, start go4 --x11 to force X11 usage" << std::endl;
+      if (!usex11) {
+         useweb = true;
+         std::cout << "Use web graphics on Wayland, start go4 --x11 to force X11 usage" << std::endl;
+      }
 #else
       usex11 = true;
       std::cout << "Use X11 graphics on Wayland" << std::endl;
